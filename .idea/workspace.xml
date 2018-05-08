@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3044851e-6571-4b2b-95d8-b6a6d8afd4b7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/uk/ac/cam/cl/interaction_design/group19/app/HelloWorld.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +15,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HelloWorld.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HelloWorld.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/uk/ac/cam/cl/interaction_design/group19/app/HelloWorld.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="154">
@@ -23,6 +24,16 @@
                 <element signature="e#123#124#0" expanded="true" />
                 <element signature="e#172#173#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="774">
+              <caret line="69" column="46" lean-forward="false" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -48,6 +59,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/uk/ac/cam/cl/interaction_design/group19/app/HelloWorld.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -73,6 +85,11 @@
             <path>
               <item name="Farmer App" type="b2602c69:ProjectViewProjectNode" />
               <item name="Farmer App" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Farmer App" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Farmer App" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Farmer App" type="b2602c69:ProjectViewProjectNode" />
@@ -235,6 +252,14 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/uk/ac/cam/cl/interaction_design/group19/app/HelloWorld.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -243,6 +268,14 @@
             <element signature="e#123#124#0" expanded="true" />
             <element signature="e#172#173#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="69" column="46" lean-forward="false" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
