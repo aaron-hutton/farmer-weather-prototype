@@ -29,10 +29,15 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         initWindow();
 
+        JPanel panel = new JPanel();
+
         JButton button = new JButton("Click me");
         button.addActionListener((e) -> System.out.println("Click"));
-        this.add(button);
+        panel.add(button);
 
+
+        this.add(new WeatherView(), BorderLayout.CENTER);
+        this.add(panel, BorderLayout.SOUTH);
         this.setVisible(true);
     }
 
