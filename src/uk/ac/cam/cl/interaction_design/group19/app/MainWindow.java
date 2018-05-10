@@ -1,7 +1,10 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.EventQueue;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 public class MainWindow extends JFrame {
 
@@ -11,18 +14,18 @@ public class MainWindow extends JFrame {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-                try {
-                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                        if ("Nimbus".equals(info.getName())) {
-                            UIManager.setLookAndFeel(info.getClassName());
-                            break;
+                    try {
+                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                            if ("Nimbus".equals(info.getName())) {
+                                UIManager.setLookAndFeel(info.getClassName());
+                                break;
+                            }
                         }
+                    } catch (Exception e) {
+                        // Default to Java LookAndFell
                     }
-                } catch (Exception e) {
-                    // Default to Java LookAndFell
+                    new MainWindow();
                 }
-                new MainWindow();
-            }
         );
     }
 
