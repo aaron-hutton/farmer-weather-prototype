@@ -8,5 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.4" level="project" />
+    <orderEntry type="library" name="org.json:json:20180130" level="project" />
+    <orderEntry type="library" name="javax.json:javax.json-api:1.1.2" level="project" />
   </component>
 </module>
