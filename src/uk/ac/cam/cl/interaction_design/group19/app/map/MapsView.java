@@ -96,18 +96,10 @@ public class MapsView extends JPanel {
         g.drawImage(out2, 0, 0, null);
         g.dispose();
 
-        // Test
-        File sunPath = new File("resources/sun.png");
-        BufferedImage sun = ImageIO.read(sunPath);
-        JLabel imageLabel = new JLabel((new ImageIcon(sun)));
-
         // Display the image
-//        JLabel imageLabel = new JLabel(new ImageIcon(newImg));
+        JLabel imageLabel = new JLabel(new ImageIcon(newImg));
         this.add(imageLabel);
         this.setLocation(200, 200);
         this.setVisible(true);
-
-
-
     }
 }

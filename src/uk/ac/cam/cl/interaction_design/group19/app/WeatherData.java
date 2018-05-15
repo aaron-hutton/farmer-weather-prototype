@@ -55,5 +55,4 @@ public class WeatherData {
             return WeatherType.values()[Integer.parseInt(this.weather_type)+1];
         }
     }
-
 }
