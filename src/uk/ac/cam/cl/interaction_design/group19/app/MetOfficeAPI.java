@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MetOfficeAPI {
@@ -89,18 +91,24 @@ public class MetOfficeAPI {
         return result;
     }
 
-    public Object hourlyData(int location_id) {
+    public Object fiveDayForecast(int location_id) {
         Object result = null;
         URL url = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
         if (url == null) return result;
         JsonObject obj = jsonFromUrl(url);
-        System.out.println(obj.toString());
+        JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                               .getAsJsonObject("Location").getAsJsonArray("Period");
+
+        ArrayList<ArrayList<HourlyData>> days = new ArrayList<>();
+        for (JsonElement day : days_objects) {
+            JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
+
+        }
         return result;
     }
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        api.hourlyLocationList();
-        api.hourlyData(3066);
+        api.fiveDayForecast(3066);
     }
 }
