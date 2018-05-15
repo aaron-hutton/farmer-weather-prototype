@@ -1,8 +1,9 @@
 package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.spi.CalendarDataProvider;
 import net.degreedays.api.AccountKey;
 import net.degreedays.api.DegreeDaysApi;
 import net.degreedays.api.SecurityKey;
@@ -23,7 +24,7 @@ import net.degreedays.time.DayRange;
 
 public class bizeeAPI {
 
-    public double gddSince(int postCode, double baseTemp, Date s) throws IllegalArgumentException {
+    public static double gddSince(int postCode, double baseTemp, Date s) throws IllegalArgumentException {
 
         DegreeDaysApi api = new DegreeDaysApi(
                 new AccountKey("test-test-test"),
@@ -36,7 +37,7 @@ public class bizeeAPI {
         DayRange range = new DayRange(start, end);
 
         DatedDataSpec hddSpec = DataSpec.dated(
-                Calculation.heatingDegreeDays(Temperature.celsius(10)),
+                Calculation.heatingDegreeDays(Temperature.celsius(baseTemp)),
                 DatedBreakdown.monthly(Period.dayRange(range)));
 
         LocationDataRequest request = new LocationDataRequest(
@@ -54,5 +55,18 @@ public class bizeeAPI {
         }
 
         return tot;
+    }
+
+    public static void main(String[] args) {
+
+        SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yy");
+        Date d = null;
+        try {
+            d = sdf.parse("19-05-2015");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        gddSince(1, 10, d);
     }
 }
