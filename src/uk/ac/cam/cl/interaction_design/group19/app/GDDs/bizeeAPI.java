@@ -41,7 +41,7 @@ public class bizeeAPI {
                 DatedBreakdown.monthly(Period.dayRange(range)));
 
         LocationDataRequest request = new LocationDataRequest(
-                Location.postalCode("10036", "US"),
+                Location.postalCode("02630", "US"),
 //                Location.postalCode(Integer.toString(postCode), "US"),
                 new DataSpecs(hddSpec));
 
@@ -67,6 +67,6 @@ public class bizeeAPI {
             e.printStackTrace();
         }
 
-        gddSince(1, 10, d);
+        System.out.println(gddSince(1, 10, d));
     }
 }

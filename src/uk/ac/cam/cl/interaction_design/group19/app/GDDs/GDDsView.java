@@ -4,8 +4,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GDDsView extends JPanel {
+
     public GDDsView() {
-        JLabel settings = new JLabel("GDDs");
+        JLabel settings = new JLabel("Growing DDs");
         this.add(settings);
     }
 }
