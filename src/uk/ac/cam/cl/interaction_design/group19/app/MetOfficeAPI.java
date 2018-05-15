@@ -91,29 +91,38 @@ public class MetOfficeAPI {
         return result;
     }
 
-    public Object fiveDayForecast(int location_id) {
-        Object result = null;
+    public List<List<HourlyData>> fiveDayForecast(int location_id) {
+        /*
+        Returns a list with items for (up to) five days,
+        each of which is a list of HourlyDatas
+        representing weather data about some random hour.
+
+        For testing, can use location_id = 3066
+         */
+        List<List<HourlyData>> days = new ArrayList<>();
         URL url = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
-        if (url == null) return result;
+        if (url == null) return days;
         JsonObject obj = jsonFromUrl(url);
         JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                .getAsJsonObject("Location").getAsJsonArray("Period");
 
-        List<List<HourlyData>> days = new ArrayList<>();
         for (JsonElement day : days_objects) {
             JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
             List<HourlyData> day_list = new ArrayList<>();
             for (JsonElement hour : hours) {
-                //{'D': 'WSW', 'H': '88.9', 'P': '1021', 'S': '3', 'T': '8.3', 'V': '24000', 'W': '0', 'Pt': 'F', 'Dp': '6.6', '$': '0'}
-                //day_list.add(new HourlyData(hour.getA))
-
+                JsonObject h = hour.getAsJsonObject();
+                day_list.add(new HourlyData(h.get("T").getAsDouble(),
+                        h.get("S").getAsDouble(),
+                        h.get("D").getAsString(),
+                        h.get("W").getAsString()));
             }
+            days.add(day_list);
         }
-        return result;
+        return days;
     }
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        api.fiveDayForecast(3066);
+        System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
     }
 }
