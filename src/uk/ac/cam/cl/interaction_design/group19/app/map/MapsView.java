@@ -1,27 +1,14 @@
 package uk.ac.cam.cl.interaction_design.group19.app.map;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.sql.SQLOutput;
-import java.text.Format;
 import java.text.MessageFormat;
-import java.util.logging.SocketHandler;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.json.JSONArray;
