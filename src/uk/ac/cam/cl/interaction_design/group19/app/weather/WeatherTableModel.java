@@ -1,22 +1,28 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import javax.swing.table.AbstractTableModel;
+import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
 
-public abstract class AbstractWeatherTableModel extends AbstractTableModel {
+public class WeatherTableModel extends AbstractTableModel {
+
+    private WeatherData[] data;
+    public WeatherTableModel(WeatherData[] data) {
+        this.data = data;
+    }
 
     @Override
     public int getRowCount() {
-        return 0;
+        return data.length;
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        return 5;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+        return data[rowIndex];
     }
 
     @Override

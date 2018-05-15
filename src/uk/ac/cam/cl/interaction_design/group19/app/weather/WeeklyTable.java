@@ -5,12 +5,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
 
-public class HourlyTable extends JPanel {
+public class WeeklyTable extends JPanel {
 
-    public HourlyTable(WeatherData[] data) {
+    public WeeklyTable(WeatherData[] data) {
 
         JTable table = new JTable(new WeatherTableModel(data));
-        table.setDefaultRenderer(WeatherData.class, new HourlyWeatherRenderer());
+        table.setDefaultRenderer(WeatherData.class, new WeeklyWeatherRenderer());
 
         JScrollPane scroller = new JScrollPane(table);
         table.setFillsViewportHeight(true);
