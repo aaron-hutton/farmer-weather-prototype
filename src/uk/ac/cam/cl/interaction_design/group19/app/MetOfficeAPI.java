@@ -99,10 +99,15 @@ public class MetOfficeAPI {
         JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                .getAsJsonObject("Location").getAsJsonArray("Period");
 
-        ArrayList<ArrayList<HourlyData>> days = new ArrayList<>();
+        List<List<HourlyData>> days = new ArrayList<>();
         for (JsonElement day : days_objects) {
             JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
+            List<HourlyData> day_list = new ArrayList<>();
+            for (JsonElement hour : hours) {
+                {'D': 'WSW', 'H': '88.9', 'P': '1021', 'S': '3', 'T': '8.3', 'V': '24000', 'W': '0', 'Pt': 'F', 'Dp': '6.6', '$': '0'}
+                day_list.add(new HourlyData())
 
+            }
         }
         return result;
     }
