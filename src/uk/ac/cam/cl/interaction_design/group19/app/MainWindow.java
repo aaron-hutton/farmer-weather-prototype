@@ -6,7 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
+import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
+import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
 
 public class MainWindow extends JFrame {
 
@@ -34,15 +38,8 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         initWindow();
 
-        JPanel panel = new JPanel();
+        addTabs();
 
-        JButton button = new JButton("Click me");
-        button.addActionListener((e) -> System.out.println("Click"));
-        panel.add(button);
-
-
-        this.add(new WeatherView(), BorderLayout.CENTER);
-        this.add(panel, BorderLayout.SOUTH);
         this.setVisible(true);
     }
 
@@ -50,6 +47,18 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
 
+    public void addTabs() {
+        JTabbedPane tabs = new JTabbedPane();
+
+        tabs.addTab("Weather", new WeatherView());
+        tabs.addTab("Map", new MapsView());
+        tabs.addTab("GDDs", new GDDsView());
+        tabs.addTab("Settings", new SettingsView());
+
+        tabs.setTabPlacement(JTabbedPane.BOTTOM);
+        tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        this.add(tabs, BorderLayout.CENTER);
     }
 }
