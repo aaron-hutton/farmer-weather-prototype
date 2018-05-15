@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MetOfficeAPI {
@@ -19,6 +21,8 @@ public class MetOfficeAPI {
     public static final String KEY = "6d150446-6caf-4009-8d9e-91f67c5aa7d0";
     public static final String BASE_URL = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST = "val/wxobs/all/json/sitelist";
+    public static final String HOURLY_DATA = "val/wxobs/all/json/"; // + location_id
+    public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH = "layer/wxobs/all/json/capabilities";
 
     private String addParam(String base_url, String key, Object value) {
@@ -58,22 +62,58 @@ public class MetOfficeAPI {
         return root.getAsJsonObject();
     }
 
-    public List<String> locationList() {
-        List<String> result = null;
+    public URL makeURL(String resource_part) {
         URL url = null;
         try {
-            url = new URL(addParam(BASE_URL + LOCATION_LIST, "key", KEY));
+            url = new URL(addParam(BASE_URL + resource_part, "key", KEY));
         } catch (MalformedURLException e) {
             System.err.println("Malformed URL error");
-            return result;
+            return null;
         }
+        return url;
+    }
+
+    public List<String> locationList() {
+        List<String> result = null;
+        URL url = makeURL(LOCATION_LIST);
+        if (url == null) return result;
         JsonObject obj = jsonFromUrl(url);
         System.out.println(obj.toString());
         return result;
     }
 
+    public List<String> hourlyLocationList() {
+        List<String> result = null;
+        URL url = makeURL(HOURLY_LOCATION_LIST);
+        if (url == null) return result;
+        JsonObject obj = jsonFromUrl(url);
+        System.out.println(obj.toString());
+        return result;
+    }
+
+    public Object fiveDayForecast(int location_id) {
+        Object result = null;
+        URL url = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
+        if (url == null) return result;
+        JsonObject obj = jsonFromUrl(url);
+        JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                               .getAsJsonObject("Location").getAsJsonArray("Period");
+
+        List<List<HourlyData>> days = new ArrayList<>();
+        for (JsonElement day : days_objects) {
+            JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
+            List<HourlyData> day_list = new ArrayList<>();
+            for (JsonElement hour : hours) {
+                //{'D': 'WSW', 'H': '88.9', 'P': '1021', 'S': '3', 'T': '8.3', 'V': '24000', 'W': '0', 'Pt': 'F', 'Dp': '6.6', '$': '0'}
+                //day_list.add(new HourlyData(hour.getA))
+
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        api.locationList();
+        api.fiveDayForecast(3066);
     }
 }
