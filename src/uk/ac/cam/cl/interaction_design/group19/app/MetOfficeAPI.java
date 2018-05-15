@@ -104,8 +104,8 @@ public class MetOfficeAPI {
             JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
             List<HourlyData> day_list = new ArrayList<>();
             for (JsonElement hour : hours) {
-                {'D': 'WSW', 'H': '88.9', 'P': '1021', 'S': '3', 'T': '8.3', 'V': '24000', 'W': '0', 'Pt': 'F', 'Dp': '6.6', '$': '0'}
-                day_list.add(new HourlyData())
+                //{'D': 'WSW', 'H': '88.9', 'P': '1021', 'S': '3', 'T': '8.3', 'V': '24000', 'W': '0', 'Pt': 'F', 'Dp': '6.6', '$': '0'}
+                //day_list.add(new HourlyData())
 
             }
         }
