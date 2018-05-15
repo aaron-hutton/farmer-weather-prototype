@@ -1,13 +1,13 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
+import javax.swing.JPanel;
 
-public class TodayPanel extends JPanel {
+public class TodayPanel extends JPanel
+{
 
     public TodayPanel() {
-        JLabel label = new JLabel("Today");
-        this.add(label);
-        this.setSize(new Dimension(200, 200));
+        this.setLayout(new GridLayout(1,1));
+        this.add(new SummaryPanel());
     }
 }

@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,8 +13,8 @@ import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 
 
 public class WeatherView extends JPanel {
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 300;
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 500;
     private static final int TODAY_INDEX = 0;
     private static final int TOMORROW_INDEX = 1;
     private static final int WEEKLY_INDEX = 2;
@@ -30,11 +30,6 @@ public class WeatherView extends JPanel {
 
         timeTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         timeTabs.setSelectedIndex(WEEKLY_INDEX);
-
-        timeTabs.setUI(new BasicTabbedPaneUI());
-        timeTabs.setBackgroundAt(TODAY_INDEX, Color.red);
-        timeTabs.setForegroundAt(TODAY_INDEX, Color.blue);
-
 
         this.add(timeTabs);
     }
