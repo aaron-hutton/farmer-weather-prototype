@@ -3,6 +3,7 @@ package uk.ac.cam.cl.interaction_design.group19.app;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,12 +31,16 @@ public class MainWindow extends JFrame {
                     } catch (Exception e) {
                         // Default to Java LookAndFell
                     }
-                    new MainWindow();
+                    try {
+                        new MainWindow();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
         );
     }
 
-    public MainWindow() {
+    public MainWindow() throws IOException {
         initWindow();
 
         addTabs();
@@ -49,7 +54,7 @@ public class MainWindow extends JFrame {
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    public void addTabs() {
+    public void addTabs() throws IOException {
         JTabbedPane tabs = new JTabbedPane();
 
         tabs.addTab("Weather", new WeatherView());
