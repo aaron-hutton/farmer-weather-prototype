@@ -3,10 +3,13 @@ package uk.ac.cam.cl.interaction_design.group19.app.map;
 import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.file.Path;
 import java.text.MessageFormat;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -94,8 +97,8 @@ public class MapsView extends JPanel {
         g.dispose();
 
         // Display the image
-        JLabel imageLabel2 = new JLabel(new ImageIcon(newImg));
-        this.add(imageLabel2);
+        JLabel imageLabel = new JLabel(new ImageIcon(newImg));
+        this.add(imageLabel);
         this.setLocation(200, 200);
         this.setVisible(true);
     }
