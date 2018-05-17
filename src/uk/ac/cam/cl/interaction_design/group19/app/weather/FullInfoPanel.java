@@ -11,10 +11,10 @@ import javax.swing.SwingConstants;
 
 public class FullInfoPanel extends WeatherPanel
 {
-    private final JLabel soilMoistLabel = new JLabel();
-    private final JLabel soilTempLabel = new JLabel();
-    private final JLabel windSpeedLabel = new JLabel();
-    private final JLabel cloudCoverLabel = new JLabel();
+    private final JLabel soilMoistLabel = createLabel();
+    private final JLabel soilTempLabel = createLabel();
+    private final JLabel windSpeedLabel = createLabel();
+    private final JLabel cloudCoverLabel = createLabel();
     private final JButton summary = new JButton("summary >");
     private int soilMoist;
     private int soilTemp;
@@ -72,20 +72,20 @@ public class FullInfoPanel extends WeatherPanel
         var summaryPanel = new JPanel();
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.PAGE_AXIS));
 
-        var soilMoistPanel = createPanel(new JLabel("Soil moisture"), new JLabel(soilMoist + " %"));
+        var soilMoistPanel = createPanel(createLabel("Soil moisture"), createLabel(soilMoist + " %"));
         summaryPanel.add(soilMoistPanel);
 
-        var soilTempPanel = createPanel(new JLabel("Soil temperature"), new JLabel(soilTemp + " °C"));
+        var soilTempPanel = createPanel(createLabel("Soil temperature"), createLabel(soilTemp + " °C"));
         summaryPanel.add(soilTempPanel);
 
         var windPanel = createPanel(
-                new JLabel("Wind"),
-                new JLabel("[WIND DIR ICON]"),
+                createLabel("Wind"),
+                new JLabel("<html>WIND ICON<br>MISSING</html>"),
 //                new JLabel(windDir+""), //TODO: write enum
-                new JLabel(windSpeed + " km/h"));
+                createLabel(windSpeed + " km/h"));
         summaryPanel.add(windPanel);
 
-        var cloudCoverPanel = createPanel(new JLabel("Cloud cover"), new JLabel(cloudCover + " %"));
+        var cloudCoverPanel = createPanel(createLabel("Cloud cover"), createLabel(cloudCover + " %"));
         summaryPanel.add(cloudCoverPanel);
 
         return summaryPanel;

@@ -15,13 +15,16 @@ import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
 
 public class SummaryPanel extends WeatherPanel
 {
-    private final JLabel dateLabel = new JLabel();
+    private static final float HI_LO_FONT_SIZE = 16;
+    private static final float DATE_FONT_SIZE = 18;
+
+    private final JLabel dateLabel = createLabel(DATE_FONT_SIZE);
     private final JLabel weatherIconLabel = new JLabel();
-    private final JLabel precipitationLabel = new JLabel();
-    private final JLabel frostLabel = new JLabel();
-    private final JLabel tempLabel = new JLabel();
-    private final JLabel tempHighLabel = new JLabel();
-    private final JLabel tempLowLabel = new JLabel();
+    private final JLabel precipitationLabel = createLabel();
+    private final JLabel frostLabel = createLabel();
+    private final JLabel tempLabel = createLabel();
+    private final JLabel tempHighLabel = createLabel();
+    private final JLabel tempLowLabel = createLabel();
     private final JButton moreInfo = new JButton("< more info");
     private final JButton hourly = new JButton("hourly >");
     private WeatherType weather;
@@ -96,19 +99,21 @@ public class SummaryPanel extends WeatherPanel
         var weatherIcon = createPanel(weatherIconLabel);
         summaryPanel.add(weatherIcon);
 
-        var precipitationPanel = createPanel(new JLabel("RAINDROP"), precipitationLabel);
+//        var precipitationPanel = createPanel(new JLabel(new ImageIcon(Icons.getIcon(WeatherType.RAINDROP))), precipitationLabel);
+        var precipitationPanel = createPanel(new JLabel("<html>RAINDROP<br>ICON<br>MISSING</html>"), precipitationLabel);
         summaryPanel.add(precipitationPanel);
 
-        var frostPanel = createPanel(new JLabel("FROST"), frostLabel);
+//        var frostPanel = createPanel(new JLabel(new ImageIcon(Icons.getIcon(WeatherType.FROST))), frostLabel);
+        var frostPanel = createPanel(new JLabel("<html>FROST<br>ICON<br>MISSING</html>"), frostLabel);
         summaryPanel.add(frostPanel);
 
         var temperaturePanel = createPanel(tempLabel);
         summaryPanel.add(temperaturePanel);
 
-        var tempLowPanel = createPanel(new JLabel("Lo."), tempLowLabel);
+        var tempLowPanel = createPanel(createLabel("Lo.", HI_LO_FONT_SIZE), tempLowLabel);
         summaryPanel.add(tempLowPanel);
 
-        var tempHighPanel = createPanel(new JLabel("Hi."), tempHighLabel);
+        var tempHighPanel = createPanel(createLabel("Hi.", HI_LO_FONT_SIZE), tempHighLabel);
         summaryPanel.add(tempHighPanel);
 
         return summaryPanel;

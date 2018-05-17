@@ -11,8 +11,10 @@ import java.util.stream.Stream;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 
 /**
  * Base class for panels in weather view
@@ -25,6 +27,7 @@ import javax.swing.JSplitPane;
  */
 public abstract class WeatherPanel extends JPanel
 {
+    private static final float DEFAULT_FONT_SIZE = 18;
     protected Supplier<LocalDateTime> dateSupplier;
 
     /**
@@ -63,17 +66,43 @@ public abstract class WeatherPanel extends JPanel
 
     public abstract void update();
 
-    protected JPanel createPanel(JComponent... components)
+    protected static JPanel createPanel(JComponent... components)
     {
         var outer = new JPanel(new GridBagLayout());
         var inner = new JPanel(new GridLayout(1, components.length));
-        Stream.of(components).forEach(c -> c.setBorder(BorderFactory.createLineBorder(Color.BLACK)));
-        Stream.of(components).forEachOrdered(inner::add);
+        Stream.of(components).forEach(c -> {
+            c.setBorder(BorderFactory.createDashedBorder(Color.GREEN));
+            inner.add(c);
+        });
         outer.add(inner);
         return outer;
     }
 
-    protected void addOnClick(JButton btn, Runnable btnAction)
+    protected static JLabel createLabel(String text, float fontSize)
+    {
+        var label = new JLabel(text);
+        label.setFont(label.getFont().deriveFont(fontSize));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createLineBorder(Color.RED));
+        return label;
+    }
+
+    protected static JLabel createLabel(String text)
+    {
+        return createLabel(text, DEFAULT_FONT_SIZE);
+    }
+
+    protected static JLabel createLabel(float fontSize)
+    {
+        return createLabel("", fontSize);
+    }
+
+    protected static JLabel createLabel()
+    {
+        return createLabel("");
+    }
+
+    protected static void addOnClick(JButton btn, Runnable btnAction)
     {
         btn.addActionListener(e ->
         {

@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
 public enum WeatherType {
+    FROST,
     RAINDROP,
     NOT_AVAILABLE,
     CLEAR_NIGHT,
