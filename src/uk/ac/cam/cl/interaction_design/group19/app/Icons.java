@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
 public class Icons
 {

@@ -3,20 +3,17 @@ package uk.ac.cam.cl.interaction_design.group19.app.map;
 import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.file.Path;
 import java.text.MessageFormat;
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import uk.ac.cam.cl.interaction_design.group19.app.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import java.awt.Graphics2D;
 
 public class MapsView extends JPanel {

@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.Icons;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
 public class SummaryPanel extends WeatherPanel
 {

@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 public class WeatherData {
     public final double temperature;

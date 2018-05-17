@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public abstract class WeatherCustomRenderer extends JLabel implements TableCellRenderer {
 
