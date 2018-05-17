@@ -2,10 +2,13 @@ package uk.ac.cam.cl.interaction_design.group19.app;
 
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Insets;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -17,6 +20,8 @@ public class MainWindow extends JFrame {
 
     public static final int SCREEN_WIDTH = 320;
     public static final int SCREEN_HEIGHT = 480;
+
+    public static final int BOTTOM_TAB_WIDTH = 55;
 
 
     public static void main(String[] args) {
@@ -57,10 +62,27 @@ public class MainWindow extends JFrame {
     public void addTabs() throws IOException {
         JTabbedPane tabs = new JTabbedPane();
 
+        JLabel weatherLabel = new JLabel("Weather");
+        weatherLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, weatherLabel.getPreferredSize().height));
+
+        JLabel mapsLabel = new JLabel("Maps");
+        mapsLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, mapsLabel.getPreferredSize().height));
+
+        JLabel GDDsLabel = new JLabel("GDDs");
+        GDDsLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, GDDsLabel.getPreferredSize().height));
+
+        JLabel settingsLabel = new JLabel("Settings");
+        settingsLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, settingsLabel.getPreferredSize().height));
+
         tabs.addTab("Weather", new WeatherView());
-        tabs.addTab("Map", new MapsView());
+        tabs.addTab("Maps", new MapsView());
         tabs.addTab("GDDs", new GDDsView());
         tabs.addTab("Settings", new SettingsView());
+
+        tabs.setTabComponentAt(0, weatherLabel);
+        tabs.setTabComponentAt(1, mapsLabel);
+        tabs.setTabComponentAt(2, GDDsLabel);
+        tabs.setTabComponentAt(3, settingsLabel);
 
         tabs.setTabPlacement(JTabbedPane.BOTTOM);
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
