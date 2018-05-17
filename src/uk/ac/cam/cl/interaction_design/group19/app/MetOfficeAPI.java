@@ -87,8 +87,8 @@ public class MetOfficeAPI {
         return result;
     }
 
-    public List<Location> hourlyLocationList() {
-        List<Location> result = new ArrayList<>();
+    public List<MetOfficeLocation> hourlyLocationList() {
+        List<MetOfficeLocation> result = new ArrayList<>();
         URL url = makeURL(HOURLY_LOCATION_LIST);
         if (url == null) return result;
         JsonObject root = jsonFromUrl(url);

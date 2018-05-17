@@ -24,13 +24,13 @@ public class Location {
         return Math.pow(this.latitude - other.latitude, 2) + Math.pow(this.longitude - other.longitude, 2);
     }
 
-    public Location closest(List<Location> others) {
+    public MetOfficeLocation closest(List<MetOfficeLocation> others) {
         /*
         Get the closest location from a list.
          */
         double best_distance = Double.POSITIVE_INFINITY;
-        Location best = null;
-        for (Location other : others) {
+        MetOfficeLocation best = null;
+        for (MetOfficeLocation other : others) {
             if (this.distance(other) < best_distance) {
                 best_distance = this.distance(other);
                 best = other;
