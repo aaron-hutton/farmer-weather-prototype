@@ -2,27 +2,47 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
 public class WeatherView extends JPanel
 {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 500;
+    public static final int TOP_TAB_WIDTH = 80;
+
     private static final int TODAY_INDEX = 0;
     private static final int TOMORROW_INDEX = 1;
     private static final int WEEKLY_INDEX = 2;
 
+    private static final Map<Integer,String> tabNames = Map.of(
+            TODAY_INDEX, "Today",
+            TOMORROW_INDEX, "Tomorrow",
+            WEEKLY_INDEX, "Weekly"
+    );
+
+    private static final Map<Integer,JPanel> tabPanels = Map.of(
+            TODAY_INDEX, new TodayPanel(),
+            TOMORROW_INDEX, new TomorrowPanel(),
+            WEEKLY_INDEX, new WeeklyPanel()
+    );
+
     public WeatherView()
     {
         super(new GridLayout(1, 1));
-        this.setSize(new Dimension(WIDTH, HEIGHT));
 
         JTabbedPane timeTabs = new JTabbedPane();
-        timeTabs.addTab("Today", new TodayPanel());
-        timeTabs.addTab("Tomorrow", new TomorrowPanel());
-        timeTabs.addTab("Weekly", new WeeklyPanel());
+
+        var indices = List.of(TODAY_INDEX, TOMORROW_INDEX, WEEKLY_INDEX);
+        indices.forEach(i -> {
+            var name = tabNames.get(i);
+            var label = new JLabel(name);
+            label.setPreferredSize(new Dimension(TOP_TAB_WIDTH, label.getPreferredSize().height));
+            timeTabs.addTab(name, tabPanels.get(i));
+            timeTabs.setTabComponentAt(i, label);
+        });
 
         timeTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         timeTabs.setSelectedIndex(WEEKLY_INDEX);
