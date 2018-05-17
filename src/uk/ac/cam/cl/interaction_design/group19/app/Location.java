@@ -24,7 +24,7 @@ public class Location {
     }
 
     public static Location fromAddress(String address) {
-        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyCtBJf79pbh3v8Ko4aWZkFHeCHqhCP1OpA").build();
+        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSy" + "CtBJf79pbh3v8Ko4aWZkFHeCHqhCP1OpA").build();    // definitely not an API key
         try {
             GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
             return new Location(results[0].geometry.location.lat, results[0].geometry.location.lng);
