@@ -1,30 +1,32 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.stream.Stream;
-import javax.swing.BorderFactory;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.function.Supplier;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class SummaryPanel extends JPanel {
+public class SummaryPanel extends WeatherPanel
+{
+    private final JLabel dateLabel = new JLabel();
+    private final JLabel weatherIconLabel = new JLabel();
+    private final JLabel precipitationLabel = new JLabel();
+    private final JLabel frostLabel = new JLabel();
+    private final JLabel tempLabel = new JLabel();
+    private final JLabel tempHighLabel = new JLabel();
+    private final JLabel tempLowLabel = new JLabel();
+    private final JButton moreInfo = new JButton("< more info");
+    private final JButton hourly = new JButton("hourly >");
     //private WeatherType weather;
     private int precipitation;
     private int frost;
     private int temperature;
     private int tempLow;
     private int tempHigh;
-    private final JButton moreInfo;
-    private final JButton hourly;
 
     /**
      * Date
@@ -36,23 +38,34 @@ public class SummaryPanel extends JPanel {
      * text lavel for high | temperature high
      * << more info button |   | hourly button >>>
      */
-    public SummaryPanel()
+    public SummaryPanel(Supplier<LocalDateTime> dateSupplier, Runnable showMoreInfo, Runnable showHourly)
     {
-        moreInfo = new JButton("< more info");
-        hourly = new JButton("hourly >");
-
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weighty = 0.85;
-        c.weightx = 1;
-        this.add(createSummaryPane(), c);
-        c.weighty = 0.15;
-        c.gridy=1;
-        this.add(createSummaryButtons(), c);
+        super(dateSupplier);
+        precipitation = 54;
+        frost = 0;
+        temperature = 18;
+        tempLow = 4;
+        tempHigh = 19;
+        addOnClick(moreInfo, showMoreInfo);
+        addOnClick(hourly, showHourly);
+        populate();
     }
 
-    private JPanel createSummaryButtons()
+    @Override
+    public void update()
+    {
+        var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
+        dateLabel.setText(dateSupplier.get().format(formatter));
+        weatherIconLabel.setText("<html>V<br>E<br>R<br>Y <br>BIG<br>WEATHER<br> ICON</html>");
+        precipitationLabel.setText(precipitation + " %");
+        frostLabel.setText(frost + " %");
+        tempLabel.setText(temperature + " °C");
+        tempLowLabel.setText(tempLow + " °C");
+        tempHighLabel.setText(tempHigh + " °C");
+    }
+
+    @Override
+    protected JPanel createButtonsPanel()
     {
         var bottomButtons = new JPanel();
         bottomButtons.setLayout(new GridLayout(1, 2));
@@ -66,41 +79,33 @@ public class SummaryPanel extends JPanel {
         return bottomButtons;
     }
 
-    private JPanel createSummaryPane()
+    @Override
+    protected JPanel createMainPanel()
     {
         var summaryPanel = new JPanel();
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.PAGE_AXIS));
 
-        DateFormat dateFormat = new SimpleDateFormat("EEE dd MMMM");
-        var date = createPanel(new JLabel(dateFormat.format(new Date())));
+        var date = createPanel(dateLabel);
         summaryPanel.add(date);
 
-        var weatherIcon = createPanel(new JLabel("<html>VERY BIG<br>WEATHER ICON</html>"));
+        var weatherIcon = createPanel(weatherIconLabel);
         summaryPanel.add(weatherIcon);
 
-        var precipitationPanel = createPanel(new JLabel("RAINDROP"), new JLabel(precipitation+" %"));
+        var precipitationPanel = createPanel(new JLabel("RAINDROP"), precipitationLabel);
         summaryPanel.add(precipitationPanel);
 
-        var frostPanel = createPanel(new JLabel("FROST"), new JLabel(frost+" %"));
+        var frostPanel = createPanel(new JLabel("FROST"), frostLabel);
         summaryPanel.add(frostPanel);
 
-        var temperaturePanel = createPanel(new JLabel(temperature+" °C"));
+        var temperaturePanel = createPanel(tempLabel);
         summaryPanel.add(temperaturePanel);
 
-        var tempLowPanel = createPanel(new JLabel("Lo."), new JLabel(tempLow+" °C"));
+        var tempLowPanel = createPanel(new JLabel("Lo."), tempLowLabel);
         summaryPanel.add(tempLowPanel);
 
-        var tempHighPanel = createPanel(new JLabel("Hi."), new JLabel(tempHigh+" °C"));
+        var tempHighPanel = createPanel(new JLabel("Hi."), tempHighLabel);
         summaryPanel.add(tempHighPanel);
 
         return summaryPanel;
-    }
-
-    private JPanel createPanel(JComponent... components)
-    {
-        var panel = new JPanel();
-        Stream.of(components).forEachOrdered(panel::add);
-        //panel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-        return panel;
     }
 }
