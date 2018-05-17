@@ -62,6 +62,7 @@ public class MainWindow extends JFrame {
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+        this.setResizable(true);
     }
 
     public void addTabs() throws IOException {

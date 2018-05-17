@@ -11,8 +11,7 @@ public class HourlyWeatherRenderer extends WeatherCustomRenderer implements Tabl
             boolean hasFocus, int row, int column) {
         if(column == 0) {
 
-            this.setText("time");
-            return this;
+            return null;
         } else {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }

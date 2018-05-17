@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -21,9 +22,16 @@ public class WeeklyTable extends JPanel {
         table.setBorder(BorderFactory.createEmptyBorder());
         table.setTableHeader(null);
 
+        table.setPreferredSize(new Dimension(MainWindow.SCREEN_WIDTH-20, table.getHeight()));
+
         table.setBackground(MainWindow.BACKGROUND_COLOR);
 
         table.setRowHeight((MainWindow.SCREEN_HEIGHT-80)/data.size());
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(5);
+        table.getColumnModel().getColumn(2).setPreferredWidth(5);
+        table.getColumnModel().getColumn(3).setPreferredWidth(5);
 
         JScrollPane scroller = new JScrollPane(table);
         scroller.setBorder(BorderFactory.createEmptyBorder());
