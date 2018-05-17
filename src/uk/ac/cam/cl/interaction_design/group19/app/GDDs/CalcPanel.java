@@ -81,12 +81,8 @@ public class CalcPanel extends JPanel {
     }
 
     private static void addOnClick(JButton btn, Runnable btnAction) {
-        btn.addActionListener(e ->
-        {
-            if (e.getActionCommand().equals(btn.getText()))
-            {
-                btnAction.run();
-            }
+        btn.addActionListener(e -> {
+            btnAction.run();
         });
     }
 

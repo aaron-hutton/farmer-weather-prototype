@@ -15,6 +15,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import uk.ac.cam.cl.interaction_design.group19.app.GDDs.Pair;
 
 public class MetOfficeAPI {
   
@@ -22,7 +23,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA = "val/wxobs/all/json/"; // + location_id
-    public static final String DAILY_DATA = "val/wxfcs/all/json";
+    public static final String DAILY_DATA = "val/wxfcs/all/json/";
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH = "layer/wxobs/all/json/capabilities";
 
@@ -124,11 +125,12 @@ public class MetOfficeAPI {
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
+        System.out.println(api.gddForecast(3840, 10));
     }
 
-    public ArrayList<Double> gddForecast(int location, double base){
+    public ArrayList<Pair<String, Double>> gddForecast(int location, double base){
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
+        System.out.println(u.toString());
 
         JsonObject weekly = jsonFromUrl(u);
 
@@ -139,9 +141,11 @@ public class MetOfficeAPI {
 
         for(JsonElement j : weekJsonArr) {
             JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
+            String date = j.getAsJsonObject().get("value").getAsString();
             int max = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
             int min = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
-            toReturn.add(Math.max(((double) max+min)/2 - base, 0));
+            Pair<String, Double> p = new Pair<>(date, Math.max(((double) max+min)/2 - base, 0));
+            toReturn.add(p);
         }
 
         return toReturn;

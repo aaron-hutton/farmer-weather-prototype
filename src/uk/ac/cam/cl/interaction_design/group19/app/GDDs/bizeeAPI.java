@@ -59,7 +59,7 @@ public class bizeeAPI {
         return tot;
     }
 
-    public static ArrayList<Double> gddForecast(int location, double base) {
+    public static ArrayList<Pair<String, Double>> gddForecast(int location, double base) {
         MetOfficeAPI api = new MetOfficeAPI();
         return api.gddForecast(location, base);
     }
