@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 
 /**
  * Base class for panels in weather view
@@ -37,6 +38,7 @@ public abstract class WeatherPanel extends JPanel
     public WeatherPanel(Supplier<LocalDateTime> dateSupplier)
     {
         super(new BorderLayout());
+        this.setBackground(MainWindow.BACKGROUND_COLOR);
         this.dateSupplier = dateSupplier;
     }
 

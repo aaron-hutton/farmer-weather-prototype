@@ -10,16 +10,26 @@ import javax.swing.JTable;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
 
 public abstract class WeatherCustomRenderer extends JLabel implements TableCellRenderer {
+
+
+    public WeatherCustomRenderer() {
+
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        this.setBackground(MainWindow.BACKGROUND_COLOR);
+        this.setOpaque(true);
+    }
 
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
-
-        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        //if(table.getRowCount()-1 == row) {
+        //    this.setBorder(BorderFactory.createEmptyBorder());
+        //}
         if(!(value instanceof WeatherData)) {
             System.err.println("The data is not weather data.");
             System.exit(1);

@@ -21,6 +21,8 @@ public class WeeklyTable extends JPanel {
         table.setBorder(BorderFactory.createEmptyBorder());
         table.setTableHeader(null);
 
+        table.setBackground(MainWindow.BACKGROUND_COLOR);
+
         table.setRowHeight((MainWindow.SCREEN_HEIGHT-80)/data.size());
 
         JScrollPane scroller = new JScrollPane(table);

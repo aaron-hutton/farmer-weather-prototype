@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import javax.swing.JPanel;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.MetOfficeAPI;
 
 public class WeeklyPanel extends JPanel
