@@ -34,5 +34,13 @@ public enum WeatherType {
     THUNDER_SHOWER_DAY,
     THUNDER,
     RAINDROP,
-    FROST
+    FROST,
+    ARROW_UP,
+    ARROW_DOWN,
+    ARROW_RIGHT,
+    ARROW_LEFT,
+    ARROW_UP_RIGHT,
+    ARROW_UP_LEFT,
+    ARROW_DOWN_RIGHT,
+    ARROW_DOWN_LEFT
 }

@@ -11,9 +11,12 @@ public class TodayPanel extends JPanel {
         JLabel label = new JLabel("Today");
         this.add(label);
         this.setSize(new Dimension(200, 200));
-
-        JLabel iconImage = new JLabel(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.THUNDER, 100)));
-        this.add(iconImage);
+        for (WeatherType w : WeatherType.values()) {
+            JLabel label2 = new JLabel(w.toString());
+            this.add(label2);
+            JLabel iconImage = new JLabel(new ImageIcon(Icons.getSizedWidthIcon(w, 100)));
+            this.add(iconImage);
+        }
         this.setVisible(true);
     }
 }

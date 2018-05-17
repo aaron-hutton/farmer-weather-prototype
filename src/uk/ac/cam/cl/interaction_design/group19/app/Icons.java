@@ -33,6 +33,30 @@ public class Icons {
         } else {
             String icon = "question.png";
             switch (theWeather) {
+                case ARROW_DOWN:
+                    icon = "arrow_down.png";
+                    break;
+                case ARROW_UP:
+                    icon = "arrow_up.png";
+                    break;
+                case ARROW_RIGHT:
+                    icon = "arrow_right.png";
+                    break;
+                case ARROW_LEFT:
+                    icon = "arrow_left.png";
+                    break;
+                case ARROW_UP_RIGHT:
+                    icon = "arrow_up_right.png";
+                    break;
+                case ARROW_UP_LEFT:
+                    icon = "arrow_up_left.png";
+                    break;
+                case ARROW_DOWN_RIGHT:
+                    icon = "arrow_down_right.png";
+                    break;
+                case ARROW_DOWN_LEFT:
+                    icon = "arrow_down_left.png";
+                    break;
                 case FROST:
                     icon = "frost.png";
                     break;
