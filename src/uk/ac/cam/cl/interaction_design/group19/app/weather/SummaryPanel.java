@@ -69,7 +69,7 @@ public class SummaryPanel extends WeatherPanel
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
         dateLabel.setText(dateSupplier.get().format(formatter));
         var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
-        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedIcon(weather, iconWidth)));
+        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(weather, iconWidth)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");
         tempLabel.setText(temperature + " °C");
@@ -104,11 +104,11 @@ public class SummaryPanel extends WeatherPanel
         var weatherIcon = createPanel(weatherIconLabel);
         summaryPanel.add(weatherIcon);
 
-        var precipitationPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedIcon(WeatherType.RAINDROP, STATIC_ICON_WIDTH))), precipitationLabel);
+        var precipitationPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.RAINDROP, STATIC_ICON_WIDTH))), precipitationLabel);
 //        var precipitationPanel = createPanel(new JLabel("<html>RAINDROP<br>ICON<br>MISSING</html>"), precipitationLabel);
         summaryPanel.add(precipitationPanel);
 
-        var frostPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedIcon(WeatherType.FROST, STATIC_ICON_WIDTH))), frostLabel);
+        var frostPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.FROST, STATIC_ICON_WIDTH))), frostLabel);
 //        var frostPanel = createPanel(new JLabel("<html>FROST<br>ICON<br>MISSING</html>"), frostLabel);
         summaryPanel.add(frostPanel);
 

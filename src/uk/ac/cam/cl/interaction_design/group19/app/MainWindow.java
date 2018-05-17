@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Insets;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,10 +48,13 @@ public class MainWindow extends JFrame {
     }
 
     public MainWindow() throws IOException {
+
+        // Set Icon
+        ImageIcon myAppImage = new ImageIcon("resources/icons/app_icon.jpg");
+        setIconImage(myAppImage.getImage());
+
         initWindow();
-
         addTabs();
-
         this.setVisible(true);
     }
 
