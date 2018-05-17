@@ -1,6 +1,5 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -10,29 +9,52 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
-public class Icons {
+public class Icons
+{
+    private static final Map<WindDir, WeatherType> dirToIconMap = Map.of(
+            WindDir.N, WeatherType.ARROW_UP,
+            WindDir.NE, WeatherType.ARROW_UP_RIGHT,
+            WindDir.E, WeatherType.ARROW_RIGHT,
+            WindDir.SE, WeatherType.ARROW_DOWN_RIGHT,
+            WindDir.S, WeatherType.ARROW_DOWN,
+            WindDir.SW, WeatherType.ARROW_DOWN_LEFT,
+            WindDir.W, WeatherType.ARROW_LEFT,
+            WindDir.NW, WeatherType.ARROW_UP_LEFT
+    );
 
     // keep a buffer of icons which we check before loading from the hard drive
     static Map<WeatherType, BufferedImage> loadedIcons = new HashMap<>();
 
-    public static BufferedImage getSizedWidthIcon(WeatherType theWeather, int width) {
+    public static BufferedImage getSizedWidthIcon(WeatherType theWeather, int width)
+    {
         BufferedImage temp = getIcon(theWeather);
         Image toRet = temp.getScaledInstance(width, width * temp.getHeight() / temp.getWidth(), Image.SCALE_SMOOTH);
         return toBufferedImage(toRet);
     }
 
-    public static BufferedImage getSizedHeightIcon(WeatherType theWeather, int height) {
+    public static BufferedImage getSizedWidthIcon(WindDir dir, int width)
+    {
+        return getSizedWidthIcon(dirToIconMap.get(dir), width);
+    }
+
+    public static BufferedImage getSizedHeightIcon(WeatherType theWeather, int height)
+    {
         BufferedImage temp = getIcon(theWeather);
         Image toRet = temp.getScaledInstance(height * temp.getWidth() / temp.getHeight(), height, Image.SCALE_SMOOTH);
         return toBufferedImage(toRet);
     }
 
-    public static BufferedImage getIcon(WeatherType theWeather) {
-        if (loadedIcons.containsKey(theWeather)) {
+    public static BufferedImage getIcon(WeatherType theWeather)
+    {
+        if (loadedIcons.containsKey(theWeather))
+        {
             return loadedIcons.get(theWeather);
-        } else {
+        }
+        else
+        {
             String icon = "question.png";
-            switch (theWeather) {
+            switch (theWeather)
+            {
                 case ARROW_DOWN:
                     icon = "arrow_down.png";
                     break;
@@ -158,11 +180,13 @@ public class Icons {
                     icon = "slice_9_7.png";
                     break;
             }
-            try {
+            try
+            {
                 BufferedImage iconImage = ImageIO.read(new File("resources/icons/" + icon));
                 loadedIcons.put(theWeather, iconImage);
                 return iconImage;
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 System.err.println("Couldn't open icon file");
                 e.printStackTrace();
                 return null;

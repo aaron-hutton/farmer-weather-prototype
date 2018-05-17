@@ -4,13 +4,18 @@ import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.WindDir;
 
 public class FullInfoPanel extends WeatherPanel
 {
+    private static final int WIND_DIR_ICON_WIDTH = 70;
+
     private final JLabel soilMoistLabel = createLabel();
     private final JLabel soilTempLabel = createLabel();
     private final JLabel windDirIconLabel = new JLabel();
@@ -49,8 +54,7 @@ public class FullInfoPanel extends WeatherPanel
     {
         soilMoistLabel.setText(soilMoist + " %");
         soilTempLabel.setText(soilTemp + " °C");
-        //TODO: implement wind dir icons
-//        windDirIconLabel.setIcon(get wind dir icon)
+        windDirIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(windDir, WIND_DIR_ICON_WIDTH)));
         windDirLabel.setText(windDir+"");
         windSpeedLabel.setText(windSpeed + " km/h");
         cloudCoverLabel.setText(cloudCover + " %");
