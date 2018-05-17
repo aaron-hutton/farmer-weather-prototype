@@ -1,12 +1,12 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
 public class Icons {
 

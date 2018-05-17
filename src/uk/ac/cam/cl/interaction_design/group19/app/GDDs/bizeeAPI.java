@@ -22,7 +22,7 @@ import net.degreedays.api.data.Period;
 import net.degreedays.api.data.Temperature;
 import net.degreedays.time.Day;
 import net.degreedays.time.DayRange;
-import uk.ac.cam.cl.interaction_design.group19.app.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 
 public class bizeeAPI {
 

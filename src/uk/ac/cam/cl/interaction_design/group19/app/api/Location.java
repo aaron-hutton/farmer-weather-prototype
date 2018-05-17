@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
