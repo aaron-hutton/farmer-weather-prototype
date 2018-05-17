@@ -5,6 +5,7 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import java.io.IOException;
+import java.util.List;
 
 public class Location {
     public final double latitude;
@@ -21,6 +22,21 @@ public class Location {
         This works because the Earth is flat.
          */
         return Math.pow(this.latitude - other.latitude, 2) + Math.pow(this.longitude - other.longitude, 2);
+    }
+
+    public Location closest(List<Location> others) {
+        /*
+        Get the closest location from a list.
+         */
+        double best_distance = Double.POSITIVE_INFINITY;
+        Location best = null;
+        for (Location other : others) {
+            if (this.distance(other) < best_distance) {
+                best_distance = this.distance(other);
+                best = other;
+            }
+        }
+        return best;
     }
 
     public static Location fromAddress(String address) {
