@@ -22,6 +22,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA = "val/wxobs/all/json/"; // + location_id
+    public static final String DAILY_DATA = "val/wxfcs/all/json";
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH = "layer/wxobs/all/json/capabilities";
 
@@ -147,5 +148,25 @@ public class MetOfficeAPI {
         MetOfficeAPI api = new MetOfficeAPI();
         System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
         System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
+    }
+
+    public ArrayList<Double> gddForecast(int location, double base){
+        URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
+
+        JsonObject weekly = jsonFromUrl(u);
+
+        JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                .getAsJsonObject("Location").getAsJsonArray("Period");
+
+        ArrayList toReturn = new ArrayList();
+
+        for(JsonElement j : weekJsonArr) {
+            JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
+            int max = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
+            int min = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
+            toReturn.add(Math.max(((double) max+min)/2 - base, 0));
+        }
+
+        return toReturn;
     }
 }
