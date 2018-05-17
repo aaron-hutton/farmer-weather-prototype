@@ -16,10 +16,7 @@
       </option>
     </JavaCodeStyleSettings>
     <codeStyleSettings language="JAVA">
-      <option name="BRACE_STYLE" value="2" />
-      <option name="CLASS_BRACE_STYLE" value="2" />
-      <option name="METHOD_BRACE_STYLE" value="2" />
-      <option name="LAMBDA_BRACE_STYLE" value="2" />
+      <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
     </codeStyleSettings>
   </code_scheme>
 </component>

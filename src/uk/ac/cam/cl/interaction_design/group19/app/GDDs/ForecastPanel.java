@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 
 public class ForecastPanel extends JPanel {
 
+    public ForecastPanel(Runnable showCalc) {
 
+    }
 
 }

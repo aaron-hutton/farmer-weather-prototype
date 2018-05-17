@@ -69,7 +69,7 @@ public class bizeeAPI {
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yy");
         Date d = null;
         try {
-            d = sdf.parse("19-05-2015");
+            d = sdf.parse("12-12-2012");
         } catch (ParseException e) {
             e.printStackTrace();
         }
