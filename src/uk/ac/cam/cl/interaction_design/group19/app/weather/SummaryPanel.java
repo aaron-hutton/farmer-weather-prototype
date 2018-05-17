@@ -5,10 +5,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
 
 public class SummaryPanel extends WeatherPanel
 {
@@ -21,7 +24,7 @@ public class SummaryPanel extends WeatherPanel
     private final JLabel tempLowLabel = new JLabel();
     private final JButton moreInfo = new JButton("< more info");
     private final JButton hourly = new JButton("hourly >");
-    //private WeatherType weather;
+    private WeatherType weather;
     private int precipitation;
     private int frost;
     private int temperature;
@@ -42,6 +45,7 @@ public class SummaryPanel extends WeatherPanel
     {
         super(dateSupplier);
         precipitation = 54;
+        weather = WeatherType.PARTLY_CLOUDY_DAY;
         frost = 0;
         temperature = 18;
         tempLow = 4;
@@ -56,7 +60,8 @@ public class SummaryPanel extends WeatherPanel
     {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
         dateLabel.setText(dateSupplier.get().format(formatter));
-        weatherIconLabel.setText("<html>V<br>E<br>R<br>Y <br>BIG<br>WEATHER<br> ICON</html>");
+        weatherIconLabel.setText("<html>STILL<br>MISSING<br>THE<br>WEATHER<br>ICON</html>");
+        //weatherIconLabel.setIcon(new ImageIcon(Icons.getIcon(weather)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");
         tempLabel.setText(temperature + " °C");

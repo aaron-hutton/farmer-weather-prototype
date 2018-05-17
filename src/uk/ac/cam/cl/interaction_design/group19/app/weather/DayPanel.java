@@ -25,7 +25,10 @@ public class DayPanel extends JPanel
                         dateSupplier,
                         () -> layout.show(this, SUMMARY_CARD)),
                 FULL_INFO_CARD);
-//        layout.addLayoutComponent(new HourlyPanel(), HOURLY_CARD);
+        this.add(new HourlyPanel(
+                        dateSupplier,
+                        () -> layout.show(this, SUMMARY_CARD)),
+                HOURLY_CARD);
         layout.show(this, SUMMARY_CARD);
     }
 }
