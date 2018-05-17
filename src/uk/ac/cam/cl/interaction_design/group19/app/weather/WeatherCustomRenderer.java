@@ -22,7 +22,7 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
                 System.err.println("The 0th column of the renderer should be overridden.");
                 System.exit(1);
             case 2:
-                this.setText(Math.round(data.temperature)+"&deg;C");
+                this.setText(Math.round(data.temperature)+"°C");
                 break;
             case 4:
                 this.setText("Precipitation here");

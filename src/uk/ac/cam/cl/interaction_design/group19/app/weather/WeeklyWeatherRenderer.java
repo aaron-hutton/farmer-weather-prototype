@@ -10,7 +10,7 @@ public class WeeklyWeatherRenderer extends WeatherCustomRenderer {
             boolean hasFocus, int row, int column) {
         if(column == 0) {
 
-            this.setText("");
+            this.setText("Time "+row);
             return this;
         } else {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

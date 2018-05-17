@@ -1,18 +1,20 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import uk.ac.cam.cl.interaction_design.group19.app.HourlyData;
 import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
 
 public class WeatherTableModel extends AbstractTableModel {
 
-    private WeatherData[] data;
-    public WeatherTableModel(WeatherData[] data) {
+    private List<HourlyData> data;
+    public WeatherTableModel(List<HourlyData> data) {
         this.data = data;
     }
 
     @Override
     public int getRowCount() {
-        return data.length;
+        return data.size();
     }
 
     @Override
@@ -22,11 +24,16 @@ public class WeatherTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return data[rowIndex];
+        return data.get(rowIndex);
     }
 
     @Override
     public boolean isCellEditable(int row, int col) {
         return false;
+    }
+
+    @Override
+    public Class getColumnClass(int col) {
+        return WeatherData.class;
     }
 }
