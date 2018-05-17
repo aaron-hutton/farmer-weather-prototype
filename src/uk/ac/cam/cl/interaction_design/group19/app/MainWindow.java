@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
 
 public class MainWindow extends JFrame {
 
