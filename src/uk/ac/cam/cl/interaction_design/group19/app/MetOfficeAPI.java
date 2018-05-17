@@ -15,6 +15,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import uk.ac.cam.cl.interaction_design.group19.app.GDDs.MinMax;
 
 public class MetOfficeAPI {
   
@@ -124,5 +125,19 @@ public class MetOfficeAPI {
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
         System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
+    }
+
+    public ArrayList<MinMax> minmax(Integer location) throws MalformedURLException {
+        URL u = new URL(BASE_URL + "val/wxfcs/all/json/" + Integer.toString(location) + "?res=daily&key=" + KEY);
+
+        JsonObject weekly = jsonFromUrl(u);
+
+        JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV").getAsJsonObject("Location").getAsJsonArray("Period");
+
+        for(JsonElement j : weekJsonArr) {
+
+        }
+
+        return null;
     }
 }
