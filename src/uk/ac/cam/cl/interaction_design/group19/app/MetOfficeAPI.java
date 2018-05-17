@@ -120,7 +120,7 @@ public class MetOfficeAPI {
             for (int i = 0; i < 5; i++) {
                 List<HourlyData> day = new ArrayList<>();
                 for (int j = 0; j < 14; j++) {
-                    day.add(new HourlyData(12.0, 4.2, "NW", "5"));
+                    day.add(new HourlyData(12.0, 4.2, "NW", "5", "09:00"));
                 }
                 days.add(day);
             }
@@ -132,12 +132,16 @@ public class MetOfficeAPI {
         for (JsonElement day : days_objects) {
             JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
             List<HourlyData> day_list = new ArrayList<>();
+            int time = 9;
             for (JsonElement hour : hours) {
+                String timestamp = String.valueOf(time / 10) + String.valueOf(time % 10) + ":00";
                 JsonObject h = hour.getAsJsonObject();
                 day_list.add(new HourlyData(h.get("T").getAsDouble(),
                         h.get("S").getAsDouble(),
                         h.get("D").getAsString(),
-                        h.get("W").getAsString()));
+                        h.get("W").getAsString(),
+                        timestamp));
+                time++;
             }
             days.add(day_list);
         }
@@ -146,7 +150,7 @@ public class MetOfficeAPI {
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
+        System.out.println(api.fiveDayForecast(3066).get(0).get(4).time);
         System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
     }
 
