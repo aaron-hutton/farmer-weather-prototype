@@ -145,7 +145,7 @@ public class MetOfficeAPI {
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        //System.out.println(api.hourlyLocationList().get(0).latitude);
         System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
+        System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
     }
 }
