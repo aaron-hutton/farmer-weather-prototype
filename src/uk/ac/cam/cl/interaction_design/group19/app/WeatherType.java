@@ -1,7 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
 public enum WeatherType {
-    RAINDROP,
     NOT_AVAILABLE,
     CLEAR_NIGHT,
     SUNNY_DAY,
@@ -33,5 +32,7 @@ public enum WeatherType {
     HEAVY_SNOW,
     THUNDER_SHOWER_NIGHT,
     THUNDER_SHOWER_DAY,
-    THUNDER
+    THUNDER,
+    RAINDROP,
+    FROST
 }
