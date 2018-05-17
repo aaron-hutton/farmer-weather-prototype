@@ -2,6 +2,7 @@ package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import net.degreedays.api.AccountKey;
@@ -21,6 +22,7 @@ import net.degreedays.api.data.Period;
 import net.degreedays.api.data.Temperature;
 import net.degreedays.time.Day;
 import net.degreedays.time.DayRange;
+import uk.ac.cam.cl.interaction_design.group19.app.MetOfficeAPI;
 
 public class bizeeAPI {
 
@@ -41,7 +43,7 @@ public class bizeeAPI {
                 DatedBreakdown.monthly(Period.dayRange(range)));
 
         LocationDataRequest request = new LocationDataRequest(
-                Location.postalCode("10036", "US"),
+                Location.postalCode("02630", "US"),
 //                Location.postalCode(Integer.toString(postCode), "US"),
                 new DataSpecs(hddSpec));
 
@@ -57,6 +59,11 @@ public class bizeeAPI {
         return tot;
     }
 
+    public static ArrayList<Double> gddForecast(int location, double base) {
+        MetOfficeAPI api = new MetOfficeAPI();
+        return api.gddForecast(location, base);
+    }
+
     public static void main(String[] args) {
 
         SimpleDateFormat sdf= new SimpleDateFormat("dd-MM-yy");
@@ -67,6 +74,6 @@ public class bizeeAPI {
             e.printStackTrace();
         }
 
-        gddSince(1, 10, d);
+        System.out.println(gddSince(1, 10, d));
     }
 }

@@ -1,13 +1,11 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
-import javax.swing.*;
-import java.awt.*;
+import java.time.LocalDateTime;
 
-public class TodayPanel extends JPanel {
-
-    public TodayPanel() {
-        JLabel label = new JLabel("Today");
-        this.add(label);
-        this.setSize(new Dimension(200, 200));
+public class TodayPanel extends DayPanel
+{
+    public TodayPanel()
+    {
+        super(() -> LocalDateTime.now());
     }
 }
