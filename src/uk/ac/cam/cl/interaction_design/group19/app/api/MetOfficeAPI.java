@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,6 +22,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA = "val/wxobs/all/json/"; // + location_id
+    public static final String DAILY_DATA = "val/wxfcs/all/json"; // + location_id
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH = "layer/wxobs/all/json/capabilities";
 
@@ -86,8 +87,24 @@ public class MetOfficeAPI {
         return result;
     }
 
-    public List<Location> hourlyLocationList() {
-        List<Location> result = new ArrayList<>();
+    public DayData todaySummary(int location_id) {
+        URL url = makeURL(addParam(DAILY_DATA + Integer.toString(location_id), "res", "daily"));
+        if (url == null) return new DayData(11.2, 5.8, 46.5, 99, 3);
+        JsonObject obj = jsonFromUrl(url);
+        JsonObject day = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                                    .getAsJsonObject("Location").getAsJsonArray("Period")
+                                    .get(0).getAsJsonObject().getAsJsonArray("Rep")
+                                    .get(0).getAsJsonObject();
+
+        return new DayData(13.5, 9.7, 26.5, 23, 37);
+    }
+
+    public DayData tomorrowSummary() {
+        return new DayData(13.5, 9.7, 26.5, 23, 37);
+    }
+
+    public List<MetOfficeLocation> hourlyLocationList() {
+        List<MetOfficeLocation> result = new ArrayList<>();
         URL url = makeURL(HOURLY_LOCATION_LIST);
         if (url == null) return result;
         JsonObject root = jsonFromUrl(url);
@@ -111,41 +128,31 @@ public class MetOfficeAPI {
 
         For testing, can use location_id = 3066
          */
-        List<List<HourlyData>> days = new ArrayList<>();
-        URL url = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
-        if (url == null) return days;
-        JsonObject obj = jsonFromUrl(url);
-        if (obj == null) {
-            for (int i = 0; i < 5; i++) {
-                List<HourlyData> day = new ArrayList<>();
-                for (int j = 0; j < 14; j++) {
-                    day.add(new HourlyData(12.0, 4.2, "NW", "5"));
-                }
-                days.add(day);
-            }
-            return days;
-        }
-        JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
-                               .getAsJsonObject("Location").getAsJsonArray("Period");
-
-        for (JsonElement day : days_objects) {
-            JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
-            List<HourlyData> day_list = new ArrayList<>();
-            for (JsonElement hour : hours) {
-                JsonObject h = hour.getAsJsonObject();
-                day_list.add(new HourlyData(h.get("T").getAsDouble(),
-                        h.get("S").getAsDouble(),
-                        h.get("D").getAsString(),
-                        h.get("W").getAsString()));
-            }
-            days.add(day_list);
-        }
-        return days;
     }
 
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        //System.out.println(api.hourlyLocationList().get(0).latitude);
-        System.out.println(api.fiveDayForecast(3066).get(0).get(0).weather_type);
+        System.out.println(api.fiveDayForecast(3066).get(0).get(4).time);
+        System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
+    }
+
+    public ArrayList<Double> gddForecast(int location, double base){
+        URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
+
+        JsonObject weekly = jsonFromUrl(u);
+
+        JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                .getAsJsonObject("Location").getAsJsonArray("Period");
+
+        ArrayList toReturn = new ArrayList();
+
+        for(JsonElement j : weekJsonArr) {
+            JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
+            int max = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
+            int min = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
+            toReturn.add(Math.max(((double) max+min)/2 - base, 0));
+        }
+
+        return toReturn;
     }
 }

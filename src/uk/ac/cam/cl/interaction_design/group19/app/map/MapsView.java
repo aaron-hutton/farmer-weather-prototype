@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import uk.ac.cam.cl.interaction_design.group19.app.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import java.awt.Graphics2D;
 
 public class MapsView extends JPanel {
@@ -94,8 +94,8 @@ public class MapsView extends JPanel {
         g.dispose();
 
         // Display the image
-        JLabel imageLabel2 = new JLabel(new ImageIcon(newImg));
-        this.add(imageLabel2);
+        JLabel imageLabel = new JLabel(new ImageIcon(newImg));
+        this.add(imageLabel);
         this.setLocation(200, 200);
         this.setVisible(true);
     }
