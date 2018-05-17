@@ -6,8 +6,6 @@ public class WeatherData {
     public final String wind_direction;
     public final String weather_type;
 
-
-
     public WeatherData(double temperature, double wind_speed, String wind_direction, String weather_type) {
         this.temperature = temperature;
         this.wind_speed = wind_speed;
