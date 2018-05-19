@@ -16,8 +16,8 @@ public class GDDsView extends JPanel {
     public static final String FORECAST_CARD = "Forecast";
 
     public GDDsView() {
-        JLabel settings = new JLabel("Growing Degree Days");
-        this.add(settings);
+        JLabel gdds = new JLabel("Growing Degree Days");
+        this.add(gdds);
 
         var layout = new CardLayout();
         this.setLayout(layout);

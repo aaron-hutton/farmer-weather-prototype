@@ -57,7 +57,6 @@ public class CalcPanel extends JPanel {
         addOnClick(forecast, showForecast);
         addOnClick(enter, () -> {
             Date date = (Date) jdate.getValue();
-            System.out.println(date.toString());
             if(date != null) {
                 dataOut.setText(Integer.toString((int) bizeeAPI.gddSince(loc, 10, date)));
                 dataOut.setVisible(true);

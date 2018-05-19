@@ -28,10 +28,13 @@ public class ForecastPanel extends JPanel {
 
         JTable table = new JTable(dataTable, columnNames);
 
-        this.add(forecast);
-        this.add(table);
+        JPanel buttons = createButtonsPanel();
 
         addOnClick(calculator, showCalc);
+
+        this.add(forecast);
+        this.add(table);
+        this.add(buttons);
     }
 
     private void getForecast() {
