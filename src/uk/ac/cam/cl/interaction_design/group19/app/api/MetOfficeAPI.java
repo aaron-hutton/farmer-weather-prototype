@@ -127,7 +127,8 @@ public class MetOfficeAPI {
         representing weather data about some random hour.
 
         For testing, can use location_id = 3066
-         */
+        */
+        return null;
     }
 
     public static void main(String[] args) {
