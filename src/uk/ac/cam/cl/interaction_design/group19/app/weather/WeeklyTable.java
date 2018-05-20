@@ -10,17 +10,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import uk.ac.cam.cl.interaction_design.group19.app.HourlyData;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.ScrollBarImplementation;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
-import uk.ac.cam.cl.interaction_design.group19.app.WeeklyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public class WeeklyTable extends JPanel {
+    
 
     public static int MINIMUM_ROW_HEIGHT = 70;
 
     public WeeklyTable(List<HourlyData> data) {
+        
+        System.out.println(data);
         this.setLayout(new BorderLayout());
 
         JTable table = new JTable(new WeatherTableModel(data));

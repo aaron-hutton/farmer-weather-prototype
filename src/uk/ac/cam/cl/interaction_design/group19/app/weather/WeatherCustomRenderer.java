@@ -10,16 +10,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
 import uk.ac.cam.cl.interaction_design.group19.app.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
-public abstract class WeatherCustomRenderer implements TableCellRenderer {
-
+public abstract class WeatherCustomRenderer extends JLabel implements TableCellRenderer {
+    
     private JComponent[][] cache = new JComponent[5][];
 
     public WeatherCustomRenderer(int size) {
@@ -62,10 +60,10 @@ public abstract class WeatherCustomRenderer implements TableCellRenderer {
                 label.setText("Precip here");
                 break;
             case 1:
-                label.setIcon(new ImageIcon(Icons.getSizedIcon(data.getWeatherType(), 30)));
+                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(data.getWeatherType(), 30)));
                 break;
             case 3:
-                label.setIcon(new ImageIcon(Icons.getSizedIcon(WeatherType.RAINDROP, 30)));
+                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.RAINDROP, 30)));
                 break;
         }
         cache[column][row] = label;

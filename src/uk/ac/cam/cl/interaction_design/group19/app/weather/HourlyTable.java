@@ -4,13 +4,13 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import uk.ac.cam.cl.interaction_design.group19.app.HourlyData;
-import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public class HourlyTable extends JPanel {
-
+    
     public HourlyTable(List<HourlyData> data) {
-
+        
         JTable table = new JTable(new WeatherTableModel(data));
         table.setDefaultRenderer(WeatherData.class, new HourlyWeatherRenderer(data.size()));
 
