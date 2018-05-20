@@ -2,7 +2,7 @@ package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 public class WeeklyData extends WeatherData {
     public final int precipitation_prob;
-
+    
     public WeeklyData(double temperature,
                       double wind_speed,
                       String wind_direction,

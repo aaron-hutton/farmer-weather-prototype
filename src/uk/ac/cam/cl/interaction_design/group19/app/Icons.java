@@ -34,8 +34,8 @@ public class Icons {
     }
     
     public static BufferedImage getSizedWidthIcon(WeatherType theWeather, int width) {
-        BufferedImage temp  = getIcon(theWeather);
-        Image         toRet =
+        BufferedImage temp = getIcon(theWeather);
+        Image toRet =
                 temp.getScaledInstance(width, width * temp.getHeight() / temp.getWidth(), Image.SCALE_SMOOTH);
         return toBufferedImage(toRet);
     }
@@ -209,8 +209,8 @@ public class Icons {
     }
     
     public static BufferedImage getSizedHeightIcon(WeatherType theWeather, int height) {
-        BufferedImage temp  = getIcon(theWeather);
-        Image         toRet =
+        BufferedImage temp = getIcon(theWeather);
+        Image toRet =
                 temp.getScaledInstance(height * temp.getWidth() / temp.getHeight(), height, Image.SCALE_SMOOTH);
         return toBufferedImage(toRet);
     }

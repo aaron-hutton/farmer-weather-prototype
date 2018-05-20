@@ -1,6 +1,8 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
+import java.awt.Color;
 import java.awt.Component;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -12,6 +14,8 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
+        
+        this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
         if (!(value instanceof WeatherData)) {
             System.err.println("The data is not weather data.");
             System.exit(1);

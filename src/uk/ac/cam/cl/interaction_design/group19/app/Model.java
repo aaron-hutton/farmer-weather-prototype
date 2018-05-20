@@ -8,13 +8,13 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
 
 public class Model {
+    private final Map<ExtremeEvent, Boolean> alerts;
     private       MetOfficeLocation          location;
     private       boolean                    highContrast;
-    private final Map<ExtremeEvent, Boolean> alerts;
     
     public Model() {
         //TODO: initialize with sensible location
-        location = new MetOfficeLocation(0,0,0);
+        location = new MetOfficeLocation(0, 0, 0);
         highContrast = false;
         alerts = Arrays.stream(ExtremeEvent.values())
                        .collect(Collectors.toMap(e -> e, e -> false));
