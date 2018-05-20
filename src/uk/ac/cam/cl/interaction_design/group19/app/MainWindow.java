@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -57,7 +58,6 @@ public class MainWindow extends JFrame {
         tabs.addTab("Maps", new MapsView());
         tabs.addTab("GDDs", new GDDsView());
         tabs.addTab("Settings", createSettingsView());
-        
         tabs.setTabComponentAt(0, weatherLabel);
         tabs.setTabComponentAt(1, mapsLabel);
         tabs.setTabComponentAt(2, GDDsLabel);
@@ -71,8 +71,8 @@ public class MainWindow extends JFrame {
     private SettingsView createSettingsView() {
         var alerts = Arrays.stream(ExtremeEvent.values())
                            .collect(Collectors.toMap(
-                                   e->e,
-                                   e->PropertyFactory.createProperty(
+                                   e -> e,
+                                   e -> PropertyFactory.createProperty(
                                            () -> model.getAlert(e),
                                            v -> model.setAlert(e, v))));
         return new SettingsView(
