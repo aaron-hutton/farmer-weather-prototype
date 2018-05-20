@@ -3,6 +3,7 @@ package uk.ac.cam.cl.interaction_design.group19.app.api;
 import uk.ac.cam.cl.interaction_design.group19.app.WindDir;
 
 public class DayData {
+    // TODO: inherit from WeatherData
     public final int         temperature;
     public final int         low_temperature;
     public final int         high_temperature;
