@@ -15,21 +15,24 @@ public class DayData {
     public final int         soil_temperature;
     public final int         cloud_cover;
     
-    public DayData(double temperature,
+    public DayData(WeatherType weather,
+                   double temperature,
                    double low_temperature,
                    double high_temperature,
                    int precipitation_prob,
-                   int frost_prob) {
+                   int frost_prob,
+                   WindDir wind_direction,
+                   int wind_speed) {
         this.temperature = (int) Math.round(temperature);
         this.low_temperature = (int) Math.round(low_temperature);
         this.high_temperature = (int) Math.round(high_temperature);
         this.precipitation_prob = precipitation_prob;
         this.frost_prob = frost_prob;
-        this.weather = null;
-        cloud_cover = -1;
-        wind_direction = null;
-        wind_speed = -1;
-        soil_moisture = -1;
-        soil_temperature = -1;
+        this.weather = weather;
+        this.cloud_cover = -1;
+        this.wind_direction = wind_direction;
+        this.wind_speed = wind_speed;
+        this.soil_moisture = -1;
+        this.soil_temperature = -1;
     }
 }

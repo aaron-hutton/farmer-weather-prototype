@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import uk.ac.cam.cl.interaction_design.group19.app.WindDir;
 
 public class MetOfficeAPI {
     
@@ -32,29 +33,52 @@ public class MetOfficeAPI {
         if (date.toLocalDate().equals(LocalDate.now())) {
             return todaySummary(location_id);
         } else if (date.toLocalDate().equals(LocalDate.now().plusDays(1))) {
-            return tomorrowSummary();
+            return tomorrowSummary(location_id);
         } else {
             return null;
         }
     }
     
-    public static DayData todaySummary(int location_id) {
+    public static DayData daySummary(int location_id, int day_number) {
         try {
             URL        url = makeURL(addParam(DAILY_DATA + Integer.toString(location_id), "res", "daily"));
             JsonObject obj = jsonFromUrl(url);
             JsonObject day = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                 .getAsJsonObject("Location").getAsJsonArray("Period")
-                                .get(0).getAsJsonObject().getAsJsonArray("Rep")
+                                .get(day_number).getAsJsonObject().getAsJsonArray("Rep")
                                 .get(0).getAsJsonObject();
+            JsonObject night = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                                  .getAsJsonObject("Location").getAsJsonArray("Period")
+                                  .get(day_number).getAsJsonObject().getAsJsonArray("Rep")
+                                  .get(1).getAsJsonObject();
             
-            return new DayData(13.5, 9.7, 26.5, 23, 37);
+            WeatherType weather = WeatherData.getWeatherType(day.get("W").getAsString());
+            double max_temp = day.get("Dm").getAsDouble();
+            double min_temp = night.get("Nm").getAsDouble();
+            double temperature = 0.5 * (max_temp + min_temp);
+            int precipitation_prob = day.get("PPd").getAsInt();
+            int frost_prob;
+            if (temperature > 5) {
+                frost_prob = 1;
+            } else if (temperature > 0) {
+                frost_prob = 21;
+            } else {
+                frost_prob = 73;
+            }
+            WindDir dir = WeatherData.getWindDir(day.get("D").getAsString());
+            int wind_speed = day.get("S").getAsInt();
+            return new DayData(weather, temperature, min_temp, max_temp, precipitation_prob, frost_prob, dir, wind_speed);
         } catch (NullPointerException e) {
-            return new DayData(11.2, 5.8, 46.5, 99, 3);
+            return new DayData(WeatherType.DRIZZLE, 10, 8, 23, 72, 3, WindDir.NW, 12);
         }
     }
     
-    public static DayData tomorrowSummary() {
-        return new DayData(13.5, 9.7, 26.5, 23, 37);
+    public static DayData todaySummary(int location_id) {
+        return daySummary(location_id, 0);
+    }
+    
+    public static DayData tomorrowSummary(int location_id) {
+        return daySummary(location_id, 1);
     }
     
     public static URL makeURL(String resource_part) {
@@ -119,7 +143,40 @@ public class MetOfficeAPI {
 
         For testing, can use location_id = 3066
         */
-        return null;
+        List<List<HourlyData>> days = new ArrayList<>();
+        URL url = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
+        if (url == null) return days;
+        JsonObject obj = jsonFromUrl(url);
+        if (obj == null) {
+            for (int i = 0; i < 5; i++) {
+                List<HourlyData> day = new ArrayList<>();
+                for (int j = 0; j < 14; j++) {
+                    day.add(new HourlyData(12.0, 4.2, "NW", "5", "09:00"));
+                }
+                days.add(day);
+            }
+            return days;
+        }
+        JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                                    .getAsJsonObject("Location").getAsJsonArray("Period");
+    
+        for (JsonElement day : days_objects) {
+            JsonArray hours = day.getAsJsonObject().getAsJsonArray("Rep");
+            List<HourlyData> day_list = new ArrayList<>();
+            int time = 9;
+            for (JsonElement hour : hours) {
+                String timestamp = String.valueOf(time / 10) + String.valueOf(time % 10) + ":00";
+                JsonObject h = hour.getAsJsonObject();
+                day_list.add(new HourlyData(h.get("T").getAsDouble(),
+                                            h.get("S").getAsDouble(),
+                                            h.get("D").getAsString(),
+                                            h.get("W").getAsString(),
+                                            timestamp));
+                time++;
+            }
+            days.add(day_list);
+        }
+        return days;
     }
     
     public List<String> locationList() {
