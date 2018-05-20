@@ -1,26 +1,20 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
 import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
 
-public class Model
-{
-    private Location location;
+public class Model {
+    private MetOfficeLocation location;
 
-    public int getLocationID()
-    {
-        //TODO: implement using MetOfficeAPI
-        //
-        return 0;
+    public int getLocationID() {
+        return location.id;
     }
 
-    public Location getLocation()
-    {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location location)
-    {
+    public void setLocation(MetOfficeLocation location) {
         this.location = location;
     }
 }

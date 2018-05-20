@@ -1,7 +1,5 @@
 package uk.ac.cam.cl.interaction_design.group19.app.api;
 
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
-
 public class HourlyData extends WeatherData
 {
     public final String time;

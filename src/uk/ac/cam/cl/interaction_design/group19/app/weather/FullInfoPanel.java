@@ -2,6 +2,7 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -11,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
 public class FullInfoPanel extends WeatherPanel
 {
@@ -40,24 +44,36 @@ public class FullInfoPanel extends WeatherPanel
     public FullInfoPanel(Supplier<LocalDateTime> dateSupplier, Runnable showSummary)
     {
         super(dateSupplier);
-        soilMoist = 12;
-        soilTemp = 11;
-        windDir = WindDir.NE;
-        windSpeed = 12;
-        cloudCover = 10;
         addOnClick(summary, showSummary);
         populate();
     }
 
-    @Override
-    public void update()
-    {
+    private void updateData() {
+        // TODO: fix location id
+        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
+        if (data == null) {
+            return;
+        }
+        soilMoist = data.soil_moisture;
+        soilTemp = data.soil_temperature;
+        windDir = data.wind_direction;
+        windSpeed = data.wind_speed;
+        cloudCover = data.cloud_cover;
+    }
+
+    private void updateLabels() {
         soilMoistLabel.setText(soilMoist + " %");
         soilTempLabel.setText(soilTemp + " °C");
         windDirIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(windDir, WIND_DIR_ICON_WIDTH)));
         windDirLabel.setText(windDir+"");
         windSpeedLabel.setText(windSpeed + " km/h");
         cloudCoverLabel.setText(cloudCover + " %");
+    }
+
+    @Override
+    public void update() {
+        updateData();
+        updateLabels();
     }
 
     @Override

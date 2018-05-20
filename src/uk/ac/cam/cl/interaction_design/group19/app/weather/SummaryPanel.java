@@ -11,10 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
-public class SummaryPanel extends WeatherPanel
-{
+public class SummaryPanel extends WeatherPanel {
     private static final int DEFAULT_ICON_WIDTH = 200;
     private static final double ICON_WIDTH_RATIO = 0.6;
 
@@ -49,23 +50,28 @@ public class SummaryPanel extends WeatherPanel
      * text lavel for high | temperature high
      * << more info button |   | hourly button >>>
      */
-    public SummaryPanel(Supplier<LocalDateTime> dateSupplier, Runnable showMoreInfo, Runnable showHourly)
-    {
+    public SummaryPanel(Supplier<LocalDateTime> dateSupplier, Runnable showMoreInfo, Runnable showHourly) {
         super(dateSupplier);
-        precipitation = 54;
-        weather = WeatherType.PARTLY_CLOUDY_DAY;
-        frost = 0;
-        temperature = 18;
-        tempLow = 4;
-        tempHigh = 19;
         addOnClick(moreInfo, showMoreInfo);
         addOnClick(hourly, showHourly);
         populate();
     }
 
-    @Override
-    public void update()
-    {
+    private void updateData() {
+        // TODO: fix location id
+        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
+        if (data == null) {
+            return;
+        }
+        precipitation = data.precipitation_prob;
+        weather = data.weather;
+        frost = data.frost_prob;
+        temperature = data.temperature;
+        tempLow = data.low_temperature;
+        tempHigh = data.high_temperature;
+    }
+
+    private void updateLabels() {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
         dateLabel.setText(dateSupplier.get().format(formatter));
         var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
@@ -78,8 +84,13 @@ public class SummaryPanel extends WeatherPanel
     }
 
     @Override
-    protected JPanel createButtonsPanel()
-    {
+    public void update() {
+        updateData();
+        updateLabels();
+    }
+
+    @Override
+    protected JPanel createButtonsPanel() {
         var bottomButtons = new JPanel();
         bottomButtons.setLayout(new GridLayout(1, 2));
 
@@ -93,8 +104,7 @@ public class SummaryPanel extends WeatherPanel
     }
 
     @Override
-    protected JPanel createMainPanel()
-    {
+    protected JPanel createMainPanel() {
         var summaryPanel = new JPanel();
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.PAGE_AXIS));
 
