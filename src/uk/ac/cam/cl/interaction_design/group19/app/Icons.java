@@ -21,16 +21,10 @@ public class Icons {
             WindDir.W, WeatherType.ARROW_LEFT,
             WindDir.NW, WeatherType.ARROW_UP_LEFT
     );
-
+    
     // keep a buffer of icons which we check before loading from the hard drive
     static Map<WeatherType, BufferedImage> loadedIcons = new HashMap<>();
-
-    public static BufferedImage getSizedWidthIcon(WeatherType theWeather, int width) {
-        BufferedImage temp = getIcon(theWeather);
-        Image toRet = temp.getScaledInstance(width, width * temp.getHeight() / temp.getWidth(), Image.SCALE_SMOOTH);
-        return toBufferedImage(toRet);
-    }
-
+    
     public static BufferedImage getSizedWidthIcon(WindDir dir, int width) {
         if (dir == null) {
             return getSizedWidthIcon((WeatherType) null, width);
@@ -38,13 +32,14 @@ public class Icons {
             return getSizedWidthIcon(dirToIconMap.getOrDefault(dir, null), width);
         }
     }
-
-    public static BufferedImage getSizedHeightIcon(WeatherType theWeather, int height) {
-        BufferedImage temp = getIcon(theWeather);
-        Image toRet = temp.getScaledInstance(height * temp.getWidth() / temp.getHeight(), height, Image.SCALE_SMOOTH);
+    
+    public static BufferedImage getSizedWidthIcon(WeatherType theWeather, int width) {
+        BufferedImage temp  = getIcon(theWeather);
+        Image         toRet =
+                temp.getScaledInstance(width, width * temp.getHeight() / temp.getWidth(), Image.SCALE_SMOOTH);
         return toBufferedImage(toRet);
     }
-
+    
     public static BufferedImage getIcon(WeatherType theWeather) {
         if (loadedIcons.containsKey(theWeather)) {
             return loadedIcons.get(theWeather);
@@ -189,7 +184,7 @@ public class Icons {
             }
         }
     }
-
+    
     /**
      * Converts a given Image into a BufferedImage
      *
@@ -200,16 +195,23 @@ public class Icons {
         if (img instanceof BufferedImage) {
             return (BufferedImage) img;
         }
-
+        
         // Create a buffered image with transparency
         BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
+        
         // Draw the image on to the buffered image
         Graphics2D bGr = bimage.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
-
+        
         // Return the buffered image
         return bimage;
+    }
+    
+    public static BufferedImage getSizedHeightIcon(WeatherType theWeather, int height) {
+        BufferedImage temp  = getIcon(theWeather);
+        Image         toRet =
+                temp.getScaledInstance(height * temp.getWidth() / temp.getHeight(), height, Image.SCALE_SMOOTH);
+        return toBufferedImage(toRet);
     }
 }

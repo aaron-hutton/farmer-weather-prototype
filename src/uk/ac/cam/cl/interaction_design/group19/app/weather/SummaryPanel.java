@@ -16,29 +16,29 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
 
 public class SummaryPanel extends WeatherPanel {
-    private static final int DEFAULT_ICON_WIDTH = 200;
-    private static final double ICON_WIDTH_RATIO = 0.6;
+    private static final int    DEFAULT_ICON_WIDTH = 200;
+    private static final double ICON_WIDTH_RATIO   = 0.6;
 
     private static final int STATIC_ICON_WIDTH = 50;
 
     private static final float HI_LO_FONT_SIZE = 16;
-    private static final float DATE_FONT_SIZE = 18;
+    private static final float DATE_FONT_SIZE  = 18;
 
-    private final JLabel dateLabel = createLabel(DATE_FONT_SIZE);
-    private final JLabel weatherIconLabel = new JLabel();
-    private final JLabel precipitationLabel = createLabel();
-    private final JLabel frostLabel = createLabel();
-    private final JLabel tempLabel = createLabel();
-    private final JLabel tempHighLabel = createLabel();
-    private final JLabel tempLowLabel = createLabel();
-    private final JButton moreInfo = new JButton("< more info");
-    private final JButton hourly = new JButton("hourly >");
-    private WeatherType weather;
-    private int precipitation;
-    private int frost;
-    private int temperature;
-    private int tempLow;
-    private int tempHigh;
+    private final JLabel      dateLabel          = createLabel(DATE_FONT_SIZE);
+    private final JLabel      weatherIconLabel   = new JLabel();
+    private final JLabel      precipitationLabel = createLabel();
+    private final JLabel      frostLabel         = createLabel();
+    private final JLabel      tempLabel          = createLabel();
+    private final JLabel      tempHighLabel      = createLabel();
+    private final JLabel      tempLowLabel       = createLabel();
+    private final JButton     moreInfo           = new JButton("< more info");
+    private final JButton     hourly             = new JButton("hourly >");
+    private       WeatherType weather;
+    private       int         precipitation;
+    private       int         frost;
+    private       int         temperature;
+    private       int         tempLow;
+    private       int         tempHigh;
 
     /**
      * Date
@@ -55,52 +55,6 @@ public class SummaryPanel extends WeatherPanel {
         addOnClick(moreInfo, showMoreInfo);
         addOnClick(hourly, showHourly);
         populate();
-    }
-
-    private void updateData() {
-        // TODO: fix location id
-        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
-        if (data == null) {
-            return;
-        }
-        precipitation = data.precipitation_prob;
-        weather = data.weather;
-        frost = data.frost_prob;
-        temperature = data.temperature;
-        tempLow = data.low_temperature;
-        tempHigh = data.high_temperature;
-    }
-
-    private void updateLabels() {
-        var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
-        dateLabel.setText(dateSupplier.get().format(formatter));
-        var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
-        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(weather, iconWidth)));
-        precipitationLabel.setText(precipitation + " %");
-        frostLabel.setText(frost + " %");
-        tempLabel.setText(temperature + " °C");
-        tempLowLabel.setText(tempLow + " °C");
-        tempHighLabel.setText(tempHigh + " °C");
-    }
-
-    @Override
-    public void update() {
-        updateData();
-        updateLabels();
-    }
-
-    @Override
-    protected JPanel createButtonsPanel() {
-        var bottomButtons = new JPanel();
-        bottomButtons.setLayout(new GridLayout(1, 2));
-
-        moreInfo.setHorizontalAlignment(SwingConstants.LEFT);
-        bottomButtons.add(moreInfo);
-
-        hourly.setHorizontalAlignment(SwingConstants.RIGHT);
-        bottomButtons.add(hourly);
-
-        return bottomButtons;
     }
 
     @Override
@@ -134,5 +88,51 @@ public class SummaryPanel extends WeatherPanel {
         summaryPanel.add(tempHighPanel);
 
         return summaryPanel;
+    }
+
+    @Override
+    protected JPanel createButtonsPanel() {
+        var bottomButtons = new JPanel();
+        bottomButtons.setLayout(new GridLayout(1, 2));
+
+        moreInfo.setHorizontalAlignment(SwingConstants.LEFT);
+        bottomButtons.add(moreInfo);
+
+        hourly.setHorizontalAlignment(SwingConstants.RIGHT);
+        bottomButtons.add(hourly);
+
+        return bottomButtons;
+    }
+
+    @Override
+    public void update() {
+        updateData();
+        updateLabels();
+    }
+
+    private void updateData() {
+        // TODO: fix location id
+        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
+        if (data == null) {
+            return;
+        }
+        precipitation = data.precipitation_prob;
+        weather = data.weather;
+        frost = data.frost_prob;
+        temperature = data.temperature;
+        tempLow = data.low_temperature;
+        tempHigh = data.high_temperature;
+    }
+
+    private void updateLabels() {
+        var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
+        dateLabel.setText(dateSupplier.get().format(formatter));
+        var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
+        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(weather, iconWidth)));
+        precipitationLabel.setText(precipitation + " %");
+        frostLabel.setText(frost + " %");
+        tempLabel.setText(temperature + " °C");
+        tempLowLabel.setText(tempLow + " °C");
+        tempHighLabel.setText(tempHigh + " °C");
     }
 }

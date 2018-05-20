@@ -8,6 +8,7 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 public class WeatherTableModel extends AbstractTableModel {
 
     private List<HourlyData> data;
+
     public WeatherTableModel(List<HourlyData> data) {
         this.data = data;
     }
@@ -28,12 +29,12 @@ public class WeatherTableModel extends AbstractTableModel {
     }
 
     @Override
-    public boolean isCellEditable(int row, int col) {
-        return false;
+    public Class getColumnClass(int col) {
+        return WeatherData.class;
     }
 
     @Override
-    public Class getColumnClass(int col) {
-        return WeatherData.class;
+    public boolean isCellEditable(int row, int col) {
+        return false;
     }
 }

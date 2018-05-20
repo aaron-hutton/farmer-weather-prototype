@@ -9,8 +9,8 @@ public class HourlyWeatherRenderer extends WeatherCustomRenderer implements Tabl
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
-        if(column == 0) {
-
+        if (column == 0) {
+            
             this.setText("time");
             return this;
         } else {

@@ -6,12 +6,11 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
 
-public class WeeklyPanel extends JPanel
-{
+public class WeeklyPanel extends JPanel {
     public WeeklyPanel() {
         List<MetOfficeLocation> available_locations = new MetOfficeAPI().hourlyLocationList();
-        Location homerton = Location.fromAddress("Homerton College, Cambridge");
-        int nearest_id = homerton.closest(available_locations).id;
+        Location                homerton            = Location.fromAddress("Homerton College, Cambridge");
+        int                     nearest_id          = homerton.closest(available_locations).id;
 //        WeeklyTable table = new WeeklyTable((new MetOfficeAPI()).fiveDayForecast(nearest_id).get(0));
 //        this.add(table);
     }
