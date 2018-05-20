@@ -128,7 +128,7 @@ public class MetOfficeAPI {
         System.out.println(api.gddForecast(3840, 10));
     }
 
-    public ArrayList<Pair<String, Double>> gddForecast(int location, double base){
+    public ArrayList<Double> gddForecast(int location, double base){
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
         System.out.println(u.toString());
 
@@ -141,11 +141,9 @@ public class MetOfficeAPI {
 
         for(JsonElement j : weekJsonArr) {
             JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
-            String date = j.getAsJsonObject().get("value").getAsString();
             int max = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
             int min = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
-            Pair<String, Double> p = new Pair<>(date, Math.max(((double) max+min)/2 - base, 0));
-            toReturn.add(p);
+            toReturn.add(Math.max(((double) max+min)/2 - base, 0));
         }
 
         return toReturn;
