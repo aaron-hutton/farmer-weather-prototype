@@ -1,39 +1,74 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+import uk.ac.cam.cl.interaction_design.group19.app.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
 
-public abstract class WeatherCustomRenderer extends JLabel implements TableCellRenderer {
+public abstract class WeatherCustomRenderer implements TableCellRenderer {
+
+    private JComponent[][] cache = new JComponent[5][];
+
+    public WeatherCustomRenderer(int size) {
+        for(int i = 0; i < cache.length; i++) {
+            cache[i] = new JComponent[size];
+        }
+    }
 
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
+
+        if(cache[column][row] != null) {
+            return cache[column][row];
+        }
+
+        JLabel label = new JLabel();
+        label.setVerticalTextPosition(JLabel.CENTER);
+        label.setBackground(MainWindow.BACKGROUND_COLOR);
+        label.setOpaque(true);
+
+
+        if(table.getRowCount()-1 == row) {
+            label.setBorder(BorderFactory.createEmptyBorder());
+        } else {
+            label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        }
+
         if(!(value instanceof WeatherData)) {
             System.err.println("The data is not weather data.");
             System.exit(1);
         }
         WeatherData data = (WeatherData) value;
         switch(column) {
-            case 0:
-                System.err.println("The 0th column of the renderer should be overridden.");
-                System.exit(1);
             case 2:
-                this.setText(Math.round(data.temperature)+"°C");
+                label.setText(Math.round(data.temperature)+"°C");
                 break;
             case 4:
-                this.setText("Precipitation here");
+                label.setText("Precip here");
                 break;
             case 1:
-                this.setText(data.weather_type);
+                label.setIcon(new ImageIcon(Icons.getSizedIcon(data.getWeatherType(), 30)));
                 break;
             case 3:
-                this.setText("Raindrop");
+                label.setIcon(new ImageIcon(Icons.getSizedIcon(WeatherType.RAINDROP, 30)));
                 break;
         }
-        return this;
+        cache[column][row] = label;
+        return label;
     }
 }

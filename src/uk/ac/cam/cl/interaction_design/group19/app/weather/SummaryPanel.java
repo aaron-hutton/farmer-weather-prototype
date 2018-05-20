@@ -15,6 +15,11 @@ import uk.ac.cam.cl.interaction_design.group19.app.WeatherType;
 
 public class SummaryPanel extends WeatherPanel
 {
+    private static final int DEFAULT_ICON_WIDTH = 200;
+    private static final double ICON_WIDTH_RATIO = 0.6;
+
+    private static final int STATIC_ICON_WIDTH = 50;
+
     private static final float HI_LO_FONT_SIZE = 16;
     private static final float DATE_FONT_SIZE = 18;
 
@@ -63,8 +68,8 @@ public class SummaryPanel extends WeatherPanel
     {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
         dateLabel.setText(dateSupplier.get().format(formatter));
-        weatherIconLabel.setText("<html>STILL<br>MISSING<br>THE<br>WEATHER<br>ICON</html>");
-        //weatherIconLabel.setIcon(new ImageIcon(Icons.getIcon(weather)));
+        var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
+        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedIcon(weather, iconWidth)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");
         tempLabel.setText(temperature + " °C");
@@ -99,12 +104,12 @@ public class SummaryPanel extends WeatherPanel
         var weatherIcon = createPanel(weatherIconLabel);
         summaryPanel.add(weatherIcon);
 
-//        var precipitationPanel = createPanel(new JLabel(new ImageIcon(Icons.getIcon(WeatherType.RAINDROP))), precipitationLabel);
-        var precipitationPanel = createPanel(new JLabel("<html>RAINDROP<br>ICON<br>MISSING</html>"), precipitationLabel);
+        var precipitationPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedIcon(WeatherType.RAINDROP, STATIC_ICON_WIDTH))), precipitationLabel);
+//        var precipitationPanel = createPanel(new JLabel("<html>RAINDROP<br>ICON<br>MISSING</html>"), precipitationLabel);
         summaryPanel.add(precipitationPanel);
 
-//        var frostPanel = createPanel(new JLabel(new ImageIcon(Icons.getIcon(WeatherType.FROST))), frostLabel);
-        var frostPanel = createPanel(new JLabel("<html>FROST<br>ICON<br>MISSING</html>"), frostLabel);
+        var frostPanel = createPanel(new JLabel(new ImageIcon(Icons.getSizedIcon(WeatherType.FROST, STATIC_ICON_WIDTH))), frostLabel);
+//        var frostPanel = createPanel(new JLabel("<html>FROST<br>ICON<br>MISSING</html>"), frostLabel);
         summaryPanel.add(frostPanel);
 
         var temperaturePanel = createPanel(tempLabel);

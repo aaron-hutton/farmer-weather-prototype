@@ -13,12 +13,14 @@ public class FullInfoPanel extends WeatherPanel
 {
     private final JLabel soilMoistLabel = createLabel();
     private final JLabel soilTempLabel = createLabel();
+    private final JLabel windDirIconLabel = new JLabel();
+    private final JLabel windDirLabel = createLabel();
     private final JLabel windSpeedLabel = createLabel();
     private final JLabel cloudCoverLabel = createLabel();
     private final JButton summary = new JButton("summary >");
     private int soilMoist;
     private int soilTemp;
-    //private WindDir windDir;
+    private WindDir windDir;
     private int windSpeed;
     private int cloudCover;
 
@@ -35,7 +37,7 @@ public class FullInfoPanel extends WeatherPanel
         super(dateSupplier);
         soilMoist = 12;
         soilTemp = 11;
-        //windDir = NE;
+        windDir = WindDir.NE;
         windSpeed = 12;
         cloudCover = 10;
         addOnClick(summary, showSummary);
@@ -47,7 +49,9 @@ public class FullInfoPanel extends WeatherPanel
     {
         soilMoistLabel.setText(soilMoist + " %");
         soilTempLabel.setText(soilTemp + " °C");
-//        windDirLabel.setText(windDir);
+        //TODO: implement wind dir icons
+//        windDirIconLabel.setIcon(get wind dir icon)
+        windDirLabel.setText(windDir+"");
         windSpeedLabel.setText(windSpeed + " km/h");
         cloudCoverLabel.setText(cloudCover + " %");
     }
@@ -80,9 +84,9 @@ public class FullInfoPanel extends WeatherPanel
 
         var windPanel = createPanel(
                 createLabel("Wind"),
-                new JLabel("<html>WIND ICON<br>MISSING</html>"),
-//                new JLabel(windDir+""), //TODO: write enum
-                createLabel(windSpeed + " km/h"));
+                windDirIconLabel,
+                windDirLabel,
+                windSpeedLabel);
         summaryPanel.add(windPanel);
 
         var cloudCoverPanel = createPanel(createLabel("Cloud cover"), createLabel(cloudCover + " %"));
