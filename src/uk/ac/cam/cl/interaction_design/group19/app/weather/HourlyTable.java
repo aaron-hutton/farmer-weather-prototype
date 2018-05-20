@@ -12,7 +12,7 @@ public class HourlyTable extends JPanel {
     public HourlyTable(List<HourlyData> data) {
 
         JTable table = new JTable(new WeatherTableModel(data));
-        table.setDefaultRenderer(WeatherData.class, new HourlyWeatherRenderer());
+        table.setDefaultRenderer(WeatherData.class, new HourlyWeatherRenderer(data.size()));
 
         JScrollPane scroller = new JScrollPane(table);
         table.setFillsViewportHeight(true);

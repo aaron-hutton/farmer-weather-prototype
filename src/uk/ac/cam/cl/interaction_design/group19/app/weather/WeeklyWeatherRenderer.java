@@ -5,6 +5,12 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 
 public class WeeklyWeatherRenderer extends WeatherCustomRenderer {
+
+    public WeeklyWeatherRenderer(int size)
+    {
+        super(size);
+    }
+
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,

@@ -37,8 +37,9 @@ public class MainWindow extends JFrame {
                             }
                         }
                         UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
+                        //UIManager.put("ScrollBarUI", "uk.ac.cam.cl.interaction_design.group19.app.ScrollBarImplementation");
                     } catch (Exception e) {
-                        // Default to Java LookAndFell
+                        // Default to Java LookAndFeel
                     }
                     try {
                         new MainWindow();

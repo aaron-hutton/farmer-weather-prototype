@@ -5,6 +5,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
+
+    public HourlyWeatherRenderer(int size)
+    {
+        super(size);
+    }
+
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
