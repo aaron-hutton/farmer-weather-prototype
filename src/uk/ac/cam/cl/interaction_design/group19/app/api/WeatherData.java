@@ -1,5 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.api;
 
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
+
 public class WeatherData {
     public final double temperature;
     public final double wind_speed;    // mph
@@ -15,7 +17,7 @@ public class WeatherData {
     
     public WeatherType getWeatherType() {
         if (this.weather_type.equals("NA")) {
-            return WeatherType.NOT_AVAILABLE;
+            return null;
         } else {
             return WeatherType.values()[Integer.parseInt(this.weather_type) + 1];
         }

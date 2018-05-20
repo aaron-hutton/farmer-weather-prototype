@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.api;
 
-import uk.ac.cam.cl.interaction_design.group19.app.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
 
 public class DayData {
     public final int         temperature;

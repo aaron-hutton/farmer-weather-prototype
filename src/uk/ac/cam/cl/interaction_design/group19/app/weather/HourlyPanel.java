@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.WeatherPanel;
 
 public class HourlyPanel extends WeatherPanel {
     private final JButton summary = new JButton("< summary");
