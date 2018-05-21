@@ -5,7 +5,6 @@ public enum WeatherType {
     SUNNY_DAY,
     PARTLY_CLOUDY_NIGHT,
     PARTLY_CLOUDY_DAY,
-    NOT_USED,
     MIST,
     FOG,
     CLOUDY,
