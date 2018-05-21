@@ -25,7 +25,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL             = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST        = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA          = "val/wxobs/all/json/"; // + location_id
-    public static final String DAILY_DATA           = "val/wxfcs/all/json"; // + location_id
+    public static final String DAILY_DATA           = "val/wxfcs/all/json/"; // + location_id
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
@@ -239,15 +239,15 @@ public class MetOfficeAPI {
         JsonObject weekly = jsonFromUrl(u);
         
         if(weekly != null){
-        JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
-                                      .getAsJsonObject("Location").getAsJsonArray("Period");
-        
-        for (JsonElement j : weekJsonArr) {
-            JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
-            int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
-            int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
-            toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
-        }
+            JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                                          .getAsJsonObject("Location").getAsJsonArray("Period");
+            
+            for (JsonElement j : weekJsonArr) {
+                JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
+                int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
+                int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
+                toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
+            }
     
         }
         

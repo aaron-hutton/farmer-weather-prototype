@@ -39,16 +39,16 @@ public class CalcPanel extends JPanel {
         JButton enter = new JButton("Enter");
 
         JLabel calc = new JLabel("Calculator");
-        calc.setFont(new Font(calc.getFont().toString(), Font.BOLD, 16));
-        calc.setAlignmentX(Component.LEFT_ALIGNMENT);
+        calc.setFont(new Font(calc.getFont().toString(), Font.BOLD, 20));
+        calc.setAlignmentX(Component.CENTER_ALIGNMENT);
         JLabel desc = new JLabel("<html>"+description+"</html>");
         desc.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel output = new JLabel("Total GDDs:");
         output.setAlignmentX(Component.LEFT_ALIGNMENT);
         JLabel dataOut = new JLabel("Please enter a date in the box above, in the format dd/mm/yy");
-        dataOut.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        
+        JPanel title = new JPanel();
         JPanel descriptor = new JPanel();
         descriptor.setLayout(new BoxLayout(descriptor, BoxLayout.PAGE_AXIS));
         descriptor.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -62,7 +62,7 @@ public class CalcPanel extends JPanel {
         out.setLayout(new BoxLayout(out, BoxLayout.PAGE_AXIS));
         JPanel buttons = createButtonsPanel();
 
-        descriptor.add(calc); descriptor.add(desc);
+        title.add(calc); descriptor.add(desc);
         inputInner.add(jdate); inputInner.add(enter);
         inputOuter.add(start); inputOuter.add(inputInner);
         out.add(output); out.add(dataOut);
@@ -78,16 +78,16 @@ public class CalcPanel extends JPanel {
                     dataOut.setText(Integer.toString((int) bizeeAPI.gddSince(loc, 10, date)));
                     dataOut.setFont(new Font(dataOut.getFont().toString(), Font.BOLD, 18));
                 } catch (IllegalArgumentException e){
-                    dataOut.setText("The date you have entered is invalid");
+                    dataOut.setText("The date you have entered is invalid, please use the format dd/mm/yy");
                     dataOut.setForeground(Color.red);
                 }
             } else {
-                dataOut.setText("The date you have entered is invalid");
+                dataOut.setText("The date you have entered is invalid, please use the format dd/mm/yy");
                 dataOut.setForeground(Color.red);
             }
         });
 
-        main.add(descriptor); main.add(inputOuter); main.add(out);
+        main.add(title); main.add(descriptor); main.add(inputOuter); main.add(out);
         this.add(main); this.add(buttons, BorderLayout.SOUTH);
         buttons.setMaximumSize(new Dimension(700, 100));
     }

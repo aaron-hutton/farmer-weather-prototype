@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class ForecastPanel extends JPanel {
@@ -31,27 +33,36 @@ public class ForecastPanel extends JPanel {
         this.setLayout(new BorderLayout());
         JPanel t = new JPanel();
         t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
-        t.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.setAlignmentX(Component.LEFT_ALIGNMENT);
+        t.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         if(data == null) getForecast();
 
         JLabel forecast = new JLabel("Forecast");
         forecast.setFont(new Font(forecast.getFont().toString(), Font.BOLD, 16));
-        forecast.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JTable table = new JTable(dataTable, columnNames);
-        table.setSize(300, 300);
-        table.setAlignmentX(Component.LEFT_ALIGNMENT);
-        table.setFont(new Font(table.getFont().toString(), Font.PLAIN, 15));
-
+        forecast.setAlignmentX(Component.CENTER_ALIGNMENT);
+    
         JPanel buttons = createButtonsPanel();
-        buttons.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+    
         addOnClick(calculator, showCalc);
-
+    
         t.add(forecast);
-        t.add(table);
+        
+        if(data == null) {
+            JTextArea server = new JTextArea("We are currently having server problems, please try again later");
+            server.setWrapStyleWord(true);
+            server.setLineWrap(true);
+            server.setForeground(Color.red);
+            server.setFont(new Font(server.getFont().toString(), Font.PLAIN, 18));
+        } else {
+    
+            JTable table = new JTable(dataTable, columnNames);
+            table.setSize(300, 300);
+            table.setAlignmentX(Component.LEFT_ALIGNMENT);
+            table.setFont(new Font(table.getFont().toString(), Font.PLAIN, 15));
+    
+            t.add(table);
+        }
+        
         this.add(t);
         this.add(buttons, BorderLayout.SOUTH);
         buttons.setMaximumSize(new Dimension(700, 100));
