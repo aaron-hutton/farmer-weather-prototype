@@ -9,9 +9,7 @@ import java.util.function.Function;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TodayPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TomorrowPanel;
@@ -42,9 +40,9 @@ public class WeatherView extends JPanel implements Updatable {
     private final TomorrowPanel tomorrowPanel;
     private final WeeklyPanel   weeklyPanel;
     
-    public WeatherView(Function<LocalDateTime, DayData> getDayData,
-                       Function<LocalDateTime, List<List<HourlyData>>> getHourlyData,
-                       Function<LocalDateTime, List<List<HourlyData>>> getWeeklyData) {
+    public WeatherView(Function<LocalDateTime, WeatherData> getDayData,
+                       Function<LocalDateTime, List<List<WeatherData>>> getHourlyData,
+                       Function<LocalDateTime, List<List<WeatherData>>> getWeeklyData) {
         super(new GridLayout(1, 1));
         
         todayPanel = new TodayPanel(getDayData, getHourlyData);

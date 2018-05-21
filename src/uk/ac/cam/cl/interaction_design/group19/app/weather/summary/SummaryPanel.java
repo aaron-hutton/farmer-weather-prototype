@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.GridLayout;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
@@ -9,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
-import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
 
 /**
@@ -35,6 +36,7 @@ public class SummaryPanel extends WeatherPanel {
     private final JLabel      tempLowLabel       = createLabel();
     private final JButton     moreInfo           = new JButton("< more info");
     private final JButton     hourly             = new JButton("hourly >");
+    private       LocalDate   day;
     private       WeatherType weather;
     private       int         precipitation;
     private       int         frost;
@@ -42,9 +44,9 @@ public class SummaryPanel extends WeatherPanel {
     private       int         tempLow;
     private       int         tempHigh;
     
-    private final Supplier<DayData> dataSupplier;
-    
-    public SummaryPanel(Supplier<DayData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
+    private final Supplier<WeatherData> dataSupplier;
+
+    public SummaryPanel(Supplier<WeatherData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
         this.dataSupplier = dataSupplier;
         addOnClick(moreInfo, showMoreInfo);
         addOnClick(hourly, showHourly);
@@ -105,10 +107,12 @@ public class SummaryPanel extends WeatherPanel {
     }
     
     private void updateData() {
-        DayData data = dataSupplier.get();
+        var data = dataSupplier.get();
         if (data == null) {
+            System.err.println("Null data");
             return;
         }
+        day = data.time != null ? data.time.toLocalDate() : LocalDate.now();
         precipitation = data.precipitation_prob;
         weather = data.weather;
         frost = data.frost_prob;
@@ -119,7 +123,7 @@ public class SummaryPanel extends WeatherPanel {
     
     private void updateLabels() {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
-        dateLabel.setText(dataSupplier.get().date.format(formatter));
+        dateLabel.setText(day != null ? day.format(formatter) : "NA");
         weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedHeightIcon(weather, ICON_HEIGHT)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");

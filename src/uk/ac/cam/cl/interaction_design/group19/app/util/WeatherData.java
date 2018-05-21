@@ -1,9 +1,8 @@
-package uk.ac.cam.cl.interaction_design.group19.app.api;
+package uk.ac.cam.cl.interaction_design.group19.app.util;
 
+import java.time.LocalDateTime;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
-import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class WeatherData {
     private static final Map<Integer,WeatherType> weatherCodes = Map.ofEntries(
@@ -39,16 +38,40 @@ public class WeatherData {
             new SimpleEntry<>(30, WeatherType.THUNDER)
     );
     
-    public final double temperature;
-    public final double wind_speed;    // mph
-    public final String wind_direction;
-    public final String weather_type;
+    public final LocalDateTime   time;
+    public final int         temperature;
+    public final int         low_temperature;
+    public final int         high_temperature;
+    public final int         precipitation_prob;
+    public final int         frost_prob;
+    public final WeatherType weather;
+    public final WindDir     wind_direction;
+    public final int         wind_speed;
+    public final int         soil_moisture;
+    public final int         soil_temperature;
+    public final int         cloud_cover;
     
-    public WeatherData(double temperature, double wind_speed, String wind_direction, String weather_type) {
-        this.temperature = temperature;
-        this.wind_speed = wind_speed;
+    public WeatherData(LocalDateTime time,
+                    WeatherType weather,
+                    double temperature,
+                    double low_temperature,
+                    double high_temperature,
+                    int precipitation_prob,
+                    int frost_prob,
+                    WindDir wind_direction,
+                    int wind_speed) {
+        this.time = time;
+        this.temperature = (int) Math.round(temperature);
+        this.low_temperature = (int) Math.round(low_temperature);
+        this.high_temperature = (int) Math.round(high_temperature);
+        this.precipitation_prob = precipitation_prob;
+        this.frost_prob = frost_prob;
+        this.weather = weather;
+        this.cloud_cover = -1;
         this.wind_direction = wind_direction;
-        this.weather_type = weather_type;
+        this.wind_speed = wind_speed;
+        this.soil_moisture = -1;
+        this.soil_temperature = -1;
     }
     
     public static WeatherType getWeatherType(String to_parse) {

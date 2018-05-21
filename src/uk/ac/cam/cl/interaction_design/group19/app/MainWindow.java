@@ -59,7 +59,7 @@ public class MainWindow extends JFrame implements Updatable {
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         
-        this.setResizable(true);
+        this.setResizable(false);
     }
     
     public void addTabs() throws IOException {
