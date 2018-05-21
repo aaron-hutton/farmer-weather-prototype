@@ -14,7 +14,7 @@ public class GDDsView extends JPanel implements Updatable {
     public static final String FORECAST_CARD = "Forecast";
     
     public GDDsView() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         JPanel cards = new JPanel();
         
         var layout = new CardLayout();
@@ -30,10 +30,9 @@ public class GDDsView extends JPanel implements Updatable {
         
         
         JLabel g = new JLabel();
-        g.setFont(new Font(g.getFont().toString(), Font.BOLD, 18));
-        g.setAlignmentX(Component.LEFT_ALIGNMENT);
+        g.setFont(new Font(g.getFont().toString(), Font.BOLD, 20));
         g.setText("Growing Degree Days");
-        cards.setAlignmentX(Component.LEFT_ALIGNMENT);
+        g.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         this.add(g);
         this.add(cards);

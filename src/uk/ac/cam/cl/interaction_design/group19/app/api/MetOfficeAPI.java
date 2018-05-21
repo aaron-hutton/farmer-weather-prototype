@@ -25,7 +25,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL             = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST        = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA          = "val/wxobs/all/json/"; // + location_id
-    public static final String DAILY_DATA           = "val/wxfcs/all/json"; // + location_id
+    public static final String DAILY_DATA           = "val/wxfcs/all/json/"; // + location_id
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
@@ -257,7 +257,6 @@ public class MetOfficeAPI {
                 int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
                 toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
             }
-            
         }
         
         return toReturn;
