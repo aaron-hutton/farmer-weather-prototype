@@ -97,6 +97,7 @@ public class MainWindow extends JFrame {
                                            }
                                        }
                                        UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
+                                       UIManager.put("TextField.inactiveBackground", MainWindow.BACKGROUND_COLOR);
                                    } catch (Exception e) {
                                        // Default to Java LookAndFell
                                    }

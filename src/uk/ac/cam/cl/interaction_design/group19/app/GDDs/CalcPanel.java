@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
+import com.sun.tools.javac.Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,9 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 
 public class CalcPanel extends JPanel {
 
@@ -46,10 +49,12 @@ public class CalcPanel extends JPanel {
         JLabel calc = new JLabel("Calculator");
         calc.setFont(new Font(calc.getFont().toString(), Font.BOLD, 20));
         calc.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         JTextPane desc = new JTextPane();
         desc.setText(description);
         desc.setEditable(false);
         desc.setFont(new Font(desc.getFont().toString(), Font.PLAIN, 16));
+        desc.setOpaque(false);
     
         StyledDocument dataDesc = desc.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
@@ -61,6 +66,7 @@ public class CalcPanel extends JPanel {
         JTextPane dataOut = new JTextPane();
         dataOut.setText("Please enter a date in the box above, in the format dd/mm/yy");
         dataOut.setEditable(false);
+        dataOut.setOpaque(false);
     
         StyledDocument dataDoc = dataOut.getStyledDocument();
         dataDoc.setParagraphAttributes(0, dataDoc.getLength(), center, false);
