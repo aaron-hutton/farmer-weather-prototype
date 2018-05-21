@@ -70,7 +70,7 @@ public class SettingsView extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBorder(settingsMargin);
         
-        addLabel("SETTINGS", headingFont);
+        addLabel("Settings", headingFont);
         addTextSettingPanel(new JLabel("Location: "), locationField);
         locationField.setValue(locationProperty.get());
         locationField.addPropertyChangeListener("value",
