@@ -6,9 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -29,9 +26,9 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
  * Also includes utility methods for subclasses
  */
 public abstract class WeatherPanel extends JPanel implements Updatable {
-    private static final float                   DEFAULT_FONT_SIZE = 18;
-    private static final double                  MAIN_PANEL_RATIO  = 0.85;
-    private static final int                     REFERENCE_HEIGHT  = 100;
+    private static final float  DEFAULT_FONT_SIZE = 18;
+    private static final double MAIN_PANEL_RATIO  = 0.85;
+    private static final int    REFERENCE_HEIGHT  = 100;
     
     
     /**
@@ -41,12 +38,12 @@ public abstract class WeatherPanel extends JPanel implements Updatable {
     public WeatherPanel() {
         super(new BorderLayout());
         this.setBackground(MainWindow.BACKGROUND_COLOR);
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                update();
-            }
-        });
+//        this.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                update();
+//            }
+//        });
     }
     
     protected static JPanel createPanel(JComponent... components) {
@@ -78,12 +75,11 @@ public abstract class WeatherPanel extends JPanel implements Updatable {
     }
     
     protected static void addOnClick(JButton btn, Runnable btnAction) {
-        btn.addActionListener(e ->
-                              {
-                                  if (e.getActionCommand().equals(btn.getText())) {
-                                      btnAction.run();
-                                  }
-                              });
+        btn.addActionListener(e -> {
+            if (e.getActionCommand().equals(btn.getText())) {
+                btnAction.run();
+            }
+        });
     }
     
     protected void populate() {
