@@ -38,6 +38,7 @@ public class WeeklyTable extends JPanel {
     
     public static JComponent setupTableAndBundle(JTable table, int height) {
         table.setOpaque(false);
+        table.setBackground(MainWindow.BACKGROUND_COLOR);
         table.setBorder(BorderFactory.createEmptyBorder());
         table.setTableHeader(null);
     
@@ -45,7 +46,7 @@ public class WeeklyTable extends JPanel {
         table.setMaximumSize(new Dimension(MainWindow.SCREEN_WIDTH-60, table.getPreferredSize().height));
     
         JScrollPane scroller = new JScrollPane(table);
-        scroller.setBackground(MainWindow.BACKGROUND_COLOR);
+        scroller.getViewport().setBackground(MainWindow.BACKGROUND_COLOR);
         scroller.getVerticalScrollBar().setUI(new ScrollBarImplementation());
         scroller.setBorder(BorderFactory.createEmptyBorder());
         scroller.setPreferredSize(new Dimension(MainWindow.SCREEN_WIDTH-20, height));
