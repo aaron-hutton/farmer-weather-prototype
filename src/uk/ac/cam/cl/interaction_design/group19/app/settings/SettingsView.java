@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.settings;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.text.ParseException;
 import java.util.Map;
@@ -31,10 +32,10 @@ public class SettingsView extends JPanel {
             "([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}" +
             "[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$");
     
-    private static final Border                    settingsMargin =
-            new EmptyBorder(10, 10, 10, 10);
-    private static final Border                    labelMargin    =
-            new EmptyBorder(5, 5, 5, 5);
+    private static final Border                    settingsMargin = new EmptyBorder(10, 10, 10, 10);
+    private static final Border                    labelMargin    = new EmptyBorder(5, 5, 5, 5);
+    private static final Font                      headingFont    =
+            new JLabel().getFont().deriveFont(Font.BOLD).deriveFont(18f);
     private static final Map<ExtremeEvent, String> eventNames     = Map.of(
             ExtremeEvent.FLOOD, "Flood",
             ExtremeEvent.DROUGHT, "Drought",
@@ -69,7 +70,7 @@ public class SettingsView extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBorder(settingsMargin);
         
-        addLabel("SETTINGS");
+        addLabel("SETTINGS", headingFont);
         addTextSettingPanel(new JLabel("Location: "), locationField);
         locationField.setValue(locationProperty.get());
         locationField.addPropertyChangeListener("value",
@@ -78,9 +79,10 @@ public class SettingsView extends JPanel {
         addNotificationPanel(alertProperties);
     }
     
-    private void addLabel(String text) {
+    private void addLabel(String text, Font font) {
         var outer    = new JPanel(new BorderLayout());
         var settings = new JLabel(text);
+        settings.setFont(font);
         settings.setHorizontalAlignment(SwingConstants.CENTER);
         outer.add(settings, BorderLayout.CENTER);
         this.add(outer);
