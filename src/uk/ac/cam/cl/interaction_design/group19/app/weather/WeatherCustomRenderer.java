@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
@@ -33,7 +34,7 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         }
         
         JLabel label = new JLabel();
-        label.setVerticalTextPosition(JLabel.CENTER);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setBackground(MainWindow.BACKGROUND_COLOR);
         label.setOpaque(true);
         
@@ -43,7 +44,7 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         } else {
             label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
         }
-        
+    
         if (!(value instanceof WeatherData)) {
             System.err.println("The data is not weather data.");
             System.exit(1);
