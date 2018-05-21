@@ -34,14 +34,19 @@ public class CalcPanel extends JPanel {
 
         JLabel calc = new JLabel("Calculator");
         calc.setFont(new Font(calc.getFont().toString(), Font.BOLD, 16));
-        calc.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel desc = new JLabel("<html>"+description+"</html>");
+        calc.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel desc = new JLabel("Calculate total growing degree days");
         desc.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel desc2 = new JLabel("between start date and today");
+        desc2.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel output = new JLabel("Total GDDs:");
         output.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel dataOut = new JLabel("Please enter a date in the box above, in the format dd/mm/yy");
-        dataOut.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel dataOut = new JLabel("Please enter a date in the box above");
+        dataOut.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel dataOut2 = new JLabel("(in the format dd/mm/yy)");
+        dataOut2.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JPanel descriptor = new JPanel();
         descriptor.setLayout(new BoxLayout(descriptor, BoxLayout.PAGE_AXIS));
@@ -56,10 +61,10 @@ public class CalcPanel extends JPanel {
         out.setLayout(new BoxLayout(out, BoxLayout.PAGE_AXIS));
         JPanel buttons = createButtonsPanel();
 
-        descriptor.add(calc); descriptor.add(desc);
+        descriptor.add(calc); descriptor.add(desc); descriptor.add(desc2);
         inputInner.add(jdate); inputInner.add(enter);
         inputOuter.add(start); inputOuter.add(inputInner);
-        out.add(output); out.add(dataOut);
+        out.add(output); out.add(dataOut); out.add(dataOut2);
 
         addOnClick(forecast, showForecast);
         addOnClick(enter, () -> {

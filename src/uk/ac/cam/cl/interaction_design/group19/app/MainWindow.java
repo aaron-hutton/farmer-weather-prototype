@@ -25,8 +25,10 @@ public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
     public static final int SCREEN_HEIGHT = 480;
     
-    public static final int   BOTTOM_TAB_WIDTH = 55;
-    public static final Color BACKGROUND_COLOR = new Color(229, 235, 255);
+    public static final  int   BOTTOM_TAB_WIDTH         = 55;
+    public static final  Color BACKGROUND_COLOR         = new Color(229, 235, 255);
+    public static final  Color LOW_CONTRAST_TEXT_COLOR  = new Color(51, 82, 122);
+    private static final Color HIGH_CONTRAST_TEXT_COLOR = Color.BLACK;
     
     private final Model model;
     
@@ -37,8 +39,8 @@ public class MainWindow extends JFrame implements Updatable {
     
     public MainWindow() throws IOException {
         model = new Model(this::update,
-                          () -> System.out.println("Set high contrast"),
-                          () -> System.out.println("Set low contrast"));
+                          () -> UIManager.put("text", HIGH_CONTRAST_TEXT_COLOR),
+                          () -> UIManager.put("text", LOW_CONTRAST_TEXT_COLOR));
         
         weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
                                       time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
@@ -110,10 +112,13 @@ public class MainWindow extends JFrame implements Updatable {
                                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                                            if ("Nimbus".equals(info.getName())) {
                                                UIManager.setLookAndFeel(info.getClassName());
+                        
                                                break;
                                            }
                                        }
                                        UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
+                                       UIManager.put("text", LOW_CONTRAST_TEXT_COLOR);
+//                                       UIManager.put ("JLabel.foreground", Color.white);
                                    } catch (Exception e) {
                                        // Default to Java LookAndFell
                                    }
