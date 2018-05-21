@@ -16,8 +16,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class MetOfficeAPI {
     

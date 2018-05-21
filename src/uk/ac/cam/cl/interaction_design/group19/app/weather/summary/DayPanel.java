@@ -10,6 +10,13 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.HourlyPanel;
 
+/**
+ * Panel showing weather for one day, consists of three subpanels,
+ * only one of which is shown at a time, these are:
+ *   - summary view
+ *   - more info view
+ *   - hourly view
+ */
 public class DayPanel extends JPanel implements Updatable {
     public static final String SUMMARY_CARD   = "Summary";
     public static final String FULL_INFO_CARD = "FullInfo";

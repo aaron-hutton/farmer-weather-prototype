@@ -2,8 +2,8 @@ package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class WeatherData {
     private static final Map<Integer,WeatherType> weatherCodes = Map.ofEntries(

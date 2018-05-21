@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -38,12 +36,6 @@ public abstract class WeatherPanel extends JPanel implements Updatable {
     public WeatherPanel() {
         super(new BorderLayout());
         this.setBackground(MainWindow.BACKGROUND_COLOR);
-//        this.addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                update();
-//            }
-//        });
     }
     
     protected static JPanel createPanel(JComponent... components) {
@@ -62,7 +54,6 @@ public abstract class WeatherPanel extends JPanel implements Updatable {
         var label = new JLabel(text);
         label.setFont(label.getFont().deriveFont(fontSize));
         label.setHorizontalAlignment(SwingConstants.CENTER);
-//        label.setBorder(BorderFactory.createLineBorder(Color.RED));
         return label;
     }
     
@@ -82,6 +73,10 @@ public abstract class WeatherPanel extends JPanel implements Updatable {
         });
     }
     
+    /**
+     * Create both main panel and button panel
+     * using functions implemented by subclasses
+     */
     protected void populate() {
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         sp.setResizeWeight(MAIN_PANEL_RATIO);

@@ -1,7 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.GridLayout;
-import java.time.LocalDateTime;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -9,11 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
+/**
+ * Panel showing the more info page which includes less important information
+ * such as soil and wind data
+ */
 public class FullInfoPanel extends WeatherPanel {
     private static final int WIND_DIR_ICON_WIDTH = 70;
     
@@ -32,14 +34,6 @@ public class FullInfoPanel extends WeatherPanel {
     
     private final Supplier<DayData> dataSupplier;
     
-    /**
-     * Soil moisture text | soil moisture value
-     * Soil temperature text | soil temperature value
-     * Wind text | wind direction icon | wind direction label | wind speed value
-     * Wind text | wind direction icon | wind direction label | wind speed value
-     * Cloud cover text | Cloud cover value
-     * | | summary >>
-     */
     public FullInfoPanel(Supplier<DayData> dataSupplier, Runnable showSummary) {
         this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);

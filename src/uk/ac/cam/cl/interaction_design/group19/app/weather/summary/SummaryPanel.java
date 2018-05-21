@@ -1,7 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.GridLayout;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
@@ -13,10 +12,12 @@ import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
-import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
 
+/**
+ * Panel showing most important information for a given day
+ * includes weather type, rain, frost and temperature
+ */
 public class SummaryPanel extends WeatherPanel {
     private static final int    ICON_HEIGHT = 120;
     
@@ -42,16 +43,7 @@ public class SummaryPanel extends WeatherPanel {
     private       int         tempHigh;
     
     private final Supplier<DayData> dataSupplier;
-    /**
-     * Date
-     * weather type icon
-     * precipitation icon | precipitation probability
-     * frost icon | frost chance
-     * temperature now
-     * text label for low | temperature low
-     * text lavel for high | temperature high
-     * << more info button |   | hourly button >>>
-     */
+    
     public SummaryPanel(Supplier<DayData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
         this.dataSupplier = dataSupplier;
         addOnClick(moreInfo, showMoreInfo);
@@ -113,7 +105,6 @@ public class SummaryPanel extends WeatherPanel {
     }
     
     private void updateData() {
-        // TODO: fix location id
         DayData data = dataSupplier.get();
         if (data == null) {
             return;

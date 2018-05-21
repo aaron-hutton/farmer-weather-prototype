@@ -1,10 +1,8 @@
 package uk.ac.cam.cl.interaction_design.group19.app.api;
 
-import java.io.PrintStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class DayData {
     // TODO: inherit from WeatherData

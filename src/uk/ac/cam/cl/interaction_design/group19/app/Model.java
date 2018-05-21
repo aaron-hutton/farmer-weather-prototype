@@ -6,8 +6,7 @@ import java.util.stream.Collectors;
 import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
-import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
-import uk.ac.cam.cl.interaction_design.group19.app.util.Action;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 
 public class Model {
     private static final String INITIAL_POSTCODE = "IV36 3UN";
@@ -16,11 +15,11 @@ public class Model {
     //TODO: ugly hack, fix, need function :: location -> postcode
     private       String                     postcode;
     private       boolean                    highContrastMode;
-    private final Action                     updateLocation;
-    private final Action                     setHighContrast;
-    private final Action                     setLowContrast;
+    private final Runnable                     updateLocation;
+    private final Runnable                     setHighContrast;
+    private final Runnable                     setLowContrast;
     
-    public Model(Action updateLocation, Action setHighContrast, Action setLowContrast) {
+    public Model(Runnable updateLocation, Runnable setHighContrast, Runnable setLowContrast) {
         this.updateLocation = updateLocation;
         this.setHighContrast = setHighContrast;
         this.setLowContrast = setLowContrast;
@@ -54,7 +53,7 @@ public class Model {
             if(closest!=null){
                 this.location = closest;
                 this.postcode = postcode;
-                this.updateLocation.call();
+                this.updateLocation.run();
                 System.out.println(this.location);
                 System.out.println(this.postcode);
             }
@@ -68,9 +67,9 @@ public class Model {
     public void setHighContrastMode(boolean highContrast) {
         this.highContrastMode = highContrast;
         if(highContrast) {
-            this.setHighContrast.call();
+            this.setHighContrast.run();
         } else {
-            this.setLowContrast.call();
+            this.setLowContrast.run();
         }
     }
     

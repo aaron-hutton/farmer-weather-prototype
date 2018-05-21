@@ -15,7 +15,7 @@ import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
-import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
