@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.api;
 
 public enum WeatherType {
     FROST,
@@ -34,5 +34,13 @@ public enum WeatherType {
     HEAVY_SNOW,
     THUNDER_SHOWER_NIGHT,
     THUNDER_SHOWER_DAY,
-    THUNDER
+    THUNDER,
+    ARROW_UP,
+    ARROW_DOWN,
+    ARROW_RIGHT,
+    ARROW_LEFT,
+    ARROW_UP_RIGHT,
+    ARROW_UP_LEFT,
+    ARROW_DOWN_RIGHT,
+    ARROW_DOWN_LEFT
 }
