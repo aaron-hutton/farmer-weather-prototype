@@ -13,23 +13,40 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
     public static final int SCREEN_HEIGHT = 480;
     
-    public static final int BOTTOM_TAB_WIDTH = 55;
+    public static final int   BOTTOM_TAB_WIDTH = 55;
     public static final Color BACKGROUND_COLOR = new Color(229, 235, 255);
     
     private final Model model;
     
+    private final WeatherView  weatherView;
+    private final GDDsView     gddsView;
+    private final MapsView     mapsView;
+    private final SettingsView settingsView;
+    
     public MainWindow() throws IOException {
-        model = new Model();
+        model = new Model(this::update,
+                          () -> System.out.println("Set high contrast"),
+                          () -> System.out.println("Set low contrast"));
+        
+        weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
+                                      time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
+                                      time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()));
+        gddsView = new GDDsView();
+        mapsView = new MapsView();
+        settingsView = createSettingsView();
+        
         initWindow();
         addTabs();
         this.setVisible(true);
@@ -39,14 +56,14 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
+        
         this.setResizable(true);
     }
     
     public void addTabs() throws IOException {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setBackground(BACKGROUND_COLOR);
-
+        
         
         JLabel weatherLabel = new JLabel("Weather");
         weatherLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, weatherLabel.getPreferredSize().height));
@@ -60,10 +77,10 @@ public class MainWindow extends JFrame {
         JLabel settingsLabel = new JLabel("Settings");
         settingsLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, settingsLabel.getPreferredSize().height));
         
-        tabs.addTab("Weather", new WeatherView());
-        tabs.addTab("Maps", new MapsView());
-        tabs.addTab("GDDs", new GDDsView());
-        tabs.addTab("Settings", createSettingsView());
+        tabs.addTab("Weather", weatherView);
+        tabs.addTab("Maps", mapsView);
+        tabs.addTab("GDDs", gddsView);
+        tabs.addTab("Settings", settingsView);
         tabs.setTabComponentAt(0, weatherLabel);
         tabs.setTabComponentAt(1, mapsLabel);
         tabs.setTabComponentAt(2, GDDsLabel);
@@ -83,7 +100,7 @@ public class MainWindow extends JFrame {
                                            v -> model.setAlert(e, v))));
         return new SettingsView(
                 PropertyFactory.createProperty(model::getPostcode, model::setPostcode),
-                PropertyFactory.createProperty(model::getHighContrast, model::setHighContrast),
+                PropertyFactory.createProperty(model::getHighContrastMode, model::setHighContrastMode),
                 alerts);
     }
     
@@ -107,5 +124,13 @@ public class MainWindow extends JFrame {
                                    }
                                }
         );
+    }
+    
+    @Override
+    public void update() {
+        weatherView.update();
+        mapsView.update();
+        gddsView.update();
+        settingsView.update();
     }
 }

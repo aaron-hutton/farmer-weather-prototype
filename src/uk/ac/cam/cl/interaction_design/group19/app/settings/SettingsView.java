@@ -3,7 +3,6 @@ package uk.ac.cam.cl.interaction_design.group19.app.settings;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
-import java.text.ParseException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,8 +10,6 @@ import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -23,8 +20,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Action;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Property;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
-public class SettingsView extends JPanel {
+public class SettingsView extends JPanel implements Updatable {
     private static final Pattern postcodeRegex = Pattern.compile(
             "^(([gG][iI][rR] {0,}0[aA]{2})|" +
             "((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|" +
@@ -45,22 +43,7 @@ public class SettingsView extends JPanel {
     );
     
     private final Map<ExtremeEvent, JCheckBox> alertCheckboxes;
-    private final JFormattedTextField          locationField = new JFormattedTextField(new AbstractFormatter() {
-        @Override
-        public Object stringToValue(String text) throws ParseException {
-            Matcher m = postcodeRegex.matcher(text);
-            if (m.matches()) {
-                return text;
-            } else {
-                throw new ParseException("'" + text + "' is not a valid postcode", 0);
-            }
-        }
-        
-        @Override
-        public String valueToString(Object value) {
-            return (String) value;
-        }
-    });
+    private final JTextField                   locationField = new JTextField();
     
     public SettingsView(Property<String> locationProperty,
                         Property<Boolean> highContrastProperty,
@@ -72,9 +55,16 @@ public class SettingsView extends JPanel {
         
         addLabel("Settings", headingFont);
         addTextSettingPanel(new JLabel("Location: "), locationField);
-        locationField.setValue(locationProperty.get());
-        locationField.addPropertyChangeListener("value",
-                                                e -> locationProperty.set((String) e.getNewValue()));
+        locationField.setText(locationProperty.get());
+        locationField.addActionListener(e -> {
+                var     text = locationField.getText();
+                Matcher m    = postcodeRegex.matcher(text);
+                if (m.matches()) {
+                    locationProperty.set(text);
+                } else {
+                    throw new RuntimeException("'" + text + "' is not a valid postcode");
+                }
+        });
         addHighContrastPanel(highContrastProperty);
         addNotificationPanel(alertProperties);
     }
@@ -122,8 +112,8 @@ public class SettingsView extends JPanel {
         var notificationPanel = createCheckboxSettingPanel(new JLabel("Notifications: "), allAlertsCheckBox);
         this.add(notificationPanel);
         
-        alertCheckboxes.keySet().stream()
-                       .forEachOrdered(event -> {
+        alertCheckboxes.keySet()
+                       .forEach(event -> {
                            var alert    = alerts.get(event);
                            var checkBox = alertCheckboxes.get(event);
                            addCheckboxObserver(checkBox, () -> alert.set(true), () -> alert.set(false));
@@ -147,5 +137,9 @@ public class SettingsView extends JPanel {
         sp.add(descriptor, BorderLayout.WEST);
         sp.add(checkBox, BorderLayout.EAST);
         return sp;
+    }
+    
+    @Override
+    public void update() {
     }
 }

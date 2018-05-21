@@ -6,8 +6,9 @@ import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
-public class GDDsView extends JPanel {
+public class GDDsView extends JPanel implements Updatable {
     
     public static final String CALC_CARD     = "Calculator";
     public static final String FORECAST_CARD = "Forecast";
@@ -37,5 +38,10 @@ public class GDDsView extends JPanel {
 
         this.add(g);
         this.add(cards);
+    }
+    
+    @Override
+    public void update() {
+        System.err.println("update of the gdds view not implemented");
     }
 }
