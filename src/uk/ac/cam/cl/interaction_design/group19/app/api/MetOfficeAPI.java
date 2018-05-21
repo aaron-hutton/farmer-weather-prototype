@@ -222,20 +222,23 @@ public class MetOfficeAPI {
     }
     
     public ArrayList<Double> gddForecast(int location, double base) {
+        var toReturn = new ArrayList();
+        
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
         
         JsonObject weekly = jsonFromUrl(u);
         
+        if(weekly != null){
         JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                       .getAsJsonObject("Location").getAsJsonArray("Period");
-        
-        ArrayList toReturn = new ArrayList();
         
         for (JsonElement j : weekJsonArr) {
             JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
             int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
             int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
             toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
+        }
+    
         }
         
         return toReturn;

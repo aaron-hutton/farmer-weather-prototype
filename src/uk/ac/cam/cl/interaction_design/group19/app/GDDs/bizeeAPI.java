@@ -26,24 +26,6 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 
 public class bizeeAPI {
     
-    public static ArrayList<Double> gddForecast(int location, double base) {
-        MetOfficeAPI api = new MetOfficeAPI();
-        return api.gddForecast(location, base);
-    }
-    
-    public static void main(String[] args) {
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
-        Date             d   = null;
-        try {
-            d = sdf.parse("19-05-2015");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println(gddSince(1, 10, d));
-    }
-    
     public static double gddSince(int postCode, double baseTemp, Date s) throws IllegalArgumentException {
         
         DegreeDaysApi api = new DegreeDaysApi(
@@ -75,5 +57,23 @@ public class bizeeAPI {
         }
         
         return tot;
+    }
+    
+    public static ArrayList<Double> gddForecast(int location, double base) {
+        MetOfficeAPI api = new MetOfficeAPI();
+        return api.gddForecast(location, base);
+    }
+    
+    public static void main(String[] args) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+        Date             d   = null;
+        try {
+            d = sdf.parse("19-05-2015");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println(gddSince(1, 10, d));
     }
 }

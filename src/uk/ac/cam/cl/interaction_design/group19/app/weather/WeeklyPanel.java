@@ -2,7 +2,6 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.util.List;
 import javax.swing.JPanel;
-import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
