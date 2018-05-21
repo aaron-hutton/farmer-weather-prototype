@@ -2,6 +2,7 @@ package uk.ac.cam.cl.interaction_design.group19.app;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class MainWindow extends JFrame {
     public static final int SCREEN_HEIGHT = 480;
     
     public static final int BOTTOM_TAB_WIDTH = 55;
+    public static final Color BACKGROUND_COLOR = new Color(229, 235, 255);
     
     private final Model model;
     
@@ -37,10 +39,14 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        this.setResizable(true);
     }
     
     public void addTabs() throws IOException {
         JTabbedPane tabs = new JTabbedPane();
+        tabs.setBackground(BACKGROUND_COLOR);
+
         
         JLabel weatherLabel = new JLabel("Weather");
         weatherLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, weatherLabel.getPreferredSize().height));
@@ -90,6 +96,7 @@ public class MainWindow extends JFrame {
                                                break;
                                            }
                                        }
+                                       UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
                                    } catch (Exception e) {
                                        // Default to Java LookAndFell
                                    }
