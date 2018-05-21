@@ -26,7 +26,7 @@ public class HourlyPanel extends WeatherPanel {
     protected JPanel createMainPanel() {
         JPanel                 mainPanel = new JPanel();
         // TODO: Fix location
-        List<List<HourlyData>> data      = (new MetOfficeAPI()).fiveDayForecast(3066);
+        List<List<HourlyData>> data      = MetOfficeAPI.fiveDayForecast(3066);
         
         if(data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");

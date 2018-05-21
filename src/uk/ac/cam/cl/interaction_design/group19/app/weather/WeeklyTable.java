@@ -41,9 +41,7 @@ public class WeeklyTable extends JPanel {
         table.setTableHeader(null);
     
         table.setRowHeight(Math.min((MainWindow.SCREEN_HEIGHT-80)/rows, MINIMUM_ROW_HEIGHT));
-    
         table.setMaximumSize(new Dimension(MainWindow.SCREEN_WIDTH-60, table.getPreferredSize().height));
-    
     
         JScrollPane scroller = new JScrollPane(table);
         scroller.setBackground(MainWindow.BACKGROUND_COLOR);
