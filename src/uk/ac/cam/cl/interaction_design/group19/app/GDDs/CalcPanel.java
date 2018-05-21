@@ -42,9 +42,9 @@ public class CalcPanel extends JPanel {
         JLabel output = new JLabel("Total GDDs:");
         output.setAlignmentX(Component.LEFT_ALIGNMENT);
         JLabel dataOut = new JLabel("Please enter a date in the box above");
-        dataOut.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dataOut.setAlignmentX(Component.LEFT_ALIGNMENT);
         JLabel dataOut2 = new JLabel("(in the format dd/mm/yy)");
-        dataOut2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dataOut2.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JPanel descriptor = new JPanel();
         descriptor.setLayout(new BoxLayout(descriptor, BoxLayout.PAGE_AXIS));
