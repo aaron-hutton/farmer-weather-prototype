@@ -36,7 +36,7 @@ public class WeatherView extends JPanel implements Updatable {
     
     public WeatherView(Function<LocalDateTime, WeatherData> getDayData,
                        Function<LocalDateTime, List<List<WeatherData>>> getHourlyData,
-                       Function<LocalDateTime, List<List<WeatherData>>> getWeeklyData) {
+                       Function<LocalDateTime, List<WeatherData>> getWeeklyData) {
         super(new GridLayout(1, 1));
         
         todayPanel = new TodayPanel(getDayData, getHourlyData);

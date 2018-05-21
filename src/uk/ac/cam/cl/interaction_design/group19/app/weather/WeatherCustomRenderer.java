@@ -24,6 +24,12 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         }
     }
     
+    public void updateSize(int size) {
+        for (int i = 0; i < cache.length; i++) {
+            cache[i] = new JComponent[size];
+        }
+    }
+    
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,

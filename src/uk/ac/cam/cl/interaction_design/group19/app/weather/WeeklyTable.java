@@ -22,7 +22,7 @@ public class WeeklyTable extends JPanel {
         
         JTable table = new JTable(new WeatherTableModel(data));
         
-        table.getColumnModel().getColumn(0).setMaxWidth(50);
+        table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(1).setMaxWidth(40);
         table.getColumnModel().getColumn(2).setMaxWidth(50);
         table.getColumnModel().getColumn(3).setMaxWidth(30);

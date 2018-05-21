@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
@@ -44,7 +45,9 @@ public class MainWindow extends JFrame implements Updatable {
         
         weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
                                       time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
-                                      time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()));
+                                      time -> IntStream.range(0, 5).mapToObj(
+                                              i -> MetOfficeAPI.daySummary(model.getLocationID(), i))
+                                                       .collect(Collectors.toList()));
         gddsView = new GDDsView();
         mapsView = new MapsView();
         settingsView = createSettingsView();

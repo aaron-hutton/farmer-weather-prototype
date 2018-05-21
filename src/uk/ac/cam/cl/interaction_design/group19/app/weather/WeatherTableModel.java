@@ -36,4 +36,8 @@ public class WeatherTableModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         return false;
     }
+    
+    public void updateData(List<WeatherData> data) {
+        this.data = data;
+    }
 }

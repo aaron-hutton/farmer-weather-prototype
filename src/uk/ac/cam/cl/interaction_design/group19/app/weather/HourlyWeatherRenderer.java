@@ -1,6 +1,7 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.Component;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -8,6 +9,8 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
 
+    private final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+    
     public HourlyWeatherRenderer(int size)
     {
         super(size);
@@ -18,13 +21,13 @@ public class HourlyWeatherRenderer extends WeatherCustomRenderer implements Tabl
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
         if(!(value instanceof WeatherData)) {
-            System.err.println("An error occurred.");
+            System.err.println("Hourly: The input is not of type WeatherData.");
             System.exit(0);
         }
         WeatherData data = (WeatherData) value;
         if (column == 0) {
             JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            label.setText(data.time.toString());
+            label.setText(data.time.format(TIME_FORMAT));
             return label;
         } else {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
