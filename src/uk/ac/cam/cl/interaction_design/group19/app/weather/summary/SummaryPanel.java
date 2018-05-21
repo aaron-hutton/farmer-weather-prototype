@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app.weather;
+package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
@@ -10,14 +10,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.Icons;
+import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
 
 public class SummaryPanel extends WeatherPanel {
-    private static final int    DEFAULT_ICON_WIDTH = 200;
-    private static final double ICON_WIDTH_RATIO   = 0.6;
+    private static final int    DEFAULT_ICON_WIDTH = 150;
+    private static final double ICON_WIDTH_RATIO   = 0.5;
     
     private static final int STATIC_ICON_WIDTH = 50;
     
@@ -69,12 +70,12 @@ public class SummaryPanel extends WeatherPanel {
         summaryPanel.add(weatherIcon);
         
         var precipitationPanel = createPanel(
-                new JLabel(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.RAINDROP, STATIC_ICON_WIDTH))),
+                new JLabel(new ImageIcon(Icons.getSizedWidthIcon(IconType.RAINDROP, STATIC_ICON_WIDTH))),
                 precipitationLabel);
         summaryPanel.add(precipitationPanel);
         
         var frostPanel = createPanel(
-                new JLabel(new ImageIcon(Icons.getSizedWidthIcon(WeatherType.FROST, STATIC_ICON_WIDTH))),
+                new JLabel(new ImageIcon(Icons.getSizedWidthIcon(IconType.SNOWFLAKE, STATIC_ICON_WIDTH))),
                 frostLabel);
         summaryPanel.add(frostPanel);
         

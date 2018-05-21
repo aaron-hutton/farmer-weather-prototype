@@ -28,6 +28,7 @@ public class MapsView extends JPanel {
         // take a look at the jsonObj with System.out.println(jsonObj.toString(5));
         String         jsonURL    = MetOfficeAPI.BASE_URL + MetOfficeAPI.IMAGE_PATH + "?key=" + MetOfficeAPI.KEY;
         URL            website    = new URL(jsonURL);
+        //TODO: fix exception when website not available
         BufferedReader br         = new BufferedReader(new InputStreamReader(website.openStream()));
         String         jsonString = br.readLine();
         JSONObject     jsonObj    = new JSONObject(jsonString);

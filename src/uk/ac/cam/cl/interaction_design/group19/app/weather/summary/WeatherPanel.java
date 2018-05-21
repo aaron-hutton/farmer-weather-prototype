@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app.weather;
+package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
