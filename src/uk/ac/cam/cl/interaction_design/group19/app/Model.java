@@ -8,6 +8,10 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
 import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 
+/**
+ * Model stores all user-specific data
+ * that includes location, whether high contrast mode is enabled, and alerts
+ */
 public class Model {
     private static final String INITIAL_POSTCODE = "IV36 3UN";
     private final Map<ExtremeEvent, Boolean> alerts;
