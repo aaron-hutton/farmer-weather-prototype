@@ -14,14 +14,10 @@ public class WeeklyPanel extends JPanel implements Updatable {
         this.dataSupplier = dataSupplier;
         
         List<List<HourlyData>> data = dataSupplier.get();
-        if (data == null || data.size() == 0)
-        
-        {
+        if (data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");
             this.add(failLabel);
-        } else
-        
-        {
+        } else {
             WeeklyTable table = new WeeklyTable(data.get(0));
             this.add(table);
         }
