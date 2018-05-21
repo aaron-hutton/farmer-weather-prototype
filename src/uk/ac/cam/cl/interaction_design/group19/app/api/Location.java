@@ -52,4 +52,9 @@ public class Location {
          */
         return Math.pow(this.latitude - other.latitude, 2) + Math.pow(this.longitude - other.longitude, 2);
     }
+    
+    @Override
+    public String toString(){
+        return "("+this.latitude+", "+this.longitude+")";
+    }
 }

@@ -15,8 +15,9 @@ import javax.swing.JPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
-public class MapsView extends JPanel {
+public class MapsView extends JPanel implements Updatable {
     
     private static final int DESIRED_WIDTH  = 310;
     private static final int DESIRED_HEIGHT = 420;
@@ -99,5 +100,10 @@ public class MapsView extends JPanel {
         this.add(imageLabel);
         this.setLocation(200, 200);
         this.setVisible(true);
+    }
+    
+    @Override
+    public void update() {
+        System.err.println("update of the maps view not implemented");
     }
 }
