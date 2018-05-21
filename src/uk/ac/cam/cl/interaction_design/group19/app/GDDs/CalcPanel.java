@@ -16,7 +16,12 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class CalcPanel extends JPanel {
 
@@ -41,31 +46,47 @@ public class CalcPanel extends JPanel {
         JLabel calc = new JLabel("Calculator");
         calc.setFont(new Font(calc.getFont().toString(), Font.BOLD, 20));
         calc.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel desc = new JLabel("<html>"+description+"</html>");
-        desc.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JTextPane desc = new JTextPane();
+        desc.setText(description);
+        desc.setEditable(false);
+        desc.setFont(new Font(desc.getFont().toString(), Font.PLAIN, 16));
+    
+        StyledDocument dataDesc = desc.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        dataDesc.setParagraphAttributes(0, dataDesc.getLength(), center, false);
 
         JLabel output = new JLabel("Total GDDs:");
         output.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel dataOut = new JLabel("Please enter a date in the box above, in the format dd/mm/yy");
+        JTextPane dataOut = new JTextPane();
+        dataOut.setText("Please enter a date in the box above, in the format dd/mm/yy");
+        dataOut.setEditable(false);
+    
+        StyledDocument dataDoc = dataOut.getStyledDocument();
+        dataDoc.setParagraphAttributes(0, dataDoc.getLength(), center, false);
         
         JPanel title = new JPanel();
         JPanel descriptor = new JPanel();
         descriptor.setLayout(new BoxLayout(descriptor, BoxLayout.PAGE_AXIS));
-        descriptor.setAlignmentX(Component.LEFT_ALIGNMENT);
+        descriptor.setMaximumSize(new Dimension(1000, 120));
         JPanel inputInner = new JPanel();
         inputInner.setLayout(new GridLayout(1, 2));
-        inputInner.setAlignmentX(Component.LEFT_ALIGNMENT);
         JPanel inputOuter = new JPanel();
-        inputOuter.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel gddLabel = new JPanel();
         JPanel out = new JPanel();
-        out.setAlignmentX(Component.LEFT_ALIGNMENT);
         out.setLayout(new BoxLayout(out, BoxLayout.PAGE_AXIS));
         JPanel buttons = createButtonsPanel();
 
-        title.add(calc); descriptor.add(desc);
-        inputInner.add(jdate); inputInner.add(enter);
-        inputOuter.add(start); inputOuter.add(inputInner);
-        out.add(output); out.add(dataOut);
+        title.add(calc);
+        descriptor.add(desc);
+        inputInner.add(jdate);
+        inputInner.add(enter);
+        inputOuter.add(start);
+        inputOuter.add(inputInner);
+        gddLabel.add(output);
+        out.add(dataOut);
+        
+        bizeeAPI api = new bizeeAPI();
 
         addOnClick(forecast, showForecast);
         addOnClick(enter, () -> {
@@ -75,8 +96,8 @@ public class CalcPanel extends JPanel {
             if(date != null) {
                 dataOut.setText("Please wait, contacting server");
                 try {
-                    dataOut.setText(Integer.toString((int) bizeeAPI.gddSince(loc, 10, date)));
-                    dataOut.setFont(new Font(dataOut.getFont().toString(), Font.BOLD, 18));
+                    dataOut.setText(Integer.toString((int) api.gddSince(loc, 10, date)));
+                    dataOut.setFont(new Font(dataOut.getFont().toString(), Font.BOLD, 70));
                 } catch (IllegalArgumentException e){
                     dataOut.setText("The date you have entered is invalid, please use the format dd/mm/yy");
                     dataOut.setForeground(Color.red);
@@ -87,8 +108,13 @@ public class CalcPanel extends JPanel {
             }
         });
 
-        main.add(title); main.add(descriptor); main.add(inputOuter); main.add(out);
-        this.add(main); this.add(buttons, BorderLayout.SOUTH);
+        main.add(title);
+        main.add(descriptor);
+        main.add(inputOuter);
+        main.add(gddLabel);
+        main.add(out);
+        this.add(main);
+        this.add(buttons, BorderLayout.SOUTH);
         buttons.setMaximumSize(new Dimension(700, 100));
     }
 

@@ -1,5 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
+import com.sun.tools.javac.Main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,11 +15,17 @@ import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 
 public class ForecastPanel extends JPanel {
@@ -37,9 +44,11 @@ public class ForecastPanel extends JPanel {
         JPanel t = new JPanel();
         t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
         t.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        bizeeAPI api = new bizeeAPI();
 
         if(data == null) {
-            getForecast();
+            getForecast(api);
         }
 
         JLabel forecast = new JLabel("Forecast");
@@ -54,11 +63,19 @@ public class ForecastPanel extends JPanel {
         t.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         if(data == null) {
-            JTextArea server = new JTextArea("We are currently having server problems, please try again later");
-            server.setWrapStyleWord(true);
-            server.setLineWrap(true);
+            
+            JTextPane server = new JTextPane();
+            server.setText("We are currently having server problems, please try again later");
             server.setForeground(Color.red);
             server.setFont(new Font(server.getFont().toString(), Font.PLAIN, 18));
+            server.setEditable(false);
+            server.setOpaque(true);
+            server.setBackground(MainWindow.BACKGROUND_COLOR);
+    
+            StyledDocument doc = server.getStyledDocument();
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+            doc.setParagraphAttributes(0, doc.getLength(), center, false);
             
             t.add(server);
         } else {
@@ -75,6 +92,11 @@ public class ForecastPanel extends JPanel {
             table.setRowHeight(Math.min((MainWindow.SCREEN_HEIGHT - 80) / 5, MINIMUM_ROW_HEIGHT));
             table.setMaximumSize(new Dimension(MainWindow.SCREEN_WIDTH-60, table.getPreferredSize().height));
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setBackground(MainWindow.BACKGROUND_COLOR);
+    
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+            table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
     
             t.add(table);
         }
@@ -84,11 +106,11 @@ public class ForecastPanel extends JPanel {
         buttons.setMaximumSize(new Dimension(700, 100));
     }
 
-    private void getForecast() {
+    private void getForecast(bizeeAPI api) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-        data = bizeeAPI.gddForecast(3840, 10);
+        data = api.gddForecast(3840, 10);
 
         dataTable = new String[data.size()][2];
         int i =0;
