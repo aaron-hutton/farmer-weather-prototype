@@ -51,10 +51,10 @@ public class FullInfoPanel extends WeatherPanel {
         var summaryPanel = new JPanel();
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.PAGE_AXIS));
         
-        var soilMoistPanel = createPanel(createLabel("Soil moisture"), createLabel(soilMoist + " %"));
+        var soilMoistPanel = createPanel(createLabel("Soil moisture"), soilMoistLabel);
         summaryPanel.add(soilMoistPanel);
         
-        var soilTempPanel = createPanel(createLabel("Soil temperature"), createLabel(soilTemp + " °C"));
+        var soilTempPanel = createPanel(createLabel("Soil temperature"), soilTempLabel);
         summaryPanel.add(soilTempPanel);
         
         var windPanel = createPanel(
@@ -64,7 +64,7 @@ public class FullInfoPanel extends WeatherPanel {
                 windSpeedLabel);
         summaryPanel.add(windPanel);
         
-        var cloudCoverPanel = createPanel(createLabel("Cloud cover"), createLabel(cloudCover + " %"));
+        var cloudCoverPanel = createPanel(createLabel("Cloud cover"), cloudCoverLabel);
         summaryPanel.add(cloudCoverPanel);
         
         return summaryPanel;
@@ -102,6 +102,7 @@ public class FullInfoPanel extends WeatherPanel {
     }
     
     private void updateLabels() {
+        System.out.println("Setting soil temp label to = "+soilTemp);
         soilMoistLabel.setText(soilMoist + " %");
         soilTempLabel.setText(soilTemp + " °C");
         windDirIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(windDir, WIND_DIR_ICON_WIDTH)));
