@@ -10,9 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
-import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
@@ -41,7 +41,7 @@ public class SummaryPanel extends WeatherPanel {
     private       int         tempLow;
     private       int         tempHigh;
     
-    private final Supplier<DayData> dataSupplier;
+    private final Supplier<WeatherData> dataSupplier;
     /**
      * Date
      * weather type icon
@@ -52,7 +52,7 @@ public class SummaryPanel extends WeatherPanel {
      * text lavel for high | temperature high
      * << more info button |   | hourly button >>>
      */
-    public SummaryPanel(Supplier<DayData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
+    public SummaryPanel(Supplier<WeatherData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
         this.dataSupplier = dataSupplier;
         addOnClick(moreInfo, showMoreInfo);
         addOnClick(hourly, showHourly);
@@ -114,7 +114,7 @@ public class SummaryPanel extends WeatherPanel {
     
     private void updateData() {
         // TODO: fix location id
-        DayData data = dataSupplier.get();
+        WeatherData data = dataSupplier.get();
         if (data == null) {
             return;
         }
@@ -128,7 +128,7 @@ public class SummaryPanel extends WeatherPanel {
     
     private void updateLabels() {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
-        dateLabel.setText(dataSupplier.get().date.format(formatter));
+        dateLabel.setText(dataSupplier.get().time.format(formatter));
         weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedHeightIcon(weather, ICON_HEIGHT)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");

@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.JPanel;
-import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.HourlyPanel;
 
@@ -19,7 +18,7 @@ public class DayPanel extends JPanel implements Updatable {
     private final FullInfoPanel fullInfoPanel;
     private final HourlyPanel   hourlyPanel;
     
-    public DayPanel(Supplier<DayData> dayDataSupplier, Supplier<List<List<HourlyData>>> hourlyDataSupplier) {
+    public DayPanel(Supplier<WeatherData> dayDataSupplier, Supplier<List<List<WeatherData>>> hourlyDataSupplier) {
         var layout = new CardLayout();
         this.setLayout(layout);
         

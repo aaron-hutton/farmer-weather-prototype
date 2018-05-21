@@ -7,14 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.WeatherPanel;
 
 public class HourlyPanel extends WeatherPanel {
-    private final JButton                          summary = new JButton("< summary");
-    private final Supplier<List<List<HourlyData>>> dataSupplier;
+    private final JButton                           summary = new JButton("< summary");
+    private final Supplier<List<List<WeatherData>>> dataSupplier;
     
-    public HourlyPanel(Supplier<List<List<HourlyData>>> dataSupplier, Runnable showSummary) {
+    public HourlyPanel(Supplier<List<List<WeatherData>>> dataSupplier, Runnable showSummary) {
         this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);
         populate();
@@ -23,7 +23,7 @@ public class HourlyPanel extends WeatherPanel {
     @Override
     protected JPanel createMainPanel() {
         JPanel mainPanel = new JPanel();
-        List<List<HourlyData>> data = dataSupplier.get();
+        List<List<WeatherData>> data = dataSupplier.get();
         
         if (data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");
@@ -50,6 +50,6 @@ public class HourlyPanel extends WeatherPanel {
     
     @Override
     public void update() {
-        System.err.println("update of the hourly panel not implemented");
+        System.err.println("blah");
     }
 }

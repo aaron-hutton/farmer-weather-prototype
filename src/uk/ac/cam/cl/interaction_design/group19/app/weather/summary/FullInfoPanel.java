@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
-import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
 
@@ -30,7 +30,7 @@ public class FullInfoPanel extends WeatherPanel {
     private       int     windSpeed;
     private       int     cloudCover;
     
-    private final Supplier<DayData> dataSupplier;
+    private final Supplier<WeatherData> dataSupplier;
     
     /**
      * Soil moisture text | soil moisture value
@@ -40,7 +40,7 @@ public class FullInfoPanel extends WeatherPanel {
      * Cloud cover text | Cloud cover value
      * | | summary >>
      */
-    public FullInfoPanel(Supplier<DayData> dataSupplier, Runnable showSummary) {
+    public FullInfoPanel(Supplier<WeatherData> dataSupplier, Runnable showSummary) {
         this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);
         populate();
@@ -90,7 +90,7 @@ public class FullInfoPanel extends WeatherPanel {
     }
     
     private void updateData() {
-        DayData data = dataSupplier.get();
+        WeatherData data = dataSupplier.get();
         if (data == null) {
             return;
         }

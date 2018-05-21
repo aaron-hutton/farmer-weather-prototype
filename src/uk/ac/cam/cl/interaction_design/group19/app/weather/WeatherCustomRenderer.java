@@ -58,7 +58,7 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
                 label.setText("Precip here");
                 break;
             case 1:
-                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(WeatherData.getWeatherType(data.weather_type), 30)));
+                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(data.weather, 30)));
                 break;
             case 3:
                 label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(IconType.RAINDROP, 30)));

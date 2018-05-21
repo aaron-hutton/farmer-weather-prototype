@@ -11,7 +11,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.ScrollBarImplementation;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public class WeeklyTable extends JPanel {
@@ -19,7 +18,7 @@ public class WeeklyTable extends JPanel {
     
     public static int ROW_HEIGHT = 55;
     
-    public WeeklyTable(List<HourlyData> data) {
+    public WeeklyTable(List<WeatherData> data) {
         this.setLayout(new BorderLayout());
         
         JTable table = new JTable(new WeatherTableModel(data));

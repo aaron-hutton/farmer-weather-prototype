@@ -6,12 +6,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public class HourlyTable extends JPanel {
     
-    public HourlyTable(List<HourlyData> data) {
+    public HourlyTable(List<WeatherData> data) {
     
         JTable table = new JTable(new WeatherTableModel(data));
     
