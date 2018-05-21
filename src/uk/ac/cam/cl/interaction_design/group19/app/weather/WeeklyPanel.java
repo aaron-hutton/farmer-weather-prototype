@@ -12,9 +12,10 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
 
 public class WeeklyPanel extends JPanel {
     public WeeklyPanel() {
-        List<MetOfficeLocation> available_locations = new MetOfficeAPI().hourlyLocationList();
+        List<MetOfficeLocation> available_locations = MetOfficeAPI.hourlyLocationList();
         Location                homerton            = Location.fromAddress("Homerton College, Cambridge");
-        int                     nearest_id          = homerton.closest(available_locations).id;
+        MetOfficeLocation       closest             = homerton.closest(available_locations);
+        int                     nearest_id          = closest != null ? closest.id : 0;
         
         List<List<HourlyData>> data = (new MetOfficeAPI()).fiveDayForecast(nearest_id);
         if(data == null || data.size() == 0) {

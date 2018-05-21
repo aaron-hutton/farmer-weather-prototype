@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Location {
+    private static Location DEFAULT_LOCATION = new Location(50,50);
+    
     public final double latitude;
     public final double longitude;
     
@@ -24,7 +26,7 @@ public class Location {
             return new Location(results[0].geometry.location.lat, results[0].geometry.location.lng);
         } catch (IOException | ApiException | InterruptedException e) {
             System.err.println("Error in finding lat/long for location");
-            return new Location(50, 50);
+            return DEFAULT_LOCATION;
         }
     }
     

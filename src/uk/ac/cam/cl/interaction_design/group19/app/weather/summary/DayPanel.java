@@ -1,9 +1,10 @@
-package uk.ac.cam.cl.interaction_design.group19.app.weather;
+package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.CardLayout;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 import javax.swing.JPanel;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.HourlyPanel;
 
 public class DayPanel extends JPanel {
     public static final String SUMMARY_CARD   = "Summary";

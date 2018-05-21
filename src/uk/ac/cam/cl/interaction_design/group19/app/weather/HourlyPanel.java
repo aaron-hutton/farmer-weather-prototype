@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.WeatherPanel;
 
 public class HourlyPanel extends WeatherPanel {
     private final JButton summary = new JButton("< summary");
@@ -25,7 +26,7 @@ public class HourlyPanel extends WeatherPanel {
     protected JPanel createMainPanel() {
         JPanel                 mainPanel = new JPanel();
         // TODO: Fix location
-        List<List<HourlyData>> data      = (new MetOfficeAPI()).fiveDayForecast(3306);
+        List<List<HourlyData>> data      = (new MetOfficeAPI()).fiveDayForecast(3066);
         
         if(data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");

@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TodayPanel;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TomorrowPanel;
 
 
 public class WeatherView extends JPanel {

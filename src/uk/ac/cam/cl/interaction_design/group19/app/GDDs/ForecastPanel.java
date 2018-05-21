@@ -1,66 +1,88 @@
 package uk.ac.cam.cl.interaction_design.group19.app.GDDs;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import javax.swing.JTable;
 
 public class ForecastPanel extends JPanel {
     
-    private static final JButton                         calculator  = new JButton("Forecast");
-    private static final int                             loc         = 0;
-    private static final String[]                        columnNames = {"Date", "GDDs"};
-    private static       ArrayList<Pair<String, Double>> data        = null;
-    private static       String[][]                      dataTable   = null;
+    private static final JButton           calculator  = new JButton("Calculator");
+    private static final int               loc         = 0;
+    private static       ArrayList<Double> data        = null;
+    private static       String[][]        dataTable   = null;
+    private static final String[]          columnNames = {"Date", "GDDs"};
+    private static final String[]          days        = {"Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"};
     
     public ForecastPanel(Runnable showCalc) {
         
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        
+        this.setLayout(new BorderLayout());
+        JPanel t = new JPanel();
+        t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
+        t.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.setAlignmentX(Component.LEFT_ALIGNMENT);
+    
         if (data == null) {
             getForecast();
         }
         
         JLabel forecast = new JLabel("Forecast");
-
-//        TODO: uncomment when problem fixed
-//        JTable table = new JTable(dataTable, columnNames);
+        forecast.setFont(new Font(forecast.getFont().toString(), Font.BOLD, 16));
+        forecast.setAlignmentX(Component.LEFT_ALIGNMENT);
+        
+        JTable table = new JTable(dataTable, columnNames);
+        table.setSize(300, 300);
+        table.setAlignmentX(Component.LEFT_ALIGNMENT);
+        table.setFont(new Font(table.getFont().toString(), Font.PLAIN, 15));
         
         JPanel buttons = createButtonsPanel();
+        buttons.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         addOnClick(calculator, showCalc);
         
-        this.add(forecast);
-//        this.add(table);
-        this.add(buttons);
+        t.add(forecast);
+        t.add(table);
+        this.add(t);
+        this.add(buttons, BorderLayout.SOUTH);
+        buttons.setMaximumSize(new Dimension(700, 100));
     }
     
     private void getForecast() {
-        MetOfficeAPI api = new MetOfficeAPI();
-//        TODO: resolve type error (resulting from merge conflict)
-//        data = bizeeAPI.gddForecast(3840, 10);
-//
-//        dataTable = new String[data.size()][2];
-//        int i = 0;
-//        for (Pair p : data) {
-//            String[] it = new String[2];
-//            it[0] = (String) p.fst;
-//            double d = (Double) p.snd;
-//            it[1] = Integer.toString((int) d);
-//            dataTable[i] = it;
-//            i++;
-//        }
+        Calendar calendar = Calendar.getInstance();
+        int      day      = calendar.get(Calendar.DAY_OF_WEEK);
+        
+        data = bizeeAPI.gddForecast(3840, 10);
+        
+        dataTable = new String[data.size()][2];
+        int i = 0;
+        for (Double d : data) {
+            String[] it = new String[2];
+            it[0] = days[(day - 1 % 7)];
+            
+            BigDecimal bd = new BigDecimal(d);
+            bd = bd.round(new MathContext(3));
+            it[1] = bd.toString();
+            dataTable[i] = it;
+            i++;
+            day++;
+        }
     }
     
-    private static JPanel createButtonsPanel() {
+    
+    private JPanel createButtonsPanel() {
         var bottomButtons = new JPanel();
-        bottomButtons.setLayout(new GridLayout(1, 2));
+        bottomButtons.setLayout(new GridLayout(1, 1));
         
-        calculator.setHorizontalAlignment(SwingConstants.RIGHT);
         bottomButtons.add(calculator);
         
         return bottomButtons;
