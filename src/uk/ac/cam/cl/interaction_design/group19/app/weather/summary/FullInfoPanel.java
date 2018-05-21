@@ -102,7 +102,6 @@ public class FullInfoPanel extends WeatherPanel {
     }
     
     private void updateLabels() {
-        System.out.println("Setting soil temp label to = "+soilTemp);
         soilMoistLabel.setText(soilMoist + " %");
         soilTempLabel.setText(soilTemp + " °C");
         windDirIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(windDir, WIND_DIR_ICON_WIDTH)));
