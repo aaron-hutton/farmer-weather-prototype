@@ -55,8 +55,8 @@ public class Model {
                 this.location = closest;
                 this.postcode = postcode;
                 this.updateLocation.call();
-//                System.out.println(this.location);
-//                System.out.println(this.postcode);
+                System.out.println(this.location);
+                System.out.println(this.postcode);
             }
         }
     }

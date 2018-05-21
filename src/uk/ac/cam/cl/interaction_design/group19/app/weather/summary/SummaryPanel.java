@@ -18,8 +18,7 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
 
 public class SummaryPanel extends WeatherPanel {
-    private static final int    DEFAULT_ICON_WIDTH = 150;
-    private static final double ICON_WIDTH_RATIO   = 0.5;
+    private static final int    ICON_HEIGHT = 120;
     
     private static final int STATIC_ICON_WIDTH = 50;
     
@@ -130,8 +129,7 @@ public class SummaryPanel extends WeatherPanel {
     private void updateLabels() {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
         dateLabel.setText(dataSupplier.get().date.format(formatter));
-        var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
-        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(weather, iconWidth)));
+        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedHeightIcon(weather, ICON_HEIGHT)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");
         tempLabel.setText(temperature + " °C");
