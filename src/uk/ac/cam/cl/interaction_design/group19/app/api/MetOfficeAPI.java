@@ -12,12 +12,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MetOfficeAPI {
     
@@ -30,14 +33,7 @@ public class MetOfficeAPI {
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
     public static WeatherData getDayData(LocalDateTime date, int location_id) {
-        //TODO: make nicer
-        if (date.toLocalDate().equals(LocalDateTime.now())) {
-            return todaySummary(location_id);
-        } else if (date.toLocalDate().equals(LocalDateTime.now().plusDays(1))) {
-            return tomorrowSummary(location_id);
-        } else {
-            return null;
-        }
+        return daySummary(location_id, (int) DAYS.between(LocalDate.now(), date.toLocalDate()));
     }
     
     public static WeatherData daySummary(int location_id, int day_number) {
@@ -88,14 +84,6 @@ public class MetOfficeAPI {
                                WindDir.NW,
                                12);
         }
-    }
-    
-    public static WeatherData todaySummary(int location_id) {
-        return daySummary(location_id, 0);
-    }
-    
-    public static WeatherData tomorrowSummary(int location_id) {
-        return daySummary(location_id, 1);
     }
     
     public static URL makeURL(String resource_part) {
