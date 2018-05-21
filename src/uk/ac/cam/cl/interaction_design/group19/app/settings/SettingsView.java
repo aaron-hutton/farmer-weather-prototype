@@ -68,7 +68,7 @@ public class SettingsView extends JPanel implements Updatable {
                 if (m.matches()) {
                     locationProperty.set(text);
                 } else {
-                    throw new RuntimeException("'" + text + "' is not a valid postcode");
+                    locationField.setText("Invalid postcode!");
                 }
         });
         addHighContrastPanel(highContrastProperty);
