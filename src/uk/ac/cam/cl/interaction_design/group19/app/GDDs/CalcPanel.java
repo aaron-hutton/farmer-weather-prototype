@@ -16,11 +16,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CalcPanel extends JPanel {
-    private static final String  description = "Calculate total growing degree days between start date and today";
-    private static final JButton forecast    = new JButton("Forecast");
-    private static final int     loc         = 0;
-    
+
+    private static final String description = "Calculate total growing degree days between start date and today";
+    private static final JButton forecast = new JButton("Forecast");
+    private static final int loc = 0;
+
+
     public CalcPanel(Runnable showForecast) {
+
         this.setLayout(new BorderLayout());
 
         JPanel main = new JPanel();
@@ -71,7 +74,6 @@ public class CalcPanel extends JPanel {
             dataOut.setFont(new Font(dataOut.getFont().toString(), Font.PLAIN, 12));
             dataOut.setForeground(Color.BLACK);
             Date date = (Date) jdate.getValue();
-            
             if(date != null) {
                 dataOut.setText("Please wait, contacting server");
                 try {
@@ -91,20 +93,20 @@ public class CalcPanel extends JPanel {
         this.add(main); this.add(buttons, BorderLayout.SOUTH);
         buttons.setMaximumSize(new Dimension(700, 100));
     }
-    
+
     private static JPanel createButtonsPanel() {
         var bottomButtons = new JPanel();
         bottomButtons.setLayout(new GridLayout(1, 1));
 
         bottomButtons.add(forecast);
-        
+
         return bottomButtons;
     }
-    
+
     private static void addOnClick(JButton btn, Runnable btnAction) {
         btn.addActionListener(e -> {
             btnAction.run();
         });
     }
-    
+
 }

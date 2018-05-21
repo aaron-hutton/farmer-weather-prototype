@@ -240,7 +240,7 @@ public class MetOfficeAPI {
         return result;
     }
     
-    public ArrayList<Double> gddForecast(int location, double base) {
+    public static ArrayList<Double> gddForecast(int location, double base) {
         var toReturn = new ArrayList();
         
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
