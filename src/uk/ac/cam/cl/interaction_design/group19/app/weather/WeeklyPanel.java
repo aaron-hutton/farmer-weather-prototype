@@ -8,6 +8,9 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
 public class WeeklyPanel extends JPanel implements Updatable {
+    
+    public static final int NUM_DAYS_TO_SHOW = 5;
+    
     private final Supplier<List<WeatherData>> dataSupplier;
     
     public WeeklyPanel(Supplier<List<WeatherData>> dataSupplier) {

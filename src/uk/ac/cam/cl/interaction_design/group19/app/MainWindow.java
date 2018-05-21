@@ -21,6 +21,7 @@ import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 
 public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
@@ -45,7 +46,7 @@ public class MainWindow extends JFrame implements Updatable {
         
         weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
                                       time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
-                                      time -> IntStream.range(0, 5).mapToObj(
+                                      time -> IntStream.range(0, WeeklyPanel.NUM_DAYS_TO_SHOW).mapToObj(
                                               i -> MetOfficeAPI.daySummary(model.getLocationID(), i))
                                                        .collect(Collectors.toList()));
         gddsView = new GDDsView();
