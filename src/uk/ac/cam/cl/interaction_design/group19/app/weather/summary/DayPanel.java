@@ -1,11 +1,10 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.CardLayout;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.JPanel;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.HourlyPanel;
 

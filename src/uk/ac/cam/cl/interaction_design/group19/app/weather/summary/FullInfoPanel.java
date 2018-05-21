@@ -1,7 +1,6 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather.summary;
 
 import java.awt.GridLayout;
-import java.time.LocalDateTime;
 import java.util.function.Supplier;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -9,10 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class FullInfoPanel extends WeatherPanel {
     private static final int WIND_DIR_ICON_WIDTH = 70;

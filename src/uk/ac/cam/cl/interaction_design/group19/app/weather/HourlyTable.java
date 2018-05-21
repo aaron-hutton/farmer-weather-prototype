@@ -3,11 +3,9 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class HourlyTable extends JPanel {
     

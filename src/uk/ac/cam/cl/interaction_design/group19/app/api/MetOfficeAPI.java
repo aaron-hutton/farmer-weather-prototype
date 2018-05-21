@@ -12,14 +12,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
 public class MetOfficeAPI {
     
@@ -172,14 +170,14 @@ public class MetOfficeAPI {
             for (int i = 0; i < 5; i++) {
                 List<WeatherData> day = new ArrayList<>();
                 for (int j = 0; j < 14; j++) {
-                    day.add(new WeatherData(LocalDateTime.now(),
+                    day.add(new WeatherData(LocalDateTime.now().plusDays(i).plusHours(j+7),
                                             WeatherType.SUNNY_DAY,
                                             17+j/5,
                                             14+j/5,
                                             20+j/5,
                                             33+j/2,
                                             0+j/2,
-                                            WindDir.N,
+                                            WindDir.NE,
                                             14-j/2));
                 }
                 days.add(day);

@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
 public class WeeklyPanel extends JPanel implements Updatable {

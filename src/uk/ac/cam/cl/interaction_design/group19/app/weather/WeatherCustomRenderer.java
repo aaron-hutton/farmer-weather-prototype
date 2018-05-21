@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 
