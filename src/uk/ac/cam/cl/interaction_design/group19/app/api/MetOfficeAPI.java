@@ -53,9 +53,9 @@ public class MetOfficeAPI {
                                   .get(day_number).getAsJsonObject().getAsJsonArray("Rep")
                                   .get(1).getAsJsonObject();
             
-            WeatherType weather            = WeatherData.getWeatherType(day.get("W").getAsString());
-            double      max_temp           = day.get("Dm").getAsDouble();
-            double      min_temp           = night.get("Nm").getAsDouble();
+            WeatherType weather            = WeatherData.getWeatherType(getAsStringOrDefault(day, "W", "0"));
+            double      max_temp           = getAsDoubleOrDefault(day, "Dm", 20);
+            double      min_temp           = getAsDoubleOrDefault(night, "Nm", 0);
             double      temperature        = 0.5 * (max_temp + min_temp);
             int         precipitation_prob = day.get("PPd").getAsInt();
             int         frost_prob;
@@ -66,7 +66,7 @@ public class MetOfficeAPI {
             } else {
                 frost_prob = 73;
             }
-            WindDir dir        = WeatherData.getWindDir(day.get("D").getAsString());
+            WindDir dir        = WeatherData.getWindDir(getAsStringOrDefault(day, "D", "N"));
             int     wind_speed = day.get("S").getAsInt();
             return new DayData(weather,
                                temperature,
@@ -143,7 +143,7 @@ public class MetOfficeAPI {
         System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
     }
     
-    public List<List<HourlyData>> fiveDayForecast(int location_id) {
+    public static List<List<HourlyData>> fiveDayForecast(int location_id) {
         /*
         Returns a list with items for (up to) five days,
         each of which is a list of HourlyDatas
@@ -177,16 +177,26 @@ public class MetOfficeAPI {
             for (JsonElement hour : hours) {
                 String     timestamp = String.valueOf(time / 10) + String.valueOf(time % 10) + ":00";
                 JsonObject h         = hour.getAsJsonObject();
-                day_list.add(new HourlyData(h.get("T").getAsDouble(),
-                                            h.get("S").getAsDouble(),
-                                            h.get("D").getAsString(),
-                                            h.get("W").getAsString(),
+                day_list.add(new HourlyData(getAsDoubleOrDefault(h, "T", 10),
+                                            getAsDoubleOrDefault(h, "S", 10),
+                                            getAsStringOrDefault(h, "D", "N"),
+                                            getAsStringOrDefault(h, "W", "N"),
                                             timestamp));
                 time++;
             }
             days.add(day_list);
         }
         return days;
+    }
+    
+    private static String getAsStringOrDefault(JsonObject h, String d, String defaultString) {
+        var elem = h.get(d);
+        return elem != null ? elem.getAsString() : defaultString;
+    }
+    
+    private static double getAsDoubleOrDefault(JsonObject h, String t, double defaultDouble) {
+        var elem = h.get(t);
+        return elem != null ? elem.getAsDouble() : defaultDouble;
     }
     
     public List<String> locationList() {
@@ -200,7 +210,7 @@ public class MetOfficeAPI {
         return result;
     }
     
-    public List<MetOfficeLocation> hourlyLocationList() {
+    public static List<MetOfficeLocation> hourlyLocationList() {
         List<MetOfficeLocation> result = new ArrayList<>();
         URL                     url    = makeURL(HOURLY_LOCATION_LIST);
         if (url == null) {
@@ -214,8 +224,8 @@ public class MetOfficeAPI {
         for (JsonElement location : locations) {
             JsonObject obj = location.getAsJsonObject();
             result.add(new MetOfficeLocation(obj.get("id").getAsInt(),
-                                             obj.get("latitude").getAsDouble(),
-                                             obj.get("longitude").getAsDouble()));
+                                             getAsDoubleOrDefault(obj, "latitude", 0),
+                                             getAsDoubleOrDefault(obj, "longitude", 0)));
         }
         
         return result;
