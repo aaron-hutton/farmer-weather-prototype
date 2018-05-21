@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 
 public class ForecastPanel extends JPanel {
 
@@ -27,6 +29,7 @@ public class ForecastPanel extends JPanel {
     private static String[][] dataTable = null;
     private static final String[] columnNames = {"Date", "GDDs"};
     private static final String[] days = {"Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"};
+    public static int MINIMUM_ROW_HEIGHT = 70;
 
     public ForecastPanel(Runnable showCalc) {
 
@@ -35,10 +38,12 @@ public class ForecastPanel extends JPanel {
         t.setLayout(new BoxLayout(t, BoxLayout.Y_AXIS));
         t.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        if(data == null) getForecast();
+        if(data == null) {
+            getForecast();
+        }
 
         JLabel forecast = new JLabel("Forecast");
-        forecast.setFont(new Font(forecast.getFont().toString(), Font.BOLD, 16));
+        forecast.setFont(new Font(forecast.getFont().toString(), Font.BOLD, 20));
         forecast.setAlignmentX(Component.CENTER_ALIGNMENT);
     
         JPanel buttons = createButtonsPanel();
@@ -46,6 +51,7 @@ public class ForecastPanel extends JPanel {
         addOnClick(calculator, showCalc);
     
         t.add(forecast);
+        t.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         if(data == null) {
             JTextArea server = new JTextArea("We are currently having server problems, please try again later");
@@ -53,12 +59,22 @@ public class ForecastPanel extends JPanel {
             server.setLineWrap(true);
             server.setForeground(Color.red);
             server.setFont(new Font(server.getFont().toString(), Font.PLAIN, 18));
+            
+            t.add(server);
         } else {
     
             JTable table = new JTable(dataTable, columnNames);
             table.setSize(300, 300);
-            table.setAlignmentX(Component.LEFT_ALIGNMENT);
-            table.setFont(new Font(table.getFont().toString(), Font.PLAIN, 15));
+            table.setAlignmentX(Component.CENTER_ALIGNMENT);
+            table.setFont(new Font(table.getFont().toString(), Font.PLAIN, 18));
+    
+            table.setOpaque(false);
+            table.setBorder(BorderFactory.createEmptyBorder());
+            table.setTableHeader(null);
+    
+            table.setRowHeight(Math.min((MainWindow.SCREEN_HEIGHT - 80) / 5, MINIMUM_ROW_HEIGHT));
+            table.setMaximumSize(new Dimension(MainWindow.SCREEN_WIDTH-60, table.getPreferredSize().height));
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     
             t.add(table);
         }
