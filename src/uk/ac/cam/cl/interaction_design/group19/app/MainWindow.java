@@ -25,6 +25,7 @@ public class MainWindow extends JFrame {
     
     public static final int BOTTOM_TAB_WIDTH = 55;
     public static final Color BACKGROUND_COLOR = new Color(229, 235, 255);
+    public static final Color TEXT_COLOR = new Color(51, 82, 122);
     
     private final Model model;
     
@@ -93,10 +94,13 @@ public class MainWindow extends JFrame {
                                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                                            if ("Nimbus".equals(info.getName())) {
                                                UIManager.setLookAndFeel(info.getClassName());
+
                                                break;
                                            }
                                        }
                                        UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
+                                       UIManager.put("text", TEXT_COLOR);
+//                                       UIManager.put ("JLabel.foreground", Color.white);
                                    } catch (Exception e) {
                                        // Default to Java LookAndFell
                                    }

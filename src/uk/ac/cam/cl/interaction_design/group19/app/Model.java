@@ -1,11 +1,17 @@
 package uk.ac.cam.cl.interaction_design.group19.app;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
+
+import javax.swing.*;
+
+import static uk.ac.cam.cl.interaction_design.group19.app.MainWindow.BACKGROUND_COLOR;
+import static uk.ac.cam.cl.interaction_design.group19.app.MainWindow.TEXT_COLOR;
 
 public class Model {
     private final Map<ExtremeEvent, Boolean> alerts;
@@ -46,6 +52,11 @@ public class Model {
     
     public void setHighContrast(boolean highContrast) {
         this.highContrast = highContrast;
+        if (highContrast) {
+            UIManager.put("text", Color.BLACK);
+        } else {
+            UIManager.put("text", TEXT_COLOR);
+        }
     }
     
     public boolean getAlert(ExtremeEvent e) {
