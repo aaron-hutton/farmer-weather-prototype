@@ -7,4 +7,9 @@ public class MetOfficeLocation extends Location {
         super(latitude, longitude);
         this.id = id;
     }
+    
+    @Override
+    public String toString(){
+        return "id="+id+" "+super.toString();
+    }
 }

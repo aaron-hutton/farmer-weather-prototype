@@ -2,16 +2,22 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TodayPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TomorrowPanel;
 
 
-public class WeatherView extends JPanel {
+public class WeatherView extends JPanel implements Updatable {
     public static final int TOP_TAB_WIDTH = 80;
     
     private static final int TODAY_INDEX    = 0;
@@ -24,14 +30,23 @@ public class WeatherView extends JPanel {
             WEEKLY_INDEX, "Weekly"
     );
     
-    private static final Map<Integer, JPanel> tabPanels = Map.of(
-            TODAY_INDEX, new TodayPanel(),
-            TOMORROW_INDEX, new TomorrowPanel(),
-            WEEKLY_INDEX, new WeeklyPanel()
-    );
+    private final Map<Integer, JPanel> tabPanels;
     
-    public WeatherView() {
+    private final TodayPanel    todayPanel;
+    private final TomorrowPanel tomorrowPanel;
+    private final WeeklyPanel   weeklyPanel;
+    
+    public WeatherView(Function<LocalDateTime, DayData> getDayData,
+                       Function<LocalDateTime, List<List<HourlyData>>> getHourlyData,
+                       Function<LocalDateTime, List<List<HourlyData>>> getWeeklyData) {
         super(new GridLayout(1, 1));
+        
+        todayPanel = new TodayPanel(getDayData, getHourlyData);
+        tomorrowPanel = new TomorrowPanel(getDayData, getHourlyData);
+        //TODO: does not conform to the rest, fix
+        weeklyPanel = new WeeklyPanel(() -> getWeeklyData.apply(LocalDateTime.now()));
+        
+        tabPanels = Map.of(TODAY_INDEX, todayPanel, TOMORROW_INDEX, tomorrowPanel, WEEKLY_INDEX, weeklyPanel);
         
         JTabbedPane timeTabs = new JTabbedPane();
         
@@ -48,5 +63,12 @@ public class WeatherView extends JPanel {
         timeTabs.setSelectedIndex(WEEKLY_INDEX);
         
         this.add(timeTabs);
+    }
+    
+    @Override
+    public void update() {
+        todayPanel.update();
+        tomorrowPanel.update();
+        weeklyPanel.update();
     }
 }

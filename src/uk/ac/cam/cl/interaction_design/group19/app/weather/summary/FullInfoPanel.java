@@ -30,6 +30,8 @@ public class FullInfoPanel extends WeatherPanel {
     private       int     windSpeed;
     private       int     cloudCover;
     
+    private final Supplier<DayData> dataSupplier;
+    
     /**
      * Soil moisture text | soil moisture value
      * Soil temperature text | soil temperature value
@@ -38,8 +40,8 @@ public class FullInfoPanel extends WeatherPanel {
      * Cloud cover text | Cloud cover value
      * | | summary >>
      */
-    public FullInfoPanel(Supplier<LocalDateTime> dateSupplier, Runnable showSummary) {
-        super(dateSupplier);
+    public FullInfoPanel(Supplier<DayData> dataSupplier, Runnable showSummary) {
+        this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);
         populate();
     }
@@ -88,8 +90,7 @@ public class FullInfoPanel extends WeatherPanel {
     }
     
     private void updateData() {
-        // TODO: fix location id
-        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
+        DayData data = dataSupplier.get();
         if (data == null) {
             return;
         }

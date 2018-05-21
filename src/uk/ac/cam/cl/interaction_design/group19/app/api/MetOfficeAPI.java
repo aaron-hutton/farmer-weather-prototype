@@ -25,7 +25,7 @@ public class MetOfficeAPI {
     public static final String BASE_URL             = "http://datapoint.metoffice.gov.uk/public/data/";
     public static final String LOCATION_LIST        = "val/wxobs/all/json/sitelist";
     public static final String HOURLY_DATA          = "val/wxobs/all/json/"; // + location_id
-    public static final String DAILY_DATA           = "val/wxfcs/all/json"; // + location_id
+    public static final String DAILY_DATA           = "val/wxfcs/all/json/"; // + location_id
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
@@ -68,7 +68,8 @@ public class MetOfficeAPI {
             }
             WindDir dir        = WeatherData.getWindDir(getAsStringOrDefault(day, "D", "N"));
             int     wind_speed = day.get("S").getAsInt();
-            return new DayData(weather,
+            return new DayData(LocalDate.now().plusDays(day_number),
+                               weather,
                                temperature,
                                min_temp,
                                max_temp,
@@ -77,7 +78,15 @@ public class MetOfficeAPI {
                                dir,
                                wind_speed);
         } catch (NullPointerException e) {
-            return new DayData(WeatherType.DRIZZLE, 10, 8, 23, 72, 3, WindDir.NW, 12);
+            return new DayData(LocalDate.now().plusDays(day_number),
+                               WeatherType.DRIZZLE,
+                               10,
+                               8,
+                               23,
+                               72,
+                               3,
+                               WindDir.NW,
+                               12);
         }
     }
     
@@ -177,10 +186,10 @@ public class MetOfficeAPI {
             for (JsonElement hour : hours) {
                 String     timestamp = String.valueOf(time / 10) + String.valueOf(time % 10) + ":00";
                 JsonObject h         = hour.getAsJsonObject();
-                day_list.add(new HourlyData(getAsDoubleOrDefault(h, "T", 10),
-                                            getAsDoubleOrDefault(h, "S", 10),
+                day_list.add(new HourlyData(getAsDoubleOrDefault(h, "T", -1),
+                                            getAsDoubleOrDefault(h, "S", -1),
                                             getAsStringOrDefault(h, "D", "N"),
-                                            getAsStringOrDefault(h, "W", "N"),
+                                            getAsStringOrDefault(h, "W", "NA"),
                                             timestamp));
                 time++;
             }
@@ -231,24 +240,23 @@ public class MetOfficeAPI {
         return result;
     }
     
-    public ArrayList<Double> gddForecast(int location, double base) {
+    public static ArrayList<Double> gddForecast(int location, double base) {
         var toReturn = new ArrayList();
         
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
         
         JsonObject weekly = jsonFromUrl(u);
         
-        if(weekly != null){
-        JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
-                                      .getAsJsonObject("Location").getAsJsonArray("Period");
-        
-        for (JsonElement j : weekJsonArr) {
-            JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
-            int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
-            int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
-            toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
-        }
-    
+        if (weekly != null) {
+            JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
+                                          .getAsJsonObject("Location").getAsJsonArray("Period");
+            
+            for (JsonElement j : weekJsonArr) {
+                JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
+                int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
+                int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
+                toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
+            }
         }
         
         return toReturn;

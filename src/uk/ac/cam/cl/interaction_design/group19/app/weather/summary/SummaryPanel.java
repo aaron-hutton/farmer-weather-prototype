@@ -14,11 +14,11 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.api.DayData;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
 
 public class SummaryPanel extends WeatherPanel {
-    private static final int    DEFAULT_ICON_WIDTH = 150;
-    private static final double ICON_WIDTH_RATIO   = 0.5;
+    private static final int    ICON_HEIGHT = 120;
     
     private static final int STATIC_ICON_WIDTH = 50;
     
@@ -41,6 +41,7 @@ public class SummaryPanel extends WeatherPanel {
     private       int         tempLow;
     private       int         tempHigh;
     
+    private final Supplier<DayData> dataSupplier;
     /**
      * Date
      * weather type icon
@@ -51,8 +52,8 @@ public class SummaryPanel extends WeatherPanel {
      * text lavel for high | temperature high
      * << more info button |   | hourly button >>>
      */
-    public SummaryPanel(Supplier<LocalDateTime> dateSupplier, Runnable showMoreInfo, Runnable showHourly) {
-        super(dateSupplier);
+    public SummaryPanel(Supplier<DayData> dataSupplier, Runnable showMoreInfo, Runnable showHourly) {
+        this.dataSupplier = dataSupplier;
         addOnClick(moreInfo, showMoreInfo);
         addOnClick(hourly, showHourly);
         populate();
@@ -113,7 +114,7 @@ public class SummaryPanel extends WeatherPanel {
     
     private void updateData() {
         // TODO: fix location id
-        DayData data = MetOfficeAPI.getDayData(dateSupplier.get(), 0);
+        DayData data = dataSupplier.get();
         if (data == null) {
             return;
         }
@@ -127,9 +128,8 @@ public class SummaryPanel extends WeatherPanel {
     
     private void updateLabels() {
         var formatter = DateTimeFormatter.ofPattern("EEE dd MMMM");
-        dateLabel.setText(dateSupplier.get().format(formatter));
-        var iconWidth = this.getWidth() > 0 ? (int) (this.getWidth() * ICON_WIDTH_RATIO) : DEFAULT_ICON_WIDTH;
-        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedWidthIcon(weather, iconWidth)));
+        dateLabel.setText(dataSupplier.get().date.format(formatter));
+        weatherIconLabel.setIcon(new ImageIcon(Icons.getSizedHeightIcon(weather, ICON_HEIGHT)));
         precipitationLabel.setText(precipitation + " %");
         frostLabel.setText(frost + " %");
         tempLabel.setText(temperature + " °C");

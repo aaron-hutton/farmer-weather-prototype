@@ -120,6 +120,22 @@ public class Icons {
         return toBufferedImage(toRet);
     }
     
+    public static BufferedImage getSizedHeightIcon(WindDir dir, int height) {
+        if (dir == null) {
+            return getSizedHeightIcon((IconType) null, height);
+        } else {
+            return getSizedHeightIcon(dirToIconMap.getOrDefault(dir, null), height);
+        }
+    }
+    
+    public static BufferedImage getSizedHeightIcon(WeatherType weather, int height) {
+        if (weather == null) {
+            return getSizedHeightIcon((IconType) null, height);
+        } else {
+            return getSizedHeightIcon(weatherToIconMap.getOrDefault(weather, null), height);
+        }
+    }
+    
     public static BufferedImage getSizedHeightIcon(IconType icon, int height) {
         BufferedImage temp = getIcon(icon);
         Image toRet =
