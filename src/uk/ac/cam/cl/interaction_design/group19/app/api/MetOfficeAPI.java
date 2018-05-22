@@ -53,18 +53,26 @@ public class MetOfficeAPI {
     }
     
     public static WeatherData daySummary(int location_id, int day_number) {
+        /*
+        Return summary data for a given location `day_number` days from the current day
+         */
         try {
             URL        url = makeURL(addParam(DAILY_DATA + Integer.toString(location_id), "res", "daily"));
             JsonObject obj = jsonFromUrl(url);
+            
+            // Get the JSON object for the relevant day from the API
             JsonObject day = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                 .getAsJsonObject("Location").getAsJsonArray("Period")
                                 .get(day_number).getAsJsonObject().getAsJsonArray("Rep")
                                 .get(0).getAsJsonObject();
+            
+            // Get the object for the relevant night
             JsonObject night = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                   .getAsJsonObject("Location").getAsJsonArray("Period")
                                   .get(day_number).getAsJsonObject().getAsJsonArray("Rep")
                                   .get(1).getAsJsonObject();
             
+            // Extract and calculate the required values from the data
             WeatherType weather            = WeatherData.getWeatherType(getAsStringOrDefault(day, "W", "0"));
             double      max_temp           = getAsDoubleOrDefault(day, "Dm", 20);
             double      min_temp           = getAsDoubleOrDefault(night, "Nm", 0);
@@ -73,6 +81,8 @@ public class MetOfficeAPI {
             int         frost_prob = getFrostProb(temperature);
             WindDir dir        = WeatherData.getWindDir(getAsStringOrDefault(day, "D", "N"));
             int     wind_speed = day.get("S").getAsInt();
+            
+            // Return the weather data
             return new WeatherData(LocalDateTime.now().plusDays(day_number),
                                    weather,
                                    temperature,
@@ -83,6 +93,7 @@ public class MetOfficeAPI {
                                    dir,
                                    wind_speed);
         } catch (NullPointerException e) {
+            // If the request to the API failed, return dummy data
             return new WeatherData(LocalDateTime.now().plusDays(day_number),
                                WeatherType.DRIZZLE,
                                10,
@@ -96,6 +107,9 @@ public class MetOfficeAPI {
     }
     
     public static URL makeURL(String resource_part) {
+        /*
+        Create URLSs to access given parts of the API
+         */
         URL url;
         try {
             url = new URL(addParam(BASE_URL + resource_part, "key", KEY));
@@ -107,6 +121,9 @@ public class MetOfficeAPI {
     }
     
     private static String addParam(String base_url, String key, Object value) {
+        /*
+        Build up the URL to be used to an API request
+         */
         String url = base_url;
         if (url.indexOf('?') < 0) {
             url += "?";
@@ -163,6 +180,7 @@ public class MetOfficeAPI {
         }
         JsonObject obj = jsonFromUrl(url);
         if (obj == null) {
+            // Create dummy data if API request failed
             for (int i = 0; i < 5; i++) {
                 List<WeatherData> day = new ArrayList<>();
                 for (int j = 0; j < 14; j++) {
@@ -184,6 +202,8 @@ public class MetOfficeAPI {
                                     .getAsJsonObject("Location").getAsJsonArray("Period");
     
         LocalDateTime              time     = LocalDateTime.now().minusMinutes(LocalDateTime.now().getMinute());
+        
+        // Put data from API into objects
         for (JsonElement day : days_objects) {
             JsonArray        hours    = day.getAsJsonObject().getAsJsonArray("Rep");
             List<WeatherData> day_list = new ArrayList<>();
