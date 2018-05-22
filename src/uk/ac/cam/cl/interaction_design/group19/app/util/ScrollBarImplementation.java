@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app;
+package uk.ac.cam.cl.interaction_design.group19.app.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+
+import static uk.ac.cam.cl.interaction_design.group19.app.MainWindow.BACKGROUND_COLOR;
 
 public class ScrollBarImplementation extends BasicScrollBarUI {
 
@@ -30,7 +32,7 @@ public class ScrollBarImplementation extends BasicScrollBarUI {
 
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
-        g.setColor(MainWindow.BACKGROUND_COLOR);
+        g.setColor(BACKGROUND_COLOR);
         g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
     }
 
