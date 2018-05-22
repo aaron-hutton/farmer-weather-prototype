@@ -174,11 +174,11 @@ public class MetOfficeAPI {
         }
         JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                     .getAsJsonObject("Location").getAsJsonArray("Period");
-        
+    
+        LocalDateTime              time     = LocalDateTime.now().minusMinutes(LocalDateTime.now().getMinute());
         for (JsonElement day : days_objects) {
             JsonArray        hours    = day.getAsJsonObject().getAsJsonArray("Rep");
             List<WeatherData> day_list = new ArrayList<>();
-            LocalDateTime              time     = LocalDateTime.now().minusMinutes(LocalDateTime.now().getMinute());
             int i = 0;
             for (JsonElement hour : hours) {
                 JsonObject h         = hour.getAsJsonObject();

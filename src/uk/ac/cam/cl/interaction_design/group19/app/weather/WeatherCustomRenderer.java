@@ -24,6 +24,12 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         }
     }
     
+    public void updateSize(int size) {
+        for (int i = 0; i < cache.length; i++) {
+            cache[i] = new JComponent[size];
+        }
+    }
+    
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
@@ -52,16 +58,10 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         WeatherData data = (WeatherData) value;
         switch (column) {
             case 2:
-                label.setText(Math.round(data.temperature) + "°C");
-                break;
-            case 4:
-                label.setText("Precip here");
+                label.setText(data.temperature + "°C");
                 break;
             case 1:
                 label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(data.weather, 30)));
-                break;
-            case 3:
-                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(IconType.RAINDROP, 30)));
                 break;
         }
         cache[column][row] = label;

@@ -8,23 +8,33 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
 public class WeeklyPanel extends JPanel implements Updatable {
-    private final Supplier<List<List<WeatherData>>> dataSupplier;
     
-    public WeeklyPanel(Supplier<List<List<WeatherData>>> dataSupplier) {
+    public static final int NUM_DAYS_TO_SHOW = 5;
+    
+    private final Supplier<List<WeatherData>> dataSupplier;
+    private WeeklyTable table;
+    
+    public WeeklyPanel(Supplier<List<WeatherData>> dataSupplier) {
         this.dataSupplier = dataSupplier;
         
-        List<List<WeatherData>> data = dataSupplier.get();
-        if (data == null || data.size() == 0) {
-            JLabel failLabel = new JLabel("There is no data to display.");
-            this.add(failLabel);
-        } else {
-            WeeklyTable table = new WeeklyTable(data.get(0));
-            this.add(table);
-        }
+        update();
     }
     
     @Override
     public void update() {
-        System.err.println("update of the weekly panel not implemented");
+        this.removeAll();
+        List<WeatherData> data = dataSupplier.get();
+    
+        if (data == null || data.size() == 0) {
+            JLabel failLabel = new JLabel("There is no data to display.");
+            this.add(failLabel);
+        } else {
+            if(table == null) {
+                table = new WeeklyTable(data);
+            } else {
+                table.updateTable(data);
+            }
+            this.add(table);
+        }
     }
 }

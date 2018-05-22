@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
@@ -20,6 +21,7 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 
 public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
@@ -44,7 +46,9 @@ public class MainWindow extends JFrame implements Updatable {
         
         weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
                                       time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
-                                      time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()));
+                                      time -> IntStream.range(0, WeeklyPanel.NUM_DAYS_TO_SHOW).mapToObj(
+                                              i -> MetOfficeAPI.daySummary(model.getLocationID(), i))
+                                                       .collect(Collectors.toList()));
         gddsView = new GDDsView();
         mapsView = new MapsView();
         settingsView = createSettingsView();
