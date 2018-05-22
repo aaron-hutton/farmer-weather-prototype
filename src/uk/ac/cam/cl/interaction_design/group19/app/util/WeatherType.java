@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app.weather;
+package uk.ac.cam.cl.interaction_design.group19.app.util;
 
 public enum WeatherType {
     CLEAR_NIGHT,

@@ -9,8 +9,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
 
 public class Icons {
     //TODO: move these mappings to a file

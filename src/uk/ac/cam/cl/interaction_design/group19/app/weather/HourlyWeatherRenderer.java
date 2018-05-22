@@ -4,7 +4,7 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
 
@@ -17,14 +17,14 @@ public class HourlyWeatherRenderer extends WeatherCustomRenderer implements Tabl
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
-        if(!(value instanceof HourlyData)) {
+        if(!(value instanceof WeatherData)) {
             System.err.println("An error occurred.");
             System.exit(0);
         }
-        HourlyData data = (HourlyData) value;
+        WeatherData data = (WeatherData) value;
         if (column == 0) {
             JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            label.setText(data.time);
+            label.setText(data.time.toString());
             return label;
         } else {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

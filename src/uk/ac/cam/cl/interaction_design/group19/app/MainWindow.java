@@ -15,8 +15,8 @@ import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
-import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
@@ -59,10 +59,10 @@ public class MainWindow extends JFrame implements Updatable {
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         
-        this.setResizable(true);
+        this.setResizable(false);
     }
     
-    public void addTabs() throws IOException {
+    public void addTabs() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setBackground(BACKGROUND_COLOR);
         

@@ -18,11 +18,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import uk.ac.cam.cl.interaction_design.group19.app.util.Action;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Property;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
+/**
+ * Settings view responsible for getting input from user and passing it on
+ * through the callbacks provided in the constructor
+ */
 public class SettingsView extends JPanel implements Updatable {
+    // regex that should match valid UK postcodes
+    // from: https://stackoverflow.com/questions/164979/uk-postcode-regex-comprehensive
     private static final Pattern postcodeRegex = Pattern.compile(
             "^(([gG][iI][rR] {0,}0[aA]{2})|" +
             "((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|" +
@@ -62,7 +68,7 @@ public class SettingsView extends JPanel implements Updatable {
                 if (m.matches()) {
                     locationProperty.set(text);
                 } else {
-                    throw new RuntimeException("'" + text + "' is not a valid postcode");
+                    locationField.setText("Invalid postcode!");
                 }
         });
         addHighContrastPanel(highContrastProperty);
@@ -79,6 +85,12 @@ public class SettingsView extends JPanel implements Updatable {
         this.add(new JSeparator());
     }
     
+    /**
+     * Add panel that accepts text input from user
+     *
+     * @param descriptor descriptor of the input shown to user on the right
+     * @param inputField input field filling all remaining space for the user to type in
+     */
     private void addTextSettingPanel(JComponent descriptor, JTextField inputField) {
         var outer = new JPanel(new BorderLayout());
         var sp    = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -121,12 +133,12 @@ public class SettingsView extends JPanel implements Updatable {
                        });
     }
     
-    private void addCheckboxObserver(JCheckBox checkBox, Action onSelected, Action onDeselected) {
+    private void addCheckboxObserver(JCheckBox checkBox, Runnable onSelected, Runnable onDeselected) {
         checkBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                onSelected.call();
+                onSelected.run();
             } else if (e.getStateChange() == ItemEvent.DESELECTED) {
-                onDeselected.call();
+                onDeselected.run();
             }
         });
     }
