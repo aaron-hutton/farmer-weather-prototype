@@ -33,7 +33,23 @@ public class MetOfficeAPI {
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
     public static WeatherData getDayData(LocalDateTime date, int location_id) {
+        /*
+        Return the summary data for a specific date at a given location
+         */
         return daySummary(location_id, (int) DAYS.between(LocalDate.now(), date.toLocalDate()));
+    }
+    
+    public static int getFrostProb(double temperature) {
+        /*
+        Calculate the probability of frost given a certain temperature
+         */
+        if (temperature > 5) {
+            return  1;
+        } else if (temperature > 0) {
+            return 21;
+        } else {
+            return 73;
+        }
     }
     
     public static WeatherData daySummary(int location_id, int day_number) {
@@ -54,14 +70,7 @@ public class MetOfficeAPI {
             double      min_temp           = getAsDoubleOrDefault(night, "Nm", 0);
             double      temperature        = 0.5 * (max_temp + min_temp);
             int         precipitation_prob = day.get("PPd").getAsInt();
-            int         frost_prob;
-            if (temperature > 5) {
-                frost_prob = 1;
-            } else if (temperature > 0) {
-                frost_prob = 21;
-            } else {
-                frost_prob = 73;
-            }
+            int         frost_prob = getFrostProb(temperature);
             WindDir dir        = WeatherData.getWindDir(getAsStringOrDefault(day, "D", "N"));
             int     wind_speed = day.get("S").getAsInt();
             return new WeatherData(LocalDateTime.now().plusDays(day_number),
@@ -87,7 +96,7 @@ public class MetOfficeAPI {
     }
     
     public static URL makeURL(String resource_part) {
-        URL url = null;
+        URL url;
         try {
             url = new URL(addParam(BASE_URL + resource_part, "key", KEY));
         } catch (MalformedURLException e) {
@@ -135,8 +144,7 @@ public class MetOfficeAPI {
     }
     
     public static void main(String[] args) {
-        MetOfficeAPI api = new MetOfficeAPI();
-        System.out.println(api.fiveDayForecast(3066).get(0).get(4));
+        System.out.println(MetOfficeAPI.fiveDayForecast(3066).get(0).get(4));
         System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
     }
     
@@ -182,21 +190,16 @@ public class MetOfficeAPI {
             int i = 0;
             for (JsonElement hour : hours) {
                 JsonObject h         = hour.getAsJsonObject();
+                double temperature = getAsDoubleOrDefault(h, "T", -1);
                 day_list.add(new WeatherData(time,
-                                             WeatherType.SUNNY_DAY,
-                                             17+i/5,
-                                             14+i/5,
-                                             20+i/5,
+                                             WeatherData.getWeatherType(getAsStringOrDefault(h, "W", "NA")),
+                                             temperature,
+                                             temperature,
+                                             temperature,
                                              33+i/2,
-                                             0+i/2,
-                                             WindDir.N,
-                                             14-i/2));
-                                             /*
-                                             getAsDoubleOrDefault(h, "T", -1),
-                                            getAsDoubleOrDefault(h, "S", -1),
-                                            getAsStringOrDefault(h, "D", "N"),
-                                            getAsStringOrDefault(h, "W", "NA")
-                                            ));*/
+                                             getFrostProb(temperature),
+                                             WeatherData.getWindDir(getAsStringOrDefault(h, "D", "N")),
+                                             getAsIntOrDefault(h, "S", -1)));
                 time = time.plusHours(1);
                 i++;
             }
@@ -213,6 +216,11 @@ public class MetOfficeAPI {
     private static double getAsDoubleOrDefault(JsonObject h, String t, double defaultDouble) {
         var elem = h.get(t);
         return elem != null ? elem.getAsDouble() : defaultDouble;
+    }
+    
+    private static int getAsIntOrDefault(JsonObject h, String t, int defaultInt) {
+        var elem = h.get(t);
+        return elem != null ? elem.getAsInt() : defaultInt;
     }
     
     public List<String> locationList() {
