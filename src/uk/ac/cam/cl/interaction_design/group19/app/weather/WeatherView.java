@@ -14,7 +14,13 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TodayPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.TomorrowPanel;
 
-
+/**
+ * Panel controlling weather view, consists of three subpanels,
+ * only one of which is shown at a time, these are:
+ *   - today view
+ *   - tomorrow view
+ *   - weekly view
+ */
 public class WeatherView extends JPanel implements Updatable {
     public static final int TOP_TAB_WIDTH = 80;
     

@@ -12,6 +12,10 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
 
+/**
+ * Panel showing the more info page which includes less important information
+ * such as soil and wind data
+ */
 public class FullInfoPanel extends WeatherPanel {
     private static final int WIND_DIR_ICON_WIDTH = 70;
     
@@ -30,14 +34,6 @@ public class FullInfoPanel extends WeatherPanel {
     
     private final Supplier<WeatherData> dataSupplier;
     
-    /**
-     * Soil moisture text | soil moisture value
-     * Soil temperature text | soil temperature value
-     * Wind text | wind direction icon | wind direction label | wind speed value
-     * Wind text | wind direction icon | wind direction label | wind speed value
-     * Cloud cover text | Cloud cover value
-     * | | summary >>
-     */
     public FullInfoPanel(Supplier<WeatherData> dataSupplier, Runnable showSummary) {
         this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);
@@ -49,10 +45,10 @@ public class FullInfoPanel extends WeatherPanel {
         var summaryPanel = new JPanel();
         summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.PAGE_AXIS));
         
-        var soilMoistPanel = createPanel(createLabel("Soil moisture"), createLabel(soilMoist + " %"));
+        var soilMoistPanel = createPanel(createLabel("Soil moisture"), soilMoistLabel);
         summaryPanel.add(soilMoistPanel);
         
-        var soilTempPanel = createPanel(createLabel("Soil temperature"), createLabel(soilTemp + " °C"));
+        var soilTempPanel = createPanel(createLabel("Soil temperature"), soilTempLabel);
         summaryPanel.add(soilTempPanel);
         
         var windPanel = createPanel(
@@ -62,7 +58,7 @@ public class FullInfoPanel extends WeatherPanel {
                 windSpeedLabel);
         summaryPanel.add(windPanel);
         
-        var cloudCoverPanel = createPanel(createLabel("Cloud cover"), createLabel(cloudCover + " %"));
+        var cloudCoverPanel = createPanel(createLabel("Cloud cover"), cloudCoverLabel);
         summaryPanel.add(cloudCoverPanel);
         
         return summaryPanel;

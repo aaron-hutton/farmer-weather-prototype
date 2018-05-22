@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.function.Function;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
+/**
+ * Panel responsible for Tomorrow view,
+ * a specialisation to DayPanel that uses one day after today as the time to query for weather data
+ */
 public class TomorrowPanel extends DayPanel {
     public TomorrowPanel(Function<LocalDateTime, WeatherData> getDayDataFor,
                          Function<LocalDateTime, List<List<WeatherData>>> getHourlyDataFor) {
