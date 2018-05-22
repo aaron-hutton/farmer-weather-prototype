@@ -14,24 +14,35 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class WeeklyTable extends JPanel {
     
-    
     public static int ROW_HEIGHT = 55;
+    
+    private WeatherTableModel model;
+    private JTable table;
+    private WeatherCustomRenderer renderer;
     
     public WeeklyTable(List<WeatherData> data) {
         this.setLayout(new BorderLayout());
+    
+        model = new WeatherTableModel(data);
+        table = new JTable(model);
         
-        JTable table = new JTable(new WeatherTableModel(data));
-        
-        table.getColumnModel().getColumn(0).setMaxWidth(50);
+        table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(1).setMaxWidth(40);
         table.getColumnModel().getColumn(2).setMaxWidth(50);
-        table.getColumnModel().getColumn(3).setMaxWidth(30);
+        table.getColumnModel().getColumn(3).setMaxWidth(40);
         table.getColumnModel().getColumn(4).setPreferredWidth(50);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        
-        table.setDefaultRenderer(WeatherData.class, new WeeklyWeatherRenderer(data.size()));
+    
+        renderer = new WeeklyWeatherRenderer(data.size());
+        table.setDefaultRenderer(WeatherData.class, renderer);
         
         this.add(setupTableAndBundle(table, MainWindow.SCREEN_HEIGHT-120), BorderLayout.CENTER);
+    }
+    
+    public void updateTable(List<WeatherData> data) {
+        model.updateData(data);
+        renderer.updateSize(data.size());
+        table.repaint();
     }
     
     public static JComponent setupTableAndBundle(JTable table, int height) {
