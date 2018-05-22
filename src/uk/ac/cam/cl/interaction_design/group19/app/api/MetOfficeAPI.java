@@ -33,10 +33,16 @@ public class MetOfficeAPI {
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
     public static WeatherData getDayData(LocalDateTime date, int location_id) {
+        /*
+        Return the summary data for a specific date at a given location
+         */
         return daySummary(location_id, (int) DAYS.between(LocalDate.now(), date.toLocalDate()));
     }
     
     public static int getFrostProb(double temperature) {
+        /*
+        Calculate the probability of frost given a certain temperature
+         */
         if (temperature > 5) {
             return  1;
         } else if (temperature > 0) {
