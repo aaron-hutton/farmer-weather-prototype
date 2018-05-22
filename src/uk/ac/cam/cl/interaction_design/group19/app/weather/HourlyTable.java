@@ -9,6 +9,9 @@ import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
+/**
+ * A panel containing the table instance for displaying the hourly data
+ */
 public class HourlyTable extends JPanel {
     
     private WeatherTableModel model;
@@ -20,11 +23,12 @@ public class HourlyTable extends JPanel {
         model = new WeatherTableModel(data);
         table = new JTable(model);
     
-        table.getColumnModel().getColumn(0).setMaxWidth(50);
-        table.getColumnModel().getColumn(1).setMaxWidth(40);
-        table.getColumnModel().getColumn(2).setMaxWidth(90);
-        table.getColumnModel().getColumn(3).setMaxWidth(30);
-        table.getColumnModel().getColumn(4).setPreferredWidth(50);
+        // Specify the column widths
+        table.getColumnModel().getColumn(0).setMaxWidth(MainWindow.SCREEN_WIDTH/6);
+        table.getColumnModel().getColumn(1).setMaxWidth(MainWindow.SCREEN_WIDTH/8);
+        table.getColumnModel().getColumn(2).setMaxWidth(MainWindow.SCREEN_WIDTH/4+10);
+        table.getColumnModel().getColumn(3).setMaxWidth(MainWindow.SCREEN_WIDTH/9);
+        // Let final column resize
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     
         renderer = new HourlyWeatherRenderer(data.size());

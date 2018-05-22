@@ -14,7 +14,12 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 
-public abstract class WeatherCustomRenderer extends JLabel implements TableCellRenderer {
+/**
+ * The Weather table cell renderer base class,
+ * this caches the resulting label between calls
+ * to reduce the creation of JLabels
+ */
+public abstract class WeatherCustomRenderer implements TableCellRenderer {
     
     private JComponent[][] cache = new JComponent[5][];
     
@@ -24,6 +29,10 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         }
     }
     
+    /**
+     * Resets the cache when the data is invalidated
+     * @param size - The new size of the data
+     */
     public void updateSize(int size) {
         for (int i = 0; i < cache.length; i++) {
             cache[i] = new JComponent[size];
@@ -39,12 +48,14 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
             return cache[column][row];
         }
         
+        // Create the label with specific parameters
         JLabel label = new JLabel();
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setBackground(MainWindow.BACKGROUND_COLOR);
         label.setOpaque(true);
         
         
+        // Display a line at between rows if not at the bottom
         if (table.getRowCount() - 1 == row) {
             label.setBorder(BorderFactory.createEmptyBorder());
         } else {

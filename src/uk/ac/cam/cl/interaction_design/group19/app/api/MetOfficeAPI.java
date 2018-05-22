@@ -143,7 +143,7 @@ public class MetOfficeAPI {
     public static List<List<WeatherData>> fiveDayForecast(int location_id) {
         /*
         Returns a list with items for (up to) five days,
-        each of which is a list of HourlyDatas
+        each of which is a list of WeatherDatas
         representing weather data about some random hour.
 
         For testing, can use location_id = 3066

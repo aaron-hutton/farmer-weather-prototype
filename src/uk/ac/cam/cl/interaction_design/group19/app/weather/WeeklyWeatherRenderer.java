@@ -6,15 +6,21 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
+/**
+ * The table cell formatter specific to the weekly table
+ */
 public class WeeklyWeatherRenderer extends WeatherCustomRenderer {
     
+    /**
+     * The format of a day string
+     */
     private final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("EEE, dd");
     
     public WeeklyWeatherRenderer(int size)
     {
         super(size);
     }
-
+    
     @Override
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected,
@@ -38,6 +44,11 @@ public class WeeklyWeatherRenderer extends WeatherCustomRenderer {
         
     }
     
+    /**
+     * Calculate the ordinal postfix (th, st, rd) for the specific day of the month
+     * @param day - the day of the month
+     * @return the ordinal string
+     */
     private static String getDayOfMonthSuffix(int day) {
         if (day >= 11 && day <= 13) {
             return "th";

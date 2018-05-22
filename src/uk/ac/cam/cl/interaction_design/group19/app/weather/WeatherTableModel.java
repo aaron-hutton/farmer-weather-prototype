@@ -4,6 +4,9 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
+/**
+ * The weather model which provides data to the weather tables
+ */
 public class WeatherTableModel extends AbstractTableModel {
     
     private List<WeatherData> data;
