@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.ScrollBarImplementation;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ScrollBarImplementation;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class WeeklyTable extends JPanel {
