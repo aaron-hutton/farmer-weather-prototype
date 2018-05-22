@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -98,7 +99,7 @@ public class ForecastPanel extends JPanel {
             
             //Table stylistic decisions
             table.setOpaque(false);
-            table.setBorder(BorderFactory.createEmptyBorder());
+            table.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             table.setTableHeader(null);
     
             table.setRowHeight(Math.min((MainWindow.SCREEN_HEIGHT - 80) / 5, MINIMUM_ROW_HEIGHT));
@@ -106,9 +107,16 @@ public class ForecastPanel extends JPanel {
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             table.setBackground(MainWindow.BACKGROUND_COLOR);
     
-            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-            rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer() {
+                @Override
+                public Border getBorder() {
+                    return BorderFactory.createLineBorder(Color.BLACK);
+                }
+            };
+            rightRenderer.setHorizontalAlignment(JLabel.CENTER);
+            rightRenderer.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
             table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            table.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
             
             //Add table to view
             t.add(table);
