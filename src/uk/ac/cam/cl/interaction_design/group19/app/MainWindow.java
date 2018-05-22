@@ -19,8 +19,11 @@ import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
 import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
+import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.bizeeAPI;
@@ -72,6 +75,7 @@ public class MainWindow extends JFrame implements Updatable {
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         
         this.setResizable(false);
+        this.setIconImage(Icons.getIcon(IconType.APP_ICON));
     }
     
     public void addTabs() {

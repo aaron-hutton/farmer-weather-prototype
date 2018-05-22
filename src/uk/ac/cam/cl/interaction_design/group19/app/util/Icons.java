@@ -42,7 +42,8 @@ public class Icons {
             new SimpleEntry<>(IconType.LIGHT_SNOW, "slice_7_5.png"),
             new SimpleEntry<>(IconType.HEAVY_SNOW, "slice_7_9.png"),
             new SimpleEntry<>(IconType.THUNDER, "slice_9_7.png"),
-            new SimpleEntry<>(IconType.QUESTION_MARK, "question.png")
+            new SimpleEntry<>(IconType.QUESTION_MARK, "question.png"),
+            new SimpleEntry<>(IconType.APP_ICON, "app_icon.png")
     );
     
     private static final Map<WeatherType, IconType> weatherToIconMap = Map.ofEntries(

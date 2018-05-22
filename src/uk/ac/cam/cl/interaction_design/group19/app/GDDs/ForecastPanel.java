@@ -107,8 +107,9 @@ public class ForecastPanel extends JPanel {
             table.setBackground(MainWindow.BACKGROUND_COLOR);
     
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-            rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-            table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            rightRenderer.setHorizontalAlignment(JLabel.CENTER);
+            table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);;
+            table.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
             
             //Add table to view
             t.add(table);

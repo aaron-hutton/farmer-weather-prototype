@@ -30,5 +30,6 @@ public enum IconType {
     ARROW_UP_LEFT,
     ARROW_DOWN_RIGHT,
     ARROW_DOWN_LEFT,
-    HORIZONTAL_BARS
+    HORIZONTAL_BARS,
+    APP_ICON
 }
