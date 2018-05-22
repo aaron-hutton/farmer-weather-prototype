@@ -58,16 +58,10 @@ public abstract class WeatherCustomRenderer extends JLabel implements TableCellR
         WeatherData data = (WeatherData) value;
         switch (column) {
             case 2:
-                label.setText(Math.round(data.temperature) + "°C");
-                break;
-            case 4:
-                label.setText("Precip here");
+                label.setText(data.temperature + "°C");
                 break;
             case 1:
                 label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(data.weather, 30)));
-                break;
-            case 3:
-                label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(IconType.RAINDROP, 30)));
                 break;
         }
         cache[column][row] = label;

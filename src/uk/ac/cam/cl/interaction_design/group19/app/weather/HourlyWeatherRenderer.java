@@ -2,9 +2,13 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.Component;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
+import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
@@ -25,12 +29,17 @@ public class HourlyWeatherRenderer extends WeatherCustomRenderer implements Tabl
             System.exit(0);
         }
         WeatherData data = (WeatherData) value;
+        JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        
         if (column == 0) {
-            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             label.setText(data.time.format(TIME_FORMAT));
-            return label;
-        } else {
-            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        } else if(column == 4) {
+            label.setText(data.precipitation_prob+"%");
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+        } else if(column == 3) {
+            label.setIcon(new ImageIcon(Icons.getSizedWidthIcon(IconType.RAINDROP, 30)));
+            label.setHorizontalAlignment(SwingConstants.RIGHT);
         }
+        return label;
     }
 }

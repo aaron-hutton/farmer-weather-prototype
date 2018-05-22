@@ -22,7 +22,7 @@ public class HourlyTable extends JPanel {
     
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(40);
-        table.getColumnModel().getColumn(2).setMaxWidth(50);
+        table.getColumnModel().getColumn(2).setMaxWidth(90);
         table.getColumnModel().getColumn(3).setMaxWidth(30);
         table.getColumnModel().getColumn(4).setPreferredWidth(50);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);

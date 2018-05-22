@@ -24,15 +24,18 @@ public class WeeklyWeatherRenderer extends WeatherCustomRenderer {
             System.exit(0);
         }
         WeatherData data = (WeatherData) value;
+    
+        JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         
         if(column == 0) {
-
-            JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             label.setText(data.time.format(TIME_FORMAT)+getDayOfMonthSuffix(data.time.getDayOfMonth()));
-            return label;
-        } else {
-            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        } else if(column == 3) {
+            label.setText(data.wind_speed+"m/s");
+        } else if(column == 4) {
+            label.setText(data.low_temperature + "°C - "+data.high_temperature+"°C");
         }
+        return label;
+        
     }
     
     private static String getDayOfMonthSuffix(int day) {
