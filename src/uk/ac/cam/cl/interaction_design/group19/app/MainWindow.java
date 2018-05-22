@@ -25,6 +25,12 @@ import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.bizeeAPI;
 
+/**
+ * Main window of the application.
+ * Contains style constants like screen dimension and colors.
+ * Enforces division between views and data
+ * by passing lambdas with references to model owned by MainWindow to view objects
+ */
 public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
     public static final int SCREEN_HEIGHT = 480;
