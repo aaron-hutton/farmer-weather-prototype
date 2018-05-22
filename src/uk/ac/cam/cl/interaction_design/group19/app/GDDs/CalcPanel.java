@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import net.degreedays.api.RequestFailureException;
 
 public class CalcPanel extends JPanel {
 
@@ -125,9 +126,9 @@ public class CalcPanel extends JPanel {
                     //TODO: real location
                     dataOut.setText(Integer.toString((int) api.gddSince(loc, 10, date)));
                     dataOut.setFont(new Font(dataOut.getFont().toString(), Font.BOLD, 70));
-                } catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException | RequestFailureException e){
                     //Tell user they've entered an invalid date (e.g. in the future)
-                    dataOut.setText("The date you have entered is invalid");
+                    dataOut.setText("The date you have entered is invalid (in the future or too far in the past)");
                     //Make text red for error message
                     dataOut.setForeground(Color.red);
                 }
