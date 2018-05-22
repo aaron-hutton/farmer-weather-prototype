@@ -1,40 +1,39 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.awt.GridLayout;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.WeatherPanel;
 
 public class HourlyPanel extends WeatherPanel {
-    private final JButton summary = new JButton("< summary");
     
-    public HourlyPanel(Supplier<LocalDateTime> dateSupplier, Runnable showSummary) {
-        super(dateSupplier);
+    private static final int NUM_HOURS_TO_DISPLAY = 24;
+    
+    private final JButton                           summary = new JButton("< summary");
+    private final Supplier<List<List<WeatherData>>> dataSupplier;
+    
+    private JPanel mainPanel;
+    private HourlyTable table;
+    
+    public HourlyPanel(Supplier<List<List<WeatherData>>> dataSupplier, Runnable showSummary) {
+        this.dataSupplier = dataSupplier;
         addOnClick(summary, showSummary);
         populate();
-        
     }
     
     @Override
     protected JPanel createMainPanel() {
-        JPanel                 mainPanel = new JPanel();
-        // TODO: Fix location
-        List<List<HourlyData>> data      = MetOfficeAPI.fiveDayForecast(3066);
+        mainPanel = new JPanel();
         
-        if(data == null || data.size() == 0) {
-            JLabel failLabel = new JLabel("There is no data to display.");
-            mainPanel.add(failLabel);
-        } else {
-            HourlyTable table = new HourlyTable(data.get(0));
-            mainPanel.add(table);
-        }
+        update();
+        
         return mainPanel;
     }
     
@@ -53,6 +52,29 @@ public class HourlyPanel extends WeatherPanel {
     
     @Override
     public void update() {
+        mainPanel.removeAll();
+        List<List<WeatherData>> data = dataSupplier.get();
     
+        if (data == null || data.size() == 0) {
+            JLabel failLabel = new JLabel("There is no data to display.");
+            mainPanel.add(failLabel);
+        } else {
+            if(table == null) {
+                table = new HourlyTable(getNextNHours(data));
+            } else {
+                table.updateTable(getNextNHours(data));
+            }
+            mainPanel.add(table);
+        }
+    }
+    
+    private static List<WeatherData> getNextNHours(List<List<WeatherData>> data) {
+        int counter = 0;
+        List<WeatherData> specificData = new ArrayList<>(data.get(0));
+        counter += specificData.size();
+        if(counter < NUM_HOURS_TO_DISPLAY) {
+            specificData.addAll(data.get(1).subList(0, NUM_HOURS_TO_DISPLAY-counter));
+        }
+        return specificData;
     }
 }

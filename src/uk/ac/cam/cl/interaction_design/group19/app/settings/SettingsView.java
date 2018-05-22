@@ -1,8 +1,8 @@
 package uk.ac.cam.cl.interaction_design.group19.app.settings;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ItemEvent;
-import java.text.ParseException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -20,10 +18,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import uk.ac.cam.cl.interaction_design.group19.app.util.Action;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Property;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
-public class SettingsView extends JPanel {
+/**
+ * Settings view responsible for getting input from user and passing it on
+ * through the callbacks provided in the constructor
+ */
+public class SettingsView extends JPanel implements Updatable {
+    // regex that should match valid UK postcodes
+    // from: https://stackoverflow.com/questions/164979/uk-postcode-regex-comprehensive
     private static final Pattern postcodeRegex = Pattern.compile(
             "^(([gG][iI][rR] {0,}0[aA]{2})|" +
             "((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|" +
@@ -31,10 +36,10 @@ public class SettingsView extends JPanel {
             "([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}" +
             "[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$");
     
-    private static final Border                    settingsMargin =
-            new EmptyBorder(10, 10, 10, 10);
-    private static final Border                    labelMargin    =
-            new EmptyBorder(5, 5, 5, 5);
+    private static final Border                    settingsMargin = new EmptyBorder(10, 10, 10, 10);
+    private static final Border                    labelMargin    = new EmptyBorder(5, 5, 5, 5);
+    private static final Font                      headingFont    =
+            new JLabel().getFont().deriveFont(Font.BOLD).deriveFont(18f);
     private static final Map<ExtremeEvent, String> eventNames     = Map.of(
             ExtremeEvent.FLOOD, "Flood",
             ExtremeEvent.DROUGHT, "Drought",
@@ -44,22 +49,7 @@ public class SettingsView extends JPanel {
     );
     
     private final Map<ExtremeEvent, JCheckBox> alertCheckboxes;
-    private final JFormattedTextField          locationField = new JFormattedTextField(new AbstractFormatter() {
-        @Override
-        public Object stringToValue(String text) throws ParseException {
-            Matcher m = postcodeRegex.matcher(text);
-            if (m.matches()) {
-                return text;
-            } else {
-                throw new ParseException("'" + text + "' is not a valid postcode", 0);
-            }
-        }
-        
-        @Override
-        public String valueToString(Object value) {
-            return (String) value;
-        }
-    });
+    private final JTextField                   locationField = new JTextField();
     
     public SettingsView(Property<String> locationProperty,
                         Property<Boolean> highContrastProperty,
@@ -69,24 +59,38 @@ public class SettingsView extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBorder(settingsMargin);
         
-        addLabel("SETTINGS");
+        addLabel("Settings", headingFont);
         addTextSettingPanel(new JLabel("Location: "), locationField);
-        locationField.setValue(locationProperty.get());
-        locationField.addPropertyChangeListener("value",
-                                                e -> locationProperty.set((String) e.getNewValue()));
+        locationField.setText(locationProperty.get());
+        locationField.addActionListener(e -> {
+                var     text = locationField.getText();
+                Matcher m    = postcodeRegex.matcher(text);
+                if (m.matches()) {
+                    locationProperty.set(text);
+                } else {
+                    locationField.setText("Invalid postcode!");
+                }
+        });
         addHighContrastPanel(highContrastProperty);
         addNotificationPanel(alertProperties);
     }
     
-    private void addLabel(String text) {
+    private void addLabel(String text, Font font) {
         var outer    = new JPanel(new BorderLayout());
         var settings = new JLabel(text);
+        settings.setFont(font);
         settings.setHorizontalAlignment(SwingConstants.CENTER);
         outer.add(settings, BorderLayout.CENTER);
         this.add(outer);
         this.add(new JSeparator());
     }
     
+    /**
+     * Add panel that accepts text input from user
+     *
+     * @param descriptor descriptor of the input shown to user on the right
+     * @param inputField input field filling all remaining space for the user to type in
+     */
     private void addTextSettingPanel(JComponent descriptor, JTextField inputField) {
         var outer = new JPanel(new BorderLayout());
         var sp    = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -120,8 +124,8 @@ public class SettingsView extends JPanel {
         var notificationPanel = createCheckboxSettingPanel(new JLabel("Notifications: "), allAlertsCheckBox);
         this.add(notificationPanel);
         
-        alertCheckboxes.keySet().stream()
-                       .forEachOrdered(event -> {
+        alertCheckboxes.keySet()
+                       .forEach(event -> {
                            var alert    = alerts.get(event);
                            var checkBox = alertCheckboxes.get(event);
                            addCheckboxObserver(checkBox, () -> alert.set(true), () -> alert.set(false));
@@ -129,12 +133,12 @@ public class SettingsView extends JPanel {
                        });
     }
     
-    private void addCheckboxObserver(JCheckBox checkBox, Action onSelected, Action onDeselected) {
+    private void addCheckboxObserver(JCheckBox checkBox, Runnable onSelected, Runnable onDeselected) {
         checkBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                onSelected.call();
+                onSelected.run();
             } else if (e.getStateChange() == ItemEvent.DESELECTED) {
-                onDeselected.call();
+                onDeselected.run();
             }
         });
     }
@@ -145,5 +149,9 @@ public class SettingsView extends JPanel {
         sp.add(descriptor, BorderLayout.WEST);
         sp.add(checkBox, BorderLayout.EAST);
         return sp;
+    }
+    
+    @Override
+    public void update() {
     }
 }

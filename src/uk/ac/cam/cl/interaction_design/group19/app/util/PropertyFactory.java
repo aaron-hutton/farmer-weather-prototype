@@ -3,6 +3,9 @@ package uk.ac.cam.cl.interaction_design.group19.app.util;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * Utility class that allows for use of FunctionalInterface syntax when creating Properties
+ */
 public class PropertyFactory {
     public static <T> Property<T> createProperty(Supplier<T> get, Consumer<T> set) {
         return new Property<T>() {

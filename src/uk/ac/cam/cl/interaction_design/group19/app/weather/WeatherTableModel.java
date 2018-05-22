@@ -2,14 +2,13 @@ package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
 public class WeatherTableModel extends AbstractTableModel {
     
-    private List<HourlyData> data;
+    private List<WeatherData> data;
     
-    public WeatherTableModel(List<HourlyData> data) {
+    public WeatherTableModel(List<WeatherData> data) {
         this.data = data;
     }
     
@@ -36,5 +35,9 @@ public class WeatherTableModel extends AbstractTableModel {
     @Override
     public boolean isCellEditable(int row, int col) {
         return false;
+    }
+    
+    public void updateData(List<WeatherData> data) {
+        this.data = data;
     }
 }

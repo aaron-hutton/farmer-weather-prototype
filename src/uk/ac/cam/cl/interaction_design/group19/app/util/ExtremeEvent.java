@@ -1,4 +1,4 @@
-package uk.ac.cam.cl.interaction_design.group19.app.settings;
+package uk.ac.cam.cl.interaction_design.group19.app.util;
 
 public enum ExtremeEvent {
     FROST,

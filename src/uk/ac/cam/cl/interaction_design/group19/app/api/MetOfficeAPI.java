@@ -16,8 +16,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherType;
-import uk.ac.cam.cl.interaction_design.group19.app.weather.WindDir;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherType;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WindDir;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MetOfficeAPI {
     
@@ -29,18 +32,11 @@ public class MetOfficeAPI {
     public static final String HOURLY_LOCATION_LIST = "val/wxobs/all/json/sitelist";
     public static final String IMAGE_PATH           = "layer/wxobs/all/json/capabilities";
     
-    public static DayData getDayData(LocalDateTime date, int location_id) {
-        //TODO: make nicer
-        if (date.toLocalDate().equals(LocalDate.now())) {
-            return todaySummary(location_id);
-        } else if (date.toLocalDate().equals(LocalDate.now().plusDays(1))) {
-            return tomorrowSummary(location_id);
-        } else {
-            return null;
-        }
+    public static WeatherData getDayData(LocalDateTime date, int location_id) {
+        return daySummary(location_id, (int) DAYS.between(LocalDate.now(), date.toLocalDate()));
     }
     
-    public static DayData daySummary(int location_id, int day_number) {
+    public static WeatherData daySummary(int location_id, int day_number) {
         try {
             URL        url = makeURL(addParam(DAILY_DATA + Integer.toString(location_id), "res", "daily"));
             JsonObject obj = jsonFromUrl(url);
@@ -68,25 +64,26 @@ public class MetOfficeAPI {
             }
             WindDir dir        = WeatherData.getWindDir(getAsStringOrDefault(day, "D", "N"));
             int     wind_speed = day.get("S").getAsInt();
-            return new DayData(weather,
-                               temperature,
-                               min_temp,
-                               max_temp,
-                               precipitation_prob,
-                               frost_prob,
-                               dir,
-                               wind_speed);
+            return new WeatherData(LocalDateTime.now().plusDays(day_number),
+                                   weather,
+                                   temperature,
+                                   min_temp,
+                                   max_temp,
+                                   precipitation_prob,
+                                   frost_prob,
+                                   dir,
+                                   wind_speed);
         } catch (NullPointerException e) {
-            return new DayData(WeatherType.DRIZZLE, 10, 8, 23, 72, 3, WindDir.NW, 12);
+            return new WeatherData(LocalDateTime.now().plusDays(day_number),
+                               WeatherType.DRIZZLE,
+                               10,
+                               8,
+                               23,
+                               72,
+                               3,
+                               WindDir.NW,
+                               12);
         }
-    }
-    
-    public static DayData todaySummary(int location_id) {
-        return daySummary(location_id, 0);
-    }
-    
-    public static DayData tomorrowSummary(int location_id) {
-        return daySummary(location_id, 1);
     }
     
     public static URL makeURL(String resource_part) {
@@ -139,11 +136,11 @@ public class MetOfficeAPI {
     
     public static void main(String[] args) {
         MetOfficeAPI api = new MetOfficeAPI();
-        System.out.println(api.fiveDayForecast(3066).get(0).get(4).time);
+        System.out.println(api.fiveDayForecast(3066).get(0).get(4));
         System.out.println(Location.fromAddress("Homerton College, Cambridge").latitude);
     }
     
-    public static List<List<HourlyData>> fiveDayForecast(int location_id) {
+    public static List<List<WeatherData>> fiveDayForecast(int location_id) {
         /*
         Returns a list with items for (up to) five days,
         each of which is a list of HourlyDatas
@@ -151,7 +148,7 @@ public class MetOfficeAPI {
 
         For testing, can use location_id = 3066
         */
-        List<List<HourlyData>> days = new ArrayList<>();
+        List<List<WeatherData>> days = new ArrayList<>();
         URL                    url  = makeURL(addParam(HOURLY_DATA + Integer.toString(location_id), "res", "hourly"));
         if (url == null) {
             return days;
@@ -159,9 +156,17 @@ public class MetOfficeAPI {
         JsonObject obj = jsonFromUrl(url);
         if (obj == null) {
             for (int i = 0; i < 5; i++) {
-                List<HourlyData> day = new ArrayList<>();
+                List<WeatherData> day = new ArrayList<>();
                 for (int j = 0; j < 14; j++) {
-                    day.add(new HourlyData(12.0, 4.2, "NW", "5", "09:00"));
+                    day.add(new WeatherData(LocalDateTime.now().plusDays(i).plusHours(j+7),
+                                            WeatherType.SUNNY_DAY,
+                                            17+j/5,
+                                            14+j/5,
+                                            20+j/5,
+                                            33+j/2,
+                                            0+j/2,
+                                            WindDir.NE,
+                                            14-j/2));
                 }
                 days.add(day);
             }
@@ -169,20 +174,31 @@ public class MetOfficeAPI {
         }
         JsonArray days_objects = obj.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                     .getAsJsonObject("Location").getAsJsonArray("Period");
-        
+    
+        LocalDateTime              time     = LocalDateTime.now().minusMinutes(LocalDateTime.now().getMinute());
         for (JsonElement day : days_objects) {
             JsonArray        hours    = day.getAsJsonObject().getAsJsonArray("Rep");
-            List<HourlyData> day_list = new ArrayList<>();
-            int              time     = 9;
+            List<WeatherData> day_list = new ArrayList<>();
+            int i = 0;
             for (JsonElement hour : hours) {
-                String     timestamp = String.valueOf(time / 10) + String.valueOf(time % 10) + ":00";
                 JsonObject h         = hour.getAsJsonObject();
-                day_list.add(new HourlyData(getAsDoubleOrDefault(h, "T", 10),
-                                            getAsDoubleOrDefault(h, "S", 10),
+                day_list.add(new WeatherData(time,
+                                             WeatherType.SUNNY_DAY,
+                                             17+i/5,
+                                             14+i/5,
+                                             20+i/5,
+                                             33+i/2,
+                                             0+i/2,
+                                             WindDir.N,
+                                             14-i/2));
+                                             /*
+                                             getAsDoubleOrDefault(h, "T", -1),
+                                            getAsDoubleOrDefault(h, "S", -1),
                                             getAsStringOrDefault(h, "D", "N"),
-                                            getAsStringOrDefault(h, "W", "N"),
-                                            timestamp));
-                time++;
+                                            getAsStringOrDefault(h, "W", "NA")
+                                            ));*/
+                time = time.plusHours(1);
+                i++;
             }
             days.add(day_list);
         }
@@ -231,33 +247,23 @@ public class MetOfficeAPI {
         return result;
     }
     
-    public ArrayList<Double> gddForecast(int location, double base) {
-        //Null if the server returns nothing so error message displays correctly
-        ArrayList<Double> toReturn = null;
+    public static ArrayList<Double> gddForecast(int location, double base) {
+        var toReturn = new ArrayList();
         
-        //Make url to request weekly data from the MetOffice Datapoint API
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
         
-        //Get JSON object from url
         JsonObject weekly = jsonFromUrl(u);
         
-        //If the server returned data
-        if(weekly != null){
-            toReturn = new ArrayList<>();
-            
-            //Get the weekly data
+        if (weekly != null) {
             JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                           .getAsJsonObject("Location").getAsJsonArray("Period");
             
-            //Extract each day from the week array
             for (JsonElement j : weekJsonArr) {
                 JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
                 int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
                 int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
-                //Put GDDs in ArrayList in order
                 toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
             }
-    
         }
         
         return toReturn;

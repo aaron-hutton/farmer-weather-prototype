@@ -8,28 +8,51 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
+import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
-import uk.ac.cam.cl.interaction_design.group19.app.settings.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
+import uk.ac.cam.cl.interaction_design.group19.app.util.ExtremeEvent;
 import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
+import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
     public static final int SCREEN_HEIGHT = 480;
     
-    public static final int BOTTOM_TAB_WIDTH = 55;
-    public static final Color BACKGROUND_COLOR = new Color(229, 235, 255);
+    public static final  int   BOTTOM_TAB_WIDTH         = 55;
+    public static final  Color BACKGROUND_COLOR         = new Color(229, 235, 255);
+    public static final  Color LOW_CONTRAST_TEXT_COLOR  = new Color(51, 82, 122);
+    private static final Color HIGH_CONTRAST_TEXT_COLOR = Color.BLACK;
     
     private final Model model;
     
+    private final WeatherView  weatherView;
+    private final GDDsView     gddsView;
+    private final MapsView     mapsView;
+    private final SettingsView settingsView;
+    
     public MainWindow() throws IOException {
-        model = new Model();
+        model = new Model(this::update,
+                          () -> UIManager.put("text", HIGH_CONTRAST_TEXT_COLOR),
+                          () -> UIManager.put("text", LOW_CONTRAST_TEXT_COLOR));
+        
+        weatherView = new WeatherView(time -> MetOfficeAPI.getDayData(time, model.getLocationID()),
+                                      time -> MetOfficeAPI.fiveDayForecast(model.getLocationID()),
+                                      time -> IntStream.range(0, WeeklyPanel.NUM_DAYS_TO_SHOW).mapToObj(
+                                              i -> MetOfficeAPI.daySummary(model.getLocationID(), i))
+                                                       .collect(Collectors.toList()));
+        gddsView = new GDDsView();
+        mapsView = new MapsView();
+        settingsView = createSettingsView();
+        
         initWindow();
         addTabs();
         this.setVisible(true);
@@ -39,14 +62,14 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Farmer Weather App");
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        this.setResizable(true);
+        
+        this.setResizable(false);
     }
     
-    public void addTabs() throws IOException {
+    public void addTabs() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.setBackground(BACKGROUND_COLOR);
-
+        
         
         JLabel weatherLabel = new JLabel("Weather");
         weatherLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, weatherLabel.getPreferredSize().height));
@@ -60,10 +83,10 @@ public class MainWindow extends JFrame {
         JLabel settingsLabel = new JLabel("Settings");
         settingsLabel.setPreferredSize(new Dimension(BOTTOM_TAB_WIDTH, settingsLabel.getPreferredSize().height));
         
-        tabs.addTab("Weather", new WeatherView());
-        tabs.addTab("Maps", new MapsView());
-        tabs.addTab("GDDs", new GDDsView());
-        tabs.addTab("Settings", createSettingsView());
+        tabs.addTab("Weather", weatherView);
+        tabs.addTab("Maps", mapsView);
+        tabs.addTab("GDDs", gddsView);
+        tabs.addTab("Settings", settingsView);
         tabs.setTabComponentAt(0, weatherLabel);
         tabs.setTabComponentAt(1, mapsLabel);
         tabs.setTabComponentAt(2, GDDsLabel);
@@ -83,7 +106,7 @@ public class MainWindow extends JFrame {
                                            v -> model.setAlert(e, v))));
         return new SettingsView(
                 PropertyFactory.createProperty(model::getPostcode, model::setPostcode),
-                PropertyFactory.createProperty(model::getHighContrast, model::setHighContrast),
+                PropertyFactory.createProperty(model::getHighContrastMode, model::setHighContrastMode),
                 alerts);
     }
     
@@ -93,11 +116,13 @@ public class MainWindow extends JFrame {
                                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                                            if ("Nimbus".equals(info.getName())) {
                                                UIManager.setLookAndFeel(info.getClassName());
+                        
                                                break;
                                            }
                                        }
                                        UIManager.getLookAndFeelDefaults().put("Panel.background", BACKGROUND_COLOR);
-                                       UIManager.put("TextField.inactiveBackground", MainWindow.BACKGROUND_COLOR);
+                                       UIManager.put("text", LOW_CONTRAST_TEXT_COLOR);
+//                                       UIManager.put ("JLabel.foreground", Color.white);
                                    } catch (Exception e) {
                                        // Default to Java LookAndFell
                                    }
@@ -108,5 +133,13 @@ public class MainWindow extends JFrame {
                                    }
                                }
         );
+    }
+    
+    @Override
+    public void update() {
+        weatherView.update();
+        mapsView.update();
+        gddsView.update();
+        settingsView.update();
     }
 }

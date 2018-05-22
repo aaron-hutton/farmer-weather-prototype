@@ -1,28 +1,39 @@
 package uk.ac.cam.cl.interaction_design.group19.app.weather;
 
 import java.util.List;
+import java.util.function.Supplier;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
-import uk.ac.cam.cl.interaction_design.group19.app.api.HourlyData;
-import uk.ac.cam.cl.interaction_design.group19.app.api.Location;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
-import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeLocation;
+import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
-public class WeeklyPanel extends JPanel {
-    private static final int FALLBACK_LOCATION_ID = 0;
+public class WeeklyPanel extends JPanel implements Updatable {
     
-    public WeeklyPanel() {
-        List<MetOfficeLocation> available_locations = MetOfficeAPI.hourlyLocationList();
-        Location                homerton            = Location.fromAddress("Homerton College, Cambridge");
-        MetOfficeLocation       closest             = homerton.closest(available_locations);
-        int                     nearest_id          = closest != null ? closest.id : FALLBACK_LOCATION_ID;
-        List<List<HourlyData>>  data                = MetOfficeAPI.fiveDayForecast(nearest_id);
+    public static final int NUM_DAYS_TO_SHOW = 5;
+    
+    private final Supplier<List<WeatherData>> dataSupplier;
+    private WeeklyTable table;
+    
+    public WeeklyPanel(Supplier<List<WeatherData>> dataSupplier) {
+        this.dataSupplier = dataSupplier;
+        
+        update();
+    }
+    
+    @Override
+    public void update() {
+        this.removeAll();
+        List<WeatherData> data = dataSupplier.get();
+    
         if (data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");
             this.add(failLabel);
         } else {
-            WeeklyTable table = new WeeklyTable(data.get(0));
+            if(table == null) {
+                table = new WeeklyTable(data);
+            } else {
+                table.updateTable(data);
+            }
             this.add(table);
         }
     }

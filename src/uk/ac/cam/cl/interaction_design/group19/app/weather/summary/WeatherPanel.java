@@ -4,11 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -17,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
+import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
 /**
  * Base class for panels in weather view
@@ -27,38 +23,25 @@ import uk.ac.cam.cl.interaction_design.group19.app.MainWindow;
  * <p>
  * Also includes utility methods for subclasses
  */
-public abstract class WeatherPanel extends JPanel {
-    private static final float                   DEFAULT_FONT_SIZE = 18;
-    private static final double                  MAIN_PANEL_RATIO  = 0.85;
-    private static final int                     REFERENCE_HEIGHT  = 100;
-    protected final      Supplier<LocalDateTime> dateSupplier;
-    private final        ComponentListener       resizeListener    = new ComponentAdapter() {
-        @Override
-        public void componentResized(ComponentEvent e) {
-            update();
-        }
-    };
+public abstract class WeatherPanel extends JPanel implements Updatable {
+    private static final float  DEFAULT_FONT_SIZE = 18;
+    private static final double MAIN_PANEL_RATIO  = 0.85;
+    private static final int    REFERENCE_HEIGHT  = 100;
     
     
     /**
      * Main panel       - 0.85 of vertical space
      * Buttons panel    - 0.15 of vertical space
      */
-    public WeatherPanel(Supplier<LocalDateTime> dateSupplier) {
+    public WeatherPanel() {
         super(new BorderLayout());
         this.setBackground(MainWindow.BACKGROUND_COLOR);
-        this.dateSupplier = dateSupplier;
-        this.addComponentListener(resizeListener);
     }
     
     protected static JPanel createPanel(JComponent... components) {
         var outer = new JPanel(new GridBagLayout());
         var inner = new JPanel(new GridLayout(1, components.length));
-        Stream.of(components).forEachOrdered(inner::add);//c ->
-//        {
-//            c.setBorder(BorderFactory.createDashedBorder(Color.GREEN));
-//            inner.add(c);
-//        });
+        Stream.of(components).forEachOrdered(inner::add);
         outer.add(inner);
         return outer;
     }
@@ -71,7 +54,6 @@ public abstract class WeatherPanel extends JPanel {
         var label = new JLabel(text);
         label.setFont(label.getFont().deriveFont(fontSize));
         label.setHorizontalAlignment(SwingConstants.CENTER);
-//        label.setBorder(BorderFactory.createLineBorder(Color.RED));
         return label;
     }
     
@@ -84,14 +66,17 @@ public abstract class WeatherPanel extends JPanel {
     }
     
     protected static void addOnClick(JButton btn, Runnable btnAction) {
-        btn.addActionListener(e ->
-                              {
-                                  if (e.getActionCommand().equals(btn.getText())) {
-                                      btnAction.run();
-                                  }
-                              });
+        btn.addActionListener(e -> {
+            if (e.getActionCommand().equals(btn.getText())) {
+                btnAction.run();
+            }
+        });
     }
     
+    /**
+     * Create both main panel and button panel
+     * using functions implemented by subclasses
+     */
     protected void populate() {
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         sp.setResizeWeight(MAIN_PANEL_RATIO);
@@ -120,6 +105,4 @@ public abstract class WeatherPanel extends JPanel {
     protected abstract JPanel createMainPanel();
     
     protected abstract JPanel createButtonsPanel();
-    
-    public abstract void update();
 }
