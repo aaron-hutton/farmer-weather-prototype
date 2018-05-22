@@ -74,9 +74,8 @@ public class bizeeAPI {
     }
     
     //Make a request to the MetOfficeApi to get the GDDs for the next five days
-    public ArrayList<Double> gddForecast(int location, double base) {
-        MetOfficeAPI api = new MetOfficeAPI();
-        return api.gddForecast(location, base);
+    public static ArrayList<Double> gddForecast(int location, double base) {
+        return MetOfficeAPI.gddForecast(location, base);
     }
 
 //    public static void main(String[] args) {

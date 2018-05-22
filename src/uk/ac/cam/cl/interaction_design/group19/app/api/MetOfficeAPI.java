@@ -248,20 +248,29 @@ public class MetOfficeAPI {
     }
     
     public static ArrayList<Double> gddForecast(int location, double base) {
-        var toReturn = new ArrayList();
+        //Null if the server returns nothing so error message displays correctly
+        ArrayList<Double> toReturn = null;
         
+        //Make url to request weekly data from the MetOffice Datapoint API
         URL u = makeURL(addParam(DAILY_DATA + Integer.toString(location), "res", "daily"));
         
+        //Get JSON object from url
         JsonObject weekly = jsonFromUrl(u);
         
-        if (weekly != null) {
+        //If the server returned data
+        if(weekly != null){
+            toReturn = new ArrayList<>();
+            
+            //Get the weekly data
             JsonArray weekJsonArr = weekly.getAsJsonObject("SiteRep").getAsJsonObject("DV")
                                           .getAsJsonObject("Location").getAsJsonArray("Period");
             
+            //Extract each day from the week array
             for (JsonElement j : weekJsonArr) {
                 JsonArray dayNight = j.getAsJsonObject().getAsJsonArray("Rep");
                 int       max      = dayNight.get(0).getAsJsonObject().get("Dm").getAsInt();
                 int       min      = dayNight.get(1).getAsJsonObject().get("Nm").getAsInt();
+                //Put GDDs in ArrayList in order
                 toReturn.add(Math.max(((double) max + min) / 2 - base, 0));
             }
         }

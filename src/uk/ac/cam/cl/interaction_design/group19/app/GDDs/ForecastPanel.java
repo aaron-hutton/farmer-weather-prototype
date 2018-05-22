@@ -32,7 +32,7 @@ public class ForecastPanel extends JPanel {
     private static final String[] days = {"Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"};
     public static int MINIMUM_ROW_HEIGHT = 70;
 
-    public ForecastPanel(Runnable showCalc) {
+    public ForecastPanel(Runnable showCalc, ArrayList<Double> forecastData) {
         
         //Set entire panel layout
         this.setLayout(new BorderLayout());
@@ -43,11 +43,15 @@ public class ForecastPanel extends JPanel {
         //Create api object
         bizeeAPI api = new bizeeAPI();
         
-        //Get new data if the location has been updated or the app has just been opened
-        if(data == null) {
-            //TODO: real location
-            getForecast(api, 3840);
-        }
+//        //Get new data if the location has been updated or the app has just been opened
+//        if(data == null) {
+//
+//            getForecast(api, 3840);
+//        }
+        
+        //Get forecast data
+        data = forecastData;
+        makeForecast();
         
         //Create a forecast title
         JLabel forecast = new JLabel("Forecast");
@@ -117,20 +121,42 @@ public class ForecastPanel extends JPanel {
         buttons.setMaximumSize(new Dimension(700, 100));
     }
     
-    //Get the GDDs forecast for the next five days
-    private void getForecast(bizeeAPI api, int location) {
+//    //Get the GDDs forecast for the next five days
+//    private void getForecast(bizeeAPI api, int location) {
+//        Calendar calendar = Calendar.getInstance();
+//        int day = calendar.get(Calendar.DAY_OF_WEEK);
+//
+//        data = api.gddForecast(location, 10);
+//
+//        //Put the data into a table writable format and add day
+//        dataTable = new String[data.size()][2];
+//        int i =0;
+//        for(Double d : data) {
+//            String[] it = new String[2];
+//            it[0] = days[(day-1 % 7)];
+//
+//            //Round to 3sf
+//            BigDecimal bd = new BigDecimal(d);
+//            bd = bd.round(new MathContext(3));
+//            it[1] = bd.toString();
+//            dataTable[i] = it;
+//            i++;
+//            day++;
+//        }
+//    }
+    
+    //Make table displayable data from gdd list
+    private static void makeForecast() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
-        
-        data = api.gddForecast(location, 10);
-        
+    
         //Put the data into a table writable format and add day
         dataTable = new String[data.size()][2];
         int i =0;
         for(Double d : data) {
             String[] it = new String[2];
             it[0] = days[(day-1 % 7)];
-            
+        
             //Round to 3sf
             BigDecimal bd = new BigDecimal(d);
             bd = bd.round(new MathContext(3));
@@ -156,6 +182,14 @@ public class ForecastPanel extends JPanel {
         bottomButtons.add(calculator);
 
         return bottomButtons;
+    }
+    
+    //Update forecast data
+    public static void update(ArrayList<Double> forecast) {
+        if(forecast !=null) {
+            data = forecast;
+            makeForecast();
+        }
     }
 
 }
