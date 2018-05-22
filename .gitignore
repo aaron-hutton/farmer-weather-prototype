@@ -36,7 +36,12 @@ cmake-build-debug/
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
+/out/*
+
+# do not ignore the jar file
+!/out/artifacts
+/out/artifacts/*
+!/out/artifacts/group19_jar/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
