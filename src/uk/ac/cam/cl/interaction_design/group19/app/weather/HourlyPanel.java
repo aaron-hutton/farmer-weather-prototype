@@ -12,6 +12,9 @@ import javax.swing.SwingConstants;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.summary.WeatherPanel;
 
+/**
+ * The panel containing the hourly table and the button to go back to summary
+ */
 public class HourlyPanel extends WeatherPanel {
     
     private static final int NUM_HOURS_TO_DISPLAY = 24;
@@ -68,6 +71,13 @@ public class HourlyPanel extends WeatherPanel {
         }
     }
     
+    /**
+     * A function to produce a list of the next N hours of weather data
+     * where N is NUM_HOURS_TO_DISPLAY defined above. This gets as much
+     * of the current and next day as necessary
+     * @param data
+     * @return
+     */
     private static List<WeatherData> getNextNHours(List<List<WeatherData>> data) {
         int counter = 0;
         List<WeatherData> specificData = new ArrayList<>(data.get(0));

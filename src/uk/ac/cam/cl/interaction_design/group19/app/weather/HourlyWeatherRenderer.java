@@ -11,8 +11,14 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.IconType;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Icons;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 
+/**
+ * The table cell renderer for the hourly views
+ */
 public class HourlyWeatherRenderer extends WeatherCustomRenderer implements TableCellRenderer {
-
+    
+    /**
+     * The format of Hours:Minutes
+     */
     private final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
     
     public HourlyWeatherRenderer(int size)

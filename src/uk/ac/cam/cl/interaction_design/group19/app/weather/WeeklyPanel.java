@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import uk.ac.cam.cl.interaction_design.group19.app.util.WeatherData;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 
+/**
+ * The JPanel instance displays the weekly view of the weather
+ */
 public class WeeklyPanel extends JPanel implements Updatable {
     
     public static final int NUM_DAYS_TO_SHOW = 5;
@@ -25,6 +28,7 @@ public class WeeklyPanel extends JPanel implements Updatable {
         this.removeAll();
         List<WeatherData> data = dataSupplier.get();
     
+        // Display an error if there is no data to display
         if (data == null || data.size() == 0) {
             JLabel failLabel = new JLabel("There is no data to display.");
             this.add(failLabel);
