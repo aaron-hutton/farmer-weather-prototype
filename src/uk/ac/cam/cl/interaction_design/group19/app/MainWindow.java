@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import uk.ac.cam.cl.interaction_design.group19.app.GDDs.GDDsView;
+import uk.ac.cam.cl.interaction_design.group19.app.GDDs.bizeeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.api.MetOfficeAPI;
 import uk.ac.cam.cl.interaction_design.group19.app.map.MapsView;
 import uk.ac.cam.cl.interaction_design.group19.app.settings.SettingsView;
@@ -22,6 +23,7 @@ import uk.ac.cam.cl.interaction_design.group19.app.util.PropertyFactory;
 import uk.ac.cam.cl.interaction_design.group19.app.util.Updatable;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeatherView;
 import uk.ac.cam.cl.interaction_design.group19.app.weather.WeeklyPanel;
+import uk.ac.cam.cl.interaction_design.group19.app.GDDs.bizeeAPI;
 
 public class MainWindow extends JFrame implements Updatable {
     public static final int SCREEN_WIDTH  = 320;
@@ -49,7 +51,7 @@ public class MainWindow extends JFrame implements Updatable {
                                       time -> IntStream.range(0, WeeklyPanel.NUM_DAYS_TO_SHOW).mapToObj(
                                               i -> MetOfficeAPI.daySummary(model.getLocationID(), i))
                                                        .collect(Collectors.toList()));
-        gddsView = new GDDsView();
+        gddsView = new GDDsView(() -> bizeeAPI.gddForecast(model.getLocationID(), 10));
         mapsView = new MapsView();
         settingsView = createSettingsView();
         
