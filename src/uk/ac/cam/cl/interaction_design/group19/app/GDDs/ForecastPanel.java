@@ -156,7 +156,7 @@ public class ForecastPanel extends JPanel {
         int i =0;
         for(Double d : data) {
             String[] it = new String[2];
-            it[0] = days[(day-1 % 7)];
+            it[0] = days[(day-1) % 7];
         
             //Round to 3sf
             BigDecimal bd = new BigDecimal(d);
